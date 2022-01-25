@@ -16,8 +16,7 @@ build:
     - docker push $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
     only:
     - deploy
-    when:
-    - manual
+
     
     
 deploy_to_production:

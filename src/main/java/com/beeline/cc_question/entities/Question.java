@@ -16,7 +16,7 @@ public class Question {
 
     private String title;
 
-    private String type; //(choices - checkbox, radio, text)
+    private String type; //(choices - checkbox, radio)
 
     private boolean hasVideo;
 

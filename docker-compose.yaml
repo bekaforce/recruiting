@@ -16,6 +16,8 @@ services:
   PostgreSQL:
     image: postgres
     container_name: cc-question-postgres${PREFIX}
+    ports:
+      - "${PORT_DB:-5433}:5432"
     volumes:
       - ./pg_data:/var/lib/postgresql/pgdata
     environment:

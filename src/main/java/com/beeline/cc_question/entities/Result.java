@@ -1,10 +1,19 @@
 package com.beeline.cc_question.entities;
 
+import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
-import java.util.List;
 
+@TypeDefs({
+    @TypeDef(
+        name = "int-array",
+        typeClass = IntArrayType.class
+    )
+})
 @Data
 @Entity
 @Table
@@ -13,31 +22,24 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "result_info_id")
+    private ResultInfo resultInfo;
 
-    @Transient
-    private List<Answer> answers;
+    private int questionId;
 
-    @ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "answer_id")
-    private Answer answer;
+    @Type(type = "int-array")
+    @Column(
+        name = "answers_id",
+        columnDefinition = "integer[]"
+    )
+    private int[] answersId;
 
     public Result() {
     }
 
-    public Result(Question question, Answer answer) {
-        this.question = question;
-        this.answer = answer;
-    }
-
-    @Override
-    public String toString() {
-        return "Result{" +
-                "id=" + id +
-                ", question=" + question +
-                ", answer=" + answer +
-                '}';
+    public Result(int questionId, int[] answersId) {
+        this.questionId = questionId;
+        this.answersId = answersId;
     }
 }

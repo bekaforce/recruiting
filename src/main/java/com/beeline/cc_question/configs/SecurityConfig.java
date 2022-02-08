@@ -11,11 +11,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfi
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/**").permitAll();
+        http.csrf().disable();
     }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("*");
+                .allowedMethods("GET, POST");
     }
 }

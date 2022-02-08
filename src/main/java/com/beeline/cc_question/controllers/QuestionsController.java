@@ -42,14 +42,12 @@ public class QuestionsController {
     @Value("${upload.dir.location}")
     private String UPLOADED_FOLDER;
 
-    @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, value = "/getQuestions")
     public List<Question> getQuestions(){
         List<Question> questionList = questionRepo.findAll();
         return questionList;
     }
 
-    @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, value = "/saveResult")
     public ResponseEntity<String> saveResult(@RequestBody ResultInfo resultInfo) {
         ResultInfo savedResultInfo = resultInfoRepo.save(resultInfo);
@@ -61,7 +59,6 @@ public class QuestionsController {
         return new ResponseEntity<>("response is successful", HttpStatus.OK);
     }
 
-    @CrossOrigin
     @RequestMapping(method = RequestMethod.POST, value = "/saveVideo")
     public ResponseEntity<String> saveVideo(@RequestParam("blob") Blob blob,
                                             @RequestParam("userId") String userId) throws SQLException {

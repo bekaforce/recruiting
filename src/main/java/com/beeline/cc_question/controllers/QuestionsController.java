@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -61,12 +62,13 @@ public class QuestionsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveVideo")
-    public ResponseEntity<String> saveVideo(@RequestParam("blob") Blob blob,
+    public ResponseEntity<String> saveVideo(@RequestParam("file") MultipartFile file,
                                             @RequestParam("userId") String userId) throws SQLException {
         String responseBody = null;
 
             try {
-                byte[] bytes = blob.getBytes(1, (int) blob.length());
+//                byte[] bytes = blob.getBytes(1, (int) blob.length());
+                byte[] bytes = file.getBytes();
                 Files.createDirectories(Paths.get(UPLOADED_FOLDER));
                 Path path = Paths.get(UPLOADED_FOLDER).resolve(userId);
                 Files.write(path, bytes);

@@ -23,6 +23,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/question")
 public class QuestionsController {

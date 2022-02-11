@@ -13,16 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -66,7 +65,7 @@ public class QuestionsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveVideo")
-    public ResponseEntity<String> saveVideo(@RequestParam("file") Blob blob,
+    public ResponseEntity<String> saveVideo(@RequestParam("file") MultipartFile file,
                                             @RequestParam("userId") String userId) throws SQLException {
         String responseBody = null;
         ResultInfo resultInfo = resultInfoRepo.findByUserId(userId);
@@ -76,21 +75,16 @@ public class QuestionsController {
         }
 
         try {
-            byte[] bytes = blob.getBytes(1, (int) blob.length());
+            byte[] bytes = file.getBytes();
             Files.createDirectories(Paths.get(UPLOADED_FOLDER));
-            Path path = Paths.get(UPLOADED_FOLDER).resolve(userId);
+            Path path = Paths.get(UPLOADED_FOLDER).resolve(userId + ".mp4");
             Files.write(path, bytes);
             responseBody = "\'" + userId + "\' is successfully uploaded";
             videoResultRepo.save(new VideoResult(path.toString(),resultInfo));
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
-
-//    public Optional<String> getExtensionByStringHandling(String filename) {
-//        return Optional.ofNullable(filename)
-//                .filter(f -> f.contains("."))
-//                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
-//    }
 }

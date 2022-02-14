@@ -15,13 +15,13 @@ public class VideoResult {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "result_info_id")
-    private ResultInfo resultInfo;
+    private UserInfo userInfo;
 
     public VideoResult() {
     }
 
-    public VideoResult(String location, ResultInfo resultInfo) {
+    public VideoResult(String location, UserInfo userInfo) {
         this.location = location;
-        this.resultInfo = resultInfo;
+        this.userInfo = userInfo;
     }
 }

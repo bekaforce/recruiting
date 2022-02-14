@@ -1,5 +1,6 @@
 package com.beeline.cc_question.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vladmihalcea.hibernate.type.array.IntArrayType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @TypeDefs({
     @TypeDef(
@@ -22,10 +24,6 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "result_info_id")
-    private ResultInfo resultInfo;
-
     private int questionId;
 
     @Type(type = "int-array")
@@ -34,6 +32,12 @@ public class Result {
         columnDefinition = "integer[]"
     )
     private int[] answersId;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_info_id")
+    private UserInfo userInfo;
+
 
     public Result() {
     }

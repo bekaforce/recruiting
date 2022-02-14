@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Entity
 @Table
-public class ResultInfo {
+public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,14 +20,14 @@ public class ResultInfo {
     private String address;
     private String etc;
 
-    @OneToMany(mappedBy = "resultInfo", cascade = {CascadeType.REMOVE, CascadeType.MERGE,
-                                                    CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userInfo", cascade = {CascadeType.REMOVE, CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private List<Result> results;
 
-    public ResultInfo() {
+    public UserInfo() {
     }
 
-    public ResultInfo(String userId, String firstName, String lastName, String phone,
+    public UserInfo(String userId, String firstName, String lastName, String phone,
                       String address, String etc, List<Result> results) {
         this.userId = userId;
         this.firstName = firstName;
@@ -36,5 +36,9 @@ public class ResultInfo {
         this.address = address;
         this.etc = etc;
         this.results = results;
+    }
+
+    public void addResultToUserInfo(Result result) {
+        results.add(result);
     }
 }

@@ -2,10 +2,10 @@ package com.beeline.cc_question.controllers;
 
 import com.beeline.cc_question.entities.Question;
 import com.beeline.cc_question.entities.Result;
-import com.beeline.cc_question.entities.ResultInfo;
+import com.beeline.cc_question.entities.UserInfo;
 import com.beeline.cc_question.entities.VideoResult;
 import com.beeline.cc_question.repos.QuestionRepo;
-import com.beeline.cc_question.repos.ResultInfoRepo;
+import com.beeline.cc_question.repos.UserInfoRepo;
 import com.beeline.cc_question.repos.ResultRepo;
 import com.beeline.cc_question.repos.VideoResultRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class QuestionsController {
     public ResultRepo resultRepo;
 
     @Autowired
-    public ResultInfoRepo resultInfoRepo;
+    public UserInfoRepo userInfoRepo;
 
     @Autowired
     public VideoResultRepo videoResultRepo;
@@ -50,17 +50,18 @@ public class QuestionsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/saveResult")
-    public ResponseEntity<String> saveResult(@RequestBody ResultInfo resultInfoSample) {
-        ResultInfo savedResultInfo = resultInfoRepo.findByUserId(resultInfoSample.getUserId());
+    public ResponseEntity<String> saveResult(@RequestBody UserInfo userInfoSample) {
+        UserInfo savedUserInfo = userInfoRepo.findByUserId(userInfoSample.getUserId());
 
-        if (savedResultInfo == null) {
-            savedResultInfo  = resultInfoRepo.save(resultInfoSample);
+        if (savedUserInfo == null) {
+            savedUserInfo = userInfoRepo.save(userInfoSample);
         }
 
-        for (Result result : resultInfoSample.getResults()) {
-            result.setResultInfo(savedResultInfo);
+        for (Result result : userInfoSample.getResults()) {
+            result.setUserInfo(savedUserInfo);
             resultRepo.save(result);
         }
+
         return new ResponseEntity<>("response is successful", HttpStatus.OK);
     }
 
@@ -68,7 +69,7 @@ public class QuestionsController {
     public ResponseEntity<String> saveVideo(@RequestParam("file") MultipartFile file,
                                             @RequestParam("userId") String userId) throws SQLException {
         String responseBody = null;
-        ResultInfo resultInfo = resultInfoRepo.findByUserId(userId);
+        UserInfo resultInfo = userInfoRepo.findByUserId(userId);
 
         if (resultInfo == null ) {
             return new ResponseEntity<>("There is no such userId", HttpStatus.NOT_FOUND);
@@ -80,11 +81,18 @@ public class QuestionsController {
             Path path = Paths.get(UPLOADED_FOLDER).resolve(userId + ".mp4");
             Files.write(path, bytes);
             responseBody = "\'" + userId + "\' is successfully uploaded";
-            videoResultRepo.save(new VideoResult(path.toString(),resultInfo));
+            videoResultRepo.save(new VideoResult(path.toString(), resultInfo));
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getResults")
+    public List<UserInfo> getAllResults() {
+        List<UserInfo> allResults = userInfoRepo.findAll();
+        return allResults;
+    }
+
 }

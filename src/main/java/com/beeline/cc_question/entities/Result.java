@@ -22,6 +22,7 @@ import java.util.Arrays;
 public class Result {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
 
     private int questionId;
@@ -31,7 +32,7 @@ public class Result {
         name = "answers_id",
         columnDefinition = "integer[]"
     )
-    private int[] answersId;
+    private Integer[] answersId;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
@@ -42,8 +43,16 @@ public class Result {
     public Result() {
     }
 
-    public Result(int questionId, int[] answersId) {
+    public Result(int questionId, Integer[] answersId) {
         this.questionId = questionId;
         this.answersId = answersId;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "questionId=" + questionId +
+                ", answersId=" + Arrays.toString(answersId) +
+                '}';
     }
 }

@@ -1,6 +1,5 @@
 package com.beeline.cc_question.entities;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,7 +25,6 @@ public class UserInfo {
     private List<Result> results;
 
     @Transient
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String video;
 
     public UserInfo() {

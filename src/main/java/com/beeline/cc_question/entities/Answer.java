@@ -1,25 +1,31 @@
 package com.beeline.cc_question.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table
+@Table(name = "answer", schema = "vcv")
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = javax.persistence.GenerationType.SEQUENCE, generator = "answer_seq")
+    @SequenceGenerator(name = "answer_seq", initialValue = 1, allocationSize = 1, sequenceName = "answer_id_seq")
+    private Long id;
     private String content;
-    private boolean isTrue;
+    @JsonIgnore
+    @ManyToOne()
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    private Question question;
 
-    public Answer() {
+    public Answer(String content, Question question) {
+        this.content = content;
+        this.question = question;
     }
 
-    public Answer(int id, String content, boolean isTrue) {
-        this.id = id;
-        this.content = content;
-        this.isTrue = isTrue;
+    public Answer() {
+
     }
 }

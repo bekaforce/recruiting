@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://psg/sks_recruiting
+    username: postgres
+    password: 5Rag^ycn
+    platform: postgres
+    servlet:
+      multipart:
+        max-file-size: 30MB
+        max-request-size: 30MB
+  mail:
+    host: 172.28.142.5
+    port: 25
+  thymeleaf:
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+  jpa:
+    generate-ddl: true
+    database: POSTGRESQL
+
+security:
+    jwt:
+      token:
+        secret-key: jwtapp
+        expire-length: 14400000
+
+server-config:
+  upload-path: '/var/lib/docker/volumes/psg-volume/_data'
+
+#    location: '${user.dir}/uploads'
+#    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
+#    10.16.230.116

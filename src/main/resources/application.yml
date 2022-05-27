@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://psg/sks_recruiting
+    username: postgres
+    password: 5Rag^ycn
+    platform: postgres
+  jpa:
+    database: POSTGRESQL
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+#    location: '${user.dir}/uploads'
+#    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
+#    10.16.230.116
+
+server-config:
+  upload-path: '/var/lib/docker/volumes/psg-volume/_data'

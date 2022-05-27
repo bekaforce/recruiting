@@ -47,6 +47,7 @@ public class MessageServiceImpl implements MessageService {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("introduction", setMessageText(name, password, introduction_id));
         paramMap.put("body", setMessageText(name, password, body_id));
+        paramMap.put("login", "https://recruiting.beeline.kg/#/login?" + email);
         mailMessage.setParamMap(paramMap);
         mailMessage.setFrom("recruiting@beeline.kg");
         mailMessage.setTo(email);

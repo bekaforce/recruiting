@@ -6,7 +6,6 @@ import com.beeline.cc_question.entities.User;
 import com.beeline.cc_question.repos.UserRepo;
 import com.beeline.cc_question.services.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

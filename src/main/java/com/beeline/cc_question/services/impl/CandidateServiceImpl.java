@@ -10,6 +10,7 @@ import com.beeline.cc_question.services.CandidateService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate saveCandidate(CandidateDto candidateDto) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bishkek"));
         Candidate candidate = new Candidate();
         candidate.setVacancy(candidateDto.getVacancy());
         candidate.setName(candidateDto.getName());
@@ -34,7 +35,7 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setMaritalStatus(candidateDto.getMaritalStatus());
         candidate.setEducation(candidateDto.getEducation());
         List<Language> languages = candidateDto.getLanguages();
-        languages.removeIf(language -> !language.isActive());
+        languages.removeIf(language -> !language.isActive() || language.getLevel().equals(""));
         candidate.setLanguages(languages);
         candidate.setPrograms(candidateDto.getPrograms());
         candidate.setSchedule(candidateDto.getSchedule());

@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 
 @Service
@@ -23,7 +24,7 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public User addGuest(String name, String phoneNumber, String email) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bishkek"));
         String password = String.valueOf(generateDigits());
         if (sendMessage(name, email, password)){
             String encoded = passwordEncoder.encode(password);

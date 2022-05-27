@@ -27,10 +27,18 @@ security:
       token:
         secret-key: jwtapp
         expire-length: 14400000
+    require-ssl: true
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
 
+server:
+  ssl.key-store: classpath:ira_test.jks
+  ssl.key-store-password: 3edcVFR$
+  ssl.keyStoreType: JKS
+
 #    location: '${user.dir}/uploads'
 #    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
 #    10.16.230.116
+#    172.28.142.101
+#    172.28.142.5

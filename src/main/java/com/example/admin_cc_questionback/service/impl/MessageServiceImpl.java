@@ -5,6 +5,8 @@ import com.example.admin_cc_questionback.repository.MessageRepo;
 import com.example.admin_cc_questionback.service.MessageService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageServiceImpl implements MessageService {
     private final MessageRepo messageRepo;
@@ -15,19 +17,17 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public Message createMessage(String text) {
+    public Message save(String text) {
         return messageRepo.save(new Message(text));
     }
 
     @Override
-    public Message updateMessage(Long id, String text) {
-        Message message = messageRepo.getMessageById(id);
-        message.setText(text);
+    public Message update(Message message) {
         return messageRepo.save(message);
     }
 
     @Override
-    public Message getMessage(Long id) {
+    public Message messageById(Long id) {
         return messageRepo.getMessageById(id);
     }
 
@@ -35,5 +35,10 @@ public class MessageServiceImpl implements MessageService {
     public String getText(Long id) {
         Message message = messageRepo.getMessageById(id);
         return message.getText();
+    }
+
+    @Override
+    public List<Message> message() {
+        return messageRepo.findAllOrderById();
     }
 }

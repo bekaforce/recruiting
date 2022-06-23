@@ -1,5 +1,6 @@
 package com.example.admin_cc_questionback.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,21 +20,10 @@ public class Question {
     @Enumerated(value = EnumType.STRING)
     private QuestionType questionType;
     private Long position;
-
-    public Question(long id, String questionText, QuestionType questionType, Long position) {
-        this.id = id;
-        this.questionText = questionText;
-        this.questionType = questionType;
-        this.position = position;
-    }
-
-    public Question(String questionText, QuestionType questionType, Long position) {
-        this.questionText = questionText;
-        this.questionType = questionType;
-        this.position = position;
-    }
-
-    public Question() {
-
-    }
+    @JsonIgnore
+    @ManyToOne()
+    @JoinColumn(name = "candidateType_id", referencedColumnName = "id")
+    private CandidateType candidateType;
+    private Long milliseconds;
+    private boolean key;
 }

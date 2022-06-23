@@ -1,6 +1,5 @@
 package com.example.admin_cc_questionback.service.impl;
 
-import com.example.admin_cc_questionback.entities.Candidate;
 import com.example.admin_cc_questionback.entities.VideoResult;
 import com.example.admin_cc_questionback.repository.VideoResultRepo;
 import com.example.admin_cc_questionback.service.VideoResultService;
@@ -46,38 +45,34 @@ public class VideoResultServiceImpl implements VideoResultService {
     }
 
     @Override
-    public VideoResult getById(Long id) {
+    public VideoResult videoResultById(Long id) {
         return videoResultRepo.getVideoResultById(id);
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        VideoResult videoResult = getById(id);
+    public boolean delete(Long id) {
+        VideoResult videoResult = videoResultById(id);
         if (videoResult != null){
             videoResultRepo.deleteById(id);
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     @Override
     public String comment(String comment, Long id) {
-        VideoResult videoResult = getById(id);
+        VideoResult videoResult = videoResultById(id);
         if (videoResult != null){
             videoResult.setComment(comment);
             videoResultRepo.save(videoResult);
             return comment;
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     @Override
     public boolean deleteFileById(Long id) {
-        VideoResult videoResult = getById(id);
+        VideoResult videoResult = videoResultById(id);
         File file = findFileByFileName(videoResult.getVideoName());
         if (file != null){
             file.delete();
@@ -111,7 +106,7 @@ public class VideoResultServiceImpl implements VideoResultService {
     public ResponseEntity<byte[]> downloadById(Long id, String candidateName, String fileName, String question) throws IOException {
         ResponseEntity<byte[]> result;
         byte[] resource = sendFile(fileName);
-        ContentDisposition contentDisposition = ContentDisposition.builder("inline").filename("candidate_video").build();
+        ContentDisposition contentDisposition = ContentDisposition.builder("inline").filename(fileName + ".mp4").build();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentDisposition(contentDisposition);
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);

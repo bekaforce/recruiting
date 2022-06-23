@@ -2,6 +2,7 @@ package com.example.admin_cc_questionback.controller;
 
 import com.example.admin_cc_questionback.entities.dtos.QuestionDto;
 import com.example.admin_cc_questionback.entities.Question;
+import com.example.admin_cc_questionback.entities.dtos.QuestionUpdateDto;
 import com.example.admin_cc_questionback.service.impl.QuestionServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.QUESTION)
+@RequestMapping(value = Url.API + Url.QUESTION)
 public class QuestionController {
     private final QuestionServiceImpl questionService;
 
@@ -20,23 +21,23 @@ public class QuestionController {
     }
 
     @PostMapping("/saveToTest")
-    public ResponseEntity<?> saveQuestionForTest(@RequestParam String questionText){
-        Question response = questionService.saveQuestionForTest(questionText);
+    public ResponseEntity<?> saveForTest(@RequestBody QuestionDto question){
+        Question response = questionService.saveQuestionForTest(question);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/saveToVideo")
-    public ResponseEntity<?> saveQuestionForVideo(@RequestBody QuestionDto question){
-        Question response = questionService.saveQuestionForVideo(question.getQuestionText());
+    public ResponseEntity<?> saveForVideo(@RequestBody QuestionDto question){
+        Question response = questionService.saveQuestionForVideo(question);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/deleteFromTest")
-    public ResponseEntity<?> deleteQuestionForTestById(@RequestParam Long question_id){
+    public ResponseEntity<?> deleteForTestById(@RequestParam Long question_id){
         boolean response = questionService.deleteQuestionForTest(question_id);
         return response
                 ? new ResponseEntity<>("Question was deleted by id: " + question_id, HttpStatus.OK)
@@ -44,35 +45,29 @@ public class QuestionController {
     }
 
     @DeleteMapping("/deleteFromVideo")
-    public ResponseEntity<?> deleteQuestionForVideoById(@RequestParam Long question_id){
+    public ResponseEntity<?> deleteForVideoById(@RequestParam Long question_id){
         boolean response = questionService.deleteQuestionForVideo(question_id);
         return response
                 ? new ResponseEntity<>("Question was deleted by id: " + question_id, HttpStatus.OK)
                 : new ResponseEntity<>("Question was not found by id: " + question_id, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/questionsForTest")
-    public ResponseEntity<?> questionsForTest(){
-        List<Question> response = questionService.getQuestionsForTest();
-        return response != null && !response.isEmpty()
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    @GetMapping("/questionsForTest/{candidateType_id}")
+    public ResponseEntity<?> questionsForTest(@PathVariable(name = "candidateType_id") Long candidateType_id){
+        List<Question> response = questionService.getQuestionsForTest(candidateType_id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
-    @GetMapping("/questionsForVideo")
-    public ResponseEntity<?> questionsForVideo(){
-        List<Question> response = questionService.getQuestionsForVideo();
-        return response != null && !response.isEmpty()
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    @GetMapping("/questionsForVideo/{candidateType_id}")
+    public ResponseEntity<?> questionsForVideo(@PathVariable(name = "candidateType_id") Long candidateType_id){
+        List<Question> response = questionService.getQuestionsForVideo(candidateType_id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/updateQuestion/{id}")
-    public ResponseEntity<?> updateQuestion(@RequestBody QuestionDto questionDto, @PathVariable Long id){
-        Question response = questionService.updateQuestion(questionDto.getQuestionText(), id);
-        return response != null
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @RequestBody QuestionUpdateDto questionUpdateDto){
+        Question response = questionService.update(questionUpdateDto, id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

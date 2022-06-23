@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.VIDEO)
+@RequestMapping(value = Url.API + Url.VIDEO)
 public class VideoResultController {
     private final VideoResultServiceImpl videoResultService;
 
@@ -23,7 +23,7 @@ public class VideoResultController {
 
     @DeleteMapping ("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
-        boolean response = videoResultService.deleteById(id);
+        boolean response = videoResultService.delete(id);
         return response
                 ? new ResponseEntity<>(true, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);

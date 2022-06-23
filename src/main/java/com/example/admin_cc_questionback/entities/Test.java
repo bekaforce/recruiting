@@ -22,16 +22,7 @@ public class Test {
     @JoinColumn(name = "candidate_id", referencedColumnName = "id")
     private Candidate candidate;
     private LocalDateTime datetime;
-
-    public Test(String question, String answer, Candidate candidate, LocalDateTime datetime) {
-        this.question = question;
-        this.answer = answer;
-        this.candidate = candidate;
-        this.datetime = datetime;
-    }
-
-    public Test() {
-
-    }
-
+    @Column(nullable = true)
+    private boolean correct;
+    private boolean key;
 }

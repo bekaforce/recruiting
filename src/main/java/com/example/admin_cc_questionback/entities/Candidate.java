@@ -3,6 +3,7 @@ package com.example.admin_cc_questionback.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,48 +12,33 @@ import java.util.List;
 @Table(name = "candidate", schema = "vcv")
 public class Candidate {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = javax.persistence.GenerationType.SEQUENCE, generator = "candidate_seq")
+    @SequenceGenerator(name = "candidate_seq", initialValue = 1, allocationSize = 1, sequenceName = "candidate_id_seq")
     private Long id;
     private String name;
     private String phoneNumber;
     private String email;
     private String citizenship;
-    private String birthday;
+    private LocalDate birthday;
     private String address;
-    private String maritalStatus;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "education_id", referencedColumnName = "id")
-    private Education education;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidate_id")
-    private List<Program> programs;
+    @JoinColumn(name = "experience_id", referencedColumnName = "id")
+    private Experience experience;
+    private String education;
     private String schedule;
     private LocalDateTime registrationDate;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidate_id")
-    private List<Language> languages;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<VideoResult> videoResults;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<Test> tests;
-
-
-    @Override
-    public String toString() {
-        return "Candidate{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", citizenship='" + citizenship + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", address='" + address + '\'' +
-                ", maritalStatus='" + maritalStatus + '\'' +
-                ", education=" + education +
-                ", programs=" + programs +
-                ", schedule='" + schedule + '\'' +
-                ", registrationDate=" + registrationDate +
-                ", languages=" + languages +
-                '}';
-    }
+    @ManyToOne()
+    @JoinColumn(name = "candidateType_id", referencedColumnName = "id")
+    private CandidateType candidateType;
+    private String comment;
+    private String status;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "candidate_id")
+    private List<Questionnaire> questionnaire;
+    private LocalDate invitationDate;
+    private String stage;
 }

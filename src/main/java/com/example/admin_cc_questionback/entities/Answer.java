@@ -18,10 +18,12 @@ public class Answer {
     @ManyToOne()
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;
+    private boolean correct;
 
-    public Answer(String content, Question question) {
+    public Answer(String content, Question question, boolean correct) {
         this.content = content;
         this.question = question;
+        this.correct = correct;
     }
 
     public Answer() {

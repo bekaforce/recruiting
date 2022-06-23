@@ -10,8 +10,8 @@ import java.util.List;
 public interface VideoResultService {
     byte[] sendFile(String fileName) throws IOException;
     File findFileByFileName(String fileName);
-    VideoResult getById(Long id);
-    boolean deleteById(Long id);
+    VideoResult videoResultById(Long id);
+    boolean delete(Long id);
     String comment(String comment, Long id);
     boolean deleteFileById(Long id);
     boolean deleteFileByName(String filename);

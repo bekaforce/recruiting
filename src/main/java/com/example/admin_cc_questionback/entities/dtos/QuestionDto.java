@@ -6,11 +6,5 @@ import lombok.Data;
 @Data
 public class QuestionDto {
     private String questionText;
-
-    public QuestionDto(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public QuestionDto() {
-    }
+    private Long candidateType_id;
 }

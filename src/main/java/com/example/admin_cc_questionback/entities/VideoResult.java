@@ -22,16 +22,5 @@ public class VideoResult {
     @JoinColumn(name = "candidate_id", referencedColumnName = "id")
     private Candidate candidate;
     private String comment;
-
-    public VideoResult(String videoName, LocalDateTime uploadedTime, String question, Candidate candidate, String comment) {
-        this.videoName = videoName;
-        this.uploadedTime = uploadedTime;
-        this.question = question;
-        this.candidate = candidate;
-        this.comment = comment;
-    }
-
-    public VideoResult() {
-
-    }
+    private Long position;
 }

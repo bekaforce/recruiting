@@ -6,14 +6,31 @@ spring:
     platform: postgres
   jpa:
     database: POSTGRESQL
+    generate-ddl: true
   servlet:
     multipart:
       max-file-size: 30MB
       max-request-size: 30MB
+  main:
+    allow-bean-definition-overriding: true
 
+
+    allow-circular-references: true
 #    location: '${user.dir}/uploads'
 #    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
 #    10.16.230.116
+#    sks_recruiting
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
+
+ldap:
+  provider:
+    url: ldap://172.28.141.130:389
+    userdn: CN=smartcare_tech,CN=Users,DC=bee,DC=skymobile,DC=local
+    password: DW2gx3LB
+  user:
+    dn:
+      patterns:
+        bishkek: CN={0},OU=Bishkek,DC=bee,DC=skymobile,DC=local
+        all: DC=bee,DC=skymobile,DC=local

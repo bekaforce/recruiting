@@ -14,6 +14,6 @@ import java.util.List;
 public interface CandidateRepo extends JpaRepository<Candidate, Long> {
     Candidate findCandidateById(Long id);
 
-    @Query(value = "SELECT c.id , c.name, c.registration_date FROM vcv.candidate c where c.vacancy = :vacancy order by c.id", nativeQuery = true)
-    List<CandidateDto> all(@Param("vacancy") String vacancy);
+    @Query(value = "SELECT c.id , c.name, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id order by c.id", nativeQuery = true)
+    List<CandidateDto> all(@Param("candidate_type_id") Long candidate_type_id);
 }

@@ -1,9 +1,14 @@
 package com.example.admin_cc_questionback.service.impl;
 
+import com.example.admin_cc_questionback.entities.CandidateType;
 import com.example.admin_cc_questionback.entities.Question;
 import com.example.admin_cc_questionback.entities.QuestionType;
+import com.example.admin_cc_questionback.entities.dtos.QuestionDto;
+import com.example.admin_cc_questionback.entities.dtos.QuestionUpdateDto;
 import com.example.admin_cc_questionback.repository.QuestionRepo;
 import com.example.admin_cc_questionback.service.QuestionService;
+import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.impl.loggers.QuestionLoggerServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,61 +16,76 @@ import java.util.List;
 @Service
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepo questionRepo;
+    private final CandidateTypeServiceImpl candidateTypeService;
+    private final QuestionLoggerServiceImpl questionLoggerService;
 
-    public QuestionServiceImpl(QuestionRepo questionRepo) {
+    public QuestionServiceImpl(QuestionRepo questionRepo, CandidateTypeServiceImpl candidateTypeService, QuestionLoggerServiceImpl questionLoggerService) {
         this.questionRepo = questionRepo;
+        this.candidateTypeService = candidateTypeService;
+        this.questionLoggerService = questionLoggerService;
     }
 
     @Override
-    public Question saveQuestionForTest(String questionText) {
-        return saveQuestion(QuestionType.TEST.toString(), questionText);
+    public Question saveQuestionForTest(QuestionDto questionDto) {
+        return save(QuestionType.TEST.toString(), questionDto);
     }
 
     @Override
-    public Question saveQuestionForVideo(String questionText) {
-        return saveQuestion(QuestionType.VIDEO.toString(), questionText);
+    public Question saveQuestionForVideo(QuestionDto questionDto) {
+        return save(QuestionType.VIDEO.toString(), questionDto);
     }
 
     @Override
-    public Question saveQuestion(String questionType, String questionText) {
+    public Question save(String questionType, QuestionDto questionDto) {
         Question question = new Question();
-        question.setQuestionText(questionText);
+        question.setQuestionText(questionDto.getQuestionText());
         question.setQuestionType(QuestionType.valueOf(questionType));
+        question.setMilliseconds(null);
+        CandidateType candidateType = candidateTypeService.candidateTypeById(questionDto.getCandidateType_id());
+        if (candidateType == null){
+            return null;
+        }
+        question.setCandidateType(candidateType);
         long position = 0;
-        if (!questionRepo.findAllByQuestionType(questionType).isEmpty()){
-            position = questionRepo.maxPosition(questionType);
+        if (!questionRepo.findAllByQuestionType(questionType, candidateType.getId()).isEmpty()){
+            position = questionRepo.maxPosition(questionType, candidateType.getId());
         }
         question.setPosition(position + 1);
-        return questionRepo.save(question);
+        question.setKey(false);
+        questionRepo.save(question);
+        questionLoggerService.save(question.getQuestionText(), question.getCandidateType().getCandidateType(), question.getQuestionType().toString(), LoggerStatus.CREATED, question.getPosition().toString());
+        return question;
     }
 
     @Override
-    public List<Question> getQuestions(String questionType) {
-        return questionRepo.findAllByQuestionType(questionType);
+    public List<Question> getQuestions(String questionType, Long candidateType_id) {
+        return questionRepo.findAllByQuestionType(questionType, candidateType_id);
     }
 
     @Override
-    public List<Question> getQuestionsForTest() {
-        return getQuestions(QuestionType.TEST.toString());
+    public List<Question> getQuestionsForTest(Long candidateType_id) {
+        return getQuestions(QuestionType.TEST.toString(), candidateType_id);
     }
 
     @Override
-    public List<Question> getQuestionsForVideo() {
-        return getQuestions(QuestionType.VIDEO.toString());
+    public List<Question> getQuestionsForVideo(Long candidateType_id) {
+        return getQuestions(QuestionType.VIDEO.toString(), candidateType_id);
     }
 
     @Override
-    public Question getQuestionById(Long question_id) {
+    public Question questionById(Long question_id) {
         return questionRepo.getQuestionById(question_id);
     }
 
     @Override
-    public boolean deleteQuestion(Long question_id, String questionType) {
+    public boolean delete(Long question_id, String questionType) {
         Question question = questionRepo.getQuestionById(question_id);
         if (question != null){
             long positionId = question.getPosition();
             questionRepo.deleteById(question_id);
-            List<Question> questions = findAllByQuestionType(questionType);
+            questionLoggerService.saveDelete(question.getQuestionText(), question.getCandidateType().getCandidateType(), String.valueOf(question.getMilliseconds()), String.valueOf(question.isKey()), question.getQuestionType().toString(), LoggerStatus.DELETED, String.valueOf(question.getPosition()));
+            CandidateType candidateType = question.getCandidateType();
+            List<Question> questions = findAllByQuestionAndCandidateTypes(questionType, candidateType.getId());
             for (Question positionQ : questions){
                 if (positionQ.getPosition() > positionId){
                     positionQ.setPosition(positionQ.getPosition() - 1);
@@ -79,34 +99,33 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
-
-
     @Override
-    public List<Question> findAllByQuestionType(String questionType) {
-        return questionRepo.findAllByQuestionType(questionType);
+    public List<Question> findAllByQuestionAndCandidateTypes(String questionType, Long candidateType_id) {
+        return questionRepo.findAllByQuestionType(questionType, candidateType_id);
     }
 
     @Override
     public boolean deleteQuestionForTest(Long question_id) {
-        return deleteQuestion(question_id, QuestionType.TEST.toString());
+        return delete(question_id, QuestionType.TEST.toString());
     }
 
     @Override
     public boolean deleteQuestionForVideo(Long question_id) {
-        return deleteQuestion(question_id, QuestionType.VIDEO.toString());
+        return delete(question_id, QuestionType.VIDEO.toString());
     }
 
     @Override
-    public Question updateQuestion(String questionText, Long question_id) {
-        Question question = getQuestionById(question_id);
+    public Question update(QuestionUpdateDto questionUpdateDto, Long question_id) {
+        Question question = questionById(question_id);
         if (question != null){
-            question.setQuestionText(questionText);
+            questionLoggerService.saveUpdate(questionUpdateDto, question);
+            question.setQuestionText(questionUpdateDto.getQuestionText());
+            question.setKey(questionUpdateDto.isKey());
+            question.setMilliseconds(questionUpdateDto.getMilliseconds());
             questionRepo.save(question);
             return question;
         }
-        else {
-            return null;
-        }
+        return null;
     }
 }
 

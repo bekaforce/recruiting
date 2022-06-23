@@ -1,7 +1,7 @@
 package com.example.admin_cc_questionback.entities;
 
 public enum QuestionType {
-    SURVEY("SURVEY"), TEST("TEST"), VIDEO("VIDEO");
+    TEST("TEST"), VIDEO("VIDEO");
 
     private final String type;
     QuestionType(String type) {

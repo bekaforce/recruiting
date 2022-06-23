@@ -2,7 +2,6 @@ package com.beeline.cc_question.controllers;
 
 import com.beeline.cc_question.entities.Question;
 import com.beeline.cc_question.services.impl.QuestionServiceImpl;
-import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/api/" + Url.QUESTION)
+@RequestMapping(value = Url.API + Url.QUESTION)
 public class QuestionController {
     private final QuestionServiceImpl questionService;
 
@@ -19,19 +18,15 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @GetMapping("/forTest")
-    public ResponseEntity<?> getQuestionsForTest(){
-        List<Question> response = questionService.getQuestionsForTest();
-        return response != null && !response.isEmpty()
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
+    @GetMapping("/forTest/{candidate_type_id}")
+    public ResponseEntity<?> questionsForTest(@PathVariable(name = "candidate_type_id") Long candidateType_id) {
+        List<Question> response = questionService.questionsForTest(candidateType_id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/forVideo")
-    public ResponseEntity<?> getQuestionsForVideo(){
-        List<Question> response = questionService.getQuestionsForVideo();
-        return response != null && !response.isEmpty()
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
+    @GetMapping("/forVideo/{candidate_type_id}")
+    public ResponseEntity<?> questionsForVideo(@PathVariable(name = "candidate_type_id") Long candidateType_id){
+        List<Question> response = questionService.questionsForVideo(candidateType_id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.beeline.cc_question.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,18 +20,30 @@ public class Question {
     @Enumerated(value = EnumType.STRING)
     private QuestionType questionType;
     private Long position;
+    @JsonIgnore
+    @ManyToOne()
+    @JoinColumn(name = "candidateType_id", referencedColumnName = "id")
+    private CandidateType candidateType;
+    private Long milliseconds;
+    private boolean key;
 
-    public Question(long id, String questionText, QuestionType questionType, Long position) {
+    public Question(long id, String questionText, QuestionType questionType, Long position, CandidateType candidateType, Long milliseconds, boolean key) {
         this.id = id;
         this.questionText = questionText;
         this.questionType = questionType;
         this.position = position;
+        this.candidateType = candidateType;
+        this.milliseconds = milliseconds;
+        this.key = key;
     }
 
-    public Question(String questionText, QuestionType questionType, Long position) {
+    public Question(String questionText, QuestionType questionType, Long position, CandidateType candidateType, Long milliseconds, boolean key) {
         this.questionText = questionText;
         this.questionType = questionType;
         this.position = position;
+        this.candidateType = candidateType;
+        this.milliseconds = milliseconds;
+        this.key = key;
     }
 
     public Question() {

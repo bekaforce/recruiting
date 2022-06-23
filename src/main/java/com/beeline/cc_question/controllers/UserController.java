@@ -1,9 +1,7 @@
 package com.beeline.cc_question.controllers;
 
-import com.beeline.cc_question.dtos.UserDto;
-import com.beeline.cc_question.entities.User;
+
 import com.beeline.cc_question.services.impl.GuestServiceImpl;
-import com.beeline.cc_question.services.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @Tag(name = "user", description = "User API")
 @RestController
-@RequestMapping(value = "/api/" + Url.USER)
+@RequestMapping(value = Url.API + Url.USER)
 public class UserController {
     private final GuestServiceImpl guestService;
 
@@ -20,14 +18,11 @@ public class UserController {
         this.guestService = guestService;
     }
 
-
-    @PostMapping("/save")
-    public ResponseEntity<?> saveGuest(@RequestBody UserDto userDto) {
-        User response = guestService.addGuest(userDto.getName(), userDto.getPhoneNumber(), userDto.getEmail());
+    @PostMapping("/setPassword")
+    public ResponseEntity<?> setPassword(@RequestParam String password, @RequestParam Long id) {
+        Long response = guestService.setPassword(password, id);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
+                : new ResponseEntity<>("Password should be correct", HttpStatus.BAD_REQUEST);
     }
-
-
 }

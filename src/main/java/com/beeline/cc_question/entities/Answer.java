@@ -2,7 +2,6 @@ package com.beeline.cc_question.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -19,13 +18,5 @@ public class Answer {
     @ManyToOne()
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;
-
-    public Answer(String content, Question question) {
-        this.content = content;
-        this.question = question;
-    }
-
-    public Answer() {
-
-    }
+    private boolean correct;
 }

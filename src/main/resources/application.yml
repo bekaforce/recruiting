@@ -4,10 +4,10 @@ spring:
     username: postgres
     password: 5Rag^ycn
     platform: postgres
-    servlet:
-      multipart:
-        max-file-size: 30MB
-        max-request-size: 30MB
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
   mail:
     host: 172.28.142.5
     port: 25
@@ -42,3 +42,4 @@ server:
 #    10.16.230.116
 #    172.28.142.101
 #    172.28.142.5
+#    sks_recruiting

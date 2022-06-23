@@ -18,17 +18,22 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public List<Question> getQuestionsForTest() {
-        return questionRepo.findAllByQuestionType(QuestionType.TEST.toString());
+    public List<Question> questionsForTest(Long candidateType_id) {
+        return questions(QuestionType.TEST.toString(), candidateType_id);
     }
 
     @Override
-    public List<Question> getQuestionsForVideo() {
-        return questionRepo.findAllByQuestionType(QuestionType.VIDEO.toString());
+    public List<Question> questionsForVideo(Long candidateType_id) {
+        return questions(QuestionType.VIDEO.toString(), candidateType_id);
     }
 
     @Override
-    public Question questionById(Long id) {
-        return questionRepo.getQuestionById(id);
+    public List<Question> questions(String questionType, Long candidateType_id) {
+        return questionRepo.allByQuestionType(questionType, candidateType_id);
+    }
+
+    @Override
+    public Long maxPosition(String questionType, Long candidateType_id) {
+        return questionRepo.maxPosition(questionType, candidateType_id);
     }
 }

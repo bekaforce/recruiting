@@ -30,14 +30,19 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getMessage(Long id) {
-        return messageRepo.getMessageById(id);
+    public Message messageById(Long id) {
+        return messageRepo.findMessageById(id);
     }
 
     @Override
     public String getText(Long id) {
-        Message message = messageRepo.getMessageById(id);
-        return message.getText();
+        Message message = messageById(id);
+        if (message != null){
+            return message.getText();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -47,7 +52,7 @@ public class MessageServiceImpl implements MessageService {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("introduction", setMessageText(name, password, introduction_id));
         paramMap.put("body", setMessageText(name, password, body_id));
-        paramMap.put("login", "https://recruiting.beeline.kg/#/login?" + email);
+        paramMap.put("login", "https://recruiting.beeline.kg/#/login?" + email); //https://recruiting.beeline.kg/#/login
         mailMessage.setParamMap(paramMap);
         mailMessage.setFrom("recruiting@beeline.kg");
         mailMessage.setTo(email);

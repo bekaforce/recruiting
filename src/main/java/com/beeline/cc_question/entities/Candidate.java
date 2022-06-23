@@ -3,6 +3,7 @@ package com.beeline.cc_question.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,44 +15,49 @@ public class Candidate {
     @GeneratedValue(strategy = javax.persistence.GenerationType.SEQUENCE, generator = "candidate_seq")
     @SequenceGenerator(name = "candidate_seq", initialValue = 1, allocationSize = 1, sequenceName = "candidate_id_seq")
     private Long id;
-    private String vacancy;
     private String name;
     private String phoneNumber;
     private String email;
     private String citizenship;
-    private String birthday;
+    private LocalDate birthday;
     private String address;
-    private String maritalStatus;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "education_id", referencedColumnName = "id")
-    private Education education;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidate_id")
-    private List<Program> programs;
+    @JoinColumn(name = "experience_id", referencedColumnName = "id")
+    private Experience experience;
+    private String education;
     private String schedule;
     private LocalDateTime registrationDate;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidate_id")
-    private List<Language> languages;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
-    private List<VideoResult> videoResultList;
+    private List<VideoResult> videoResults;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<Test> tests;
+    @ManyToOne()
+    @JoinColumn(name = "candidateType_id", referencedColumnName = "id")
+    private CandidateType candidateType;
+    private String comment;
+    private String status;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "candidate_id")
+    private List<Questionnaire> questionnaire;
+    private LocalDate invitationDate;
+    private String stage;
 
-    public Candidate(String vacancy, String name, String phoneNumber, String email, String citizenship, String birthday, String address, String maritalStatus, Education education, List<Program> programs, String schedule, List<Language> languages, LocalDateTime now) {
-        this.vacancy = vacancy;
+    public Candidate(String name, String phoneNumber, String email, String citizenship, LocalDate birthday, String address, Experience experience, String education, String schedule, LocalDateTime now, String comment, CandidateType candidateType, String status, LocalDate invitationDate, String stage) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.citizenship = citizenship;
         this.birthday = birthday;
         this.address = address;
-        this.maritalStatus = maritalStatus;
+        this.experience = experience;
         this.education = education;
-        this.programs = programs;
         this.schedule = schedule;
-        this.languages = languages;
         this.registrationDate = now;
+        this.comment = comment;
+        this.candidateType = candidateType;
+        this.status = status;
+        this.invitationDate = invitationDate;
+        this.stage = stage;
     }
 
     public Candidate() {

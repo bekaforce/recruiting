@@ -12,11 +12,4 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String text;
-
-    public Message(String text) {
-        this.text = text;
-    }
-
-    public Message() {
-    }
 }

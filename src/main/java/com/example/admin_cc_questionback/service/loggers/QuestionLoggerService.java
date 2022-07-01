@@ -1,6 +1,6 @@
 package com.example.admin_cc_questionback.service.loggers;
 
-import com.example.admin_cc_questionback.entities.Question;
+import com.example.admin_cc_questionback.entities.interview.Question;
 import com.example.admin_cc_questionback.entities.dtos.QuestionUpdateDto;
 import com.example.admin_cc_questionback.entities.loggers.QuestionLogger;
 

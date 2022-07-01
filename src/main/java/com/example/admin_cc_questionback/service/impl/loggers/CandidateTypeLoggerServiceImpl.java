@@ -1,7 +1,7 @@
 package com.example.admin_cc_questionback.service.impl.loggers;
 
-import com.example.admin_cc_questionback.entities.CandidateType;
-import com.example.admin_cc_questionback.entities.Department;
+import com.example.admin_cc_questionback.entities.candidate.CandidateType;
+import com.example.admin_cc_questionback.entities.candidate.Department;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeDto;
 import com.example.admin_cc_questionback.entities.loggers.CandidateTypeLogger;
 import com.example.admin_cc_questionback.repository.loggers.CandidateTypeLoggerRepo;

@@ -2,15 +2,16 @@ package com.example.admin_cc_questionback.controller;
 
 public class Url {
     public static final String API = "/api/";
-    protected final static String MESSAGE = "message";
-    protected final static String VIDEO = "video";
-    protected final static String QUESTION = "question";
-    protected final static String ANSWER = "answer";
-    protected final static String CANDIDATE = "candidate";
-    protected final static String CANDIDATETYPE = "candidatetype";
-    protected final static String KNOWLEDGE = "knowledge";
-    protected final static String KNOWLEDGETYPE = "knowledgetype";
-    protected final static String LEVEL = "level";
-    protected final static String TEST = "test";
-    protected final static String DEPARTMENT = "department";
+    public final static String MESSAGE = "message";
+    public final static String VIDEO = "video";
+    public final static String QUESTION = "question";
+    public final static String ANSWER = "answer";
+    public final static String CANDIDATE = "candidate";
+    public final static String CANDIDATETYPE = "candidatetype";
+    public final static String KNOWLEDGE = "knowledge";
+    public final static String KNOWLEDGETYPE = "knowledgetype";
+    public final static String LEVEL = "level";
+    public final static String TEST = "test";
+    public final static String DEPARTMENT = "department";
+    public final static String HOOLIGAN = "hooligan";
 }

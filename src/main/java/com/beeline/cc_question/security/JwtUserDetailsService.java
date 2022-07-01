@@ -1,8 +1,8 @@
 package com.beeline.cc_question.security;
 
-import com.beeline.cc_question.entities.User;
+import com.beeline.cc_question.entities.user.User;
 import com.beeline.cc_question.security.jwt.JwtUserFactory;
-import com.beeline.cc_question.services.UserService;
+import com.beeline.cc_question.services.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

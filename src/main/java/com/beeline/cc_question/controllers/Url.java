@@ -1,15 +1,15 @@
 package com.beeline.cc_question.controllers;
 
 public class Url {
-    protected final static String VIDEO = "video";
-    protected final static String QUESTION = "question";
-    protected final static String CANDIDATE = "candidate";
-    protected final static String CANDIDATETYPE = "candidatetype";
-    protected final static String TEST = "test";
-    protected final static String USER = "user";
-    protected final static String KNOWLEDGE = "knowledge";
-    protected final static String KNOWLEDGETYPE = "knowledgetype";
-    protected final static String API = "/api/";
+    public final static String VIDEO = "video";
+    public final static String QUESTION = "question";
+    public final static String CANDIDATE = "candidate";
+    public final static String CANDIDATETYPE = "candidatetype";
+    public final static String TEST = "test";
+    public final static String USER = "user";
+    public final static String KNOWLEDGE = "knowledge";
+    public final static String KNOWLEDGETYPE = "knowledgetype";
+    public final static String API = "/api/";
 
 }
 

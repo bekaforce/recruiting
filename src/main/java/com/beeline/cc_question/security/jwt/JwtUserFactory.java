@@ -1,8 +1,8 @@
 package com.beeline.cc_question.security.jwt;
 
-import com.beeline.cc_question.entities.Role;
-import com.beeline.cc_question.entities.Status;
-import com.beeline.cc_question.entities.User;
+import com.beeline.cc_question.entities.user.Role;
+import com.beeline.cc_question.entities.candidate.Status;
+import com.beeline.cc_question.entities.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

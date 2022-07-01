@@ -1,6 +1,6 @@
 package com.beeline.cc_question.security.jwt;
 
-import com.beeline.cc_question.entities.Role;
+import com.beeline.cc_question.entities.user.Role;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

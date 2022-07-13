@@ -37,11 +37,6 @@ server:
   ssl.key-store-password: 3edcVFR$
   ssl.keyStoreType: JKS
 
-google:
-  recaptcha:
-      secret: 6LcrcuQgAAAAACUxehzCFszX0SIIrdIBhFLaAh1R
-      site: 6LdRg-MgAAAAAIpf1RjR1JmRaGkJB8Vh30ix8Fs0
-
 #    location: '${user.dir}/uploads'
 #    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
 #    10.16.230.116

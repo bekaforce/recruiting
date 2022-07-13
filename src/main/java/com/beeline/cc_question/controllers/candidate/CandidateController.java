@@ -2,10 +2,11 @@ package com.beeline.cc_question.controllers.candidate;
 
 import com.beeline.cc_question.controllers.Url;
 import com.beeline.cc_question.entities.candidate.Candidate;
+import com.beeline.cc_question.entities.candidate.recaptcha.Recaptcha;
 import com.beeline.cc_question.entities.dtos.candidate.CandidateDto;
 import com.beeline.cc_question.entities.dtos.interview.SuccessDto;
 import com.beeline.cc_question.services.candidate.impl.GuestServiceImpl;
-import com.beeline.cc_question.services.candidate.impl.recaptcha.RecaptchaV2;
+import com.beeline.cc_question.services.candidate.impl.recaptcha.RecaptchaServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +16,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = Url.API + Url.CANDIDATE)
 public class CandidateController {
     private final GuestServiceImpl guestService;
-    private final RecaptchaV2 recaptchaV2;
+    private final RecaptchaServiceImpl recaptchaService;
 
-    public CandidateController(GuestServiceImpl guestService, RecaptchaV2 recaptchaV2) {
+    public CandidateController(GuestServiceImpl guestService, RecaptchaServiceImpl recaptchaService) {
         this.guestService = guestService;
-        this.recaptchaV2 = recaptchaV2;
+        this.recaptchaService = recaptchaService;
     }
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody CandidateDto candidateDto){
         Candidate response = null;
-        if (recaptchaV2.isValidCaptcha(candidateDto.getCaptcha())){
+        if (recaptchaService.isValidCaptcha(candidateDto.getCaptcha())){
             response = guestService.add(candidateDto);
         }
         return response != null

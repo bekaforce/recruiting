@@ -22,7 +22,7 @@ public class Question {
     private QuestionType questionType;
     private Long position;
     @JsonIgnore
-    @ManyToOne()
+    @ManyToOne(targetEntity = CandidateType.class)
     @JoinColumn(name = "candidateType_id", referencedColumnName = "id")
     private CandidateType candidateType;
     private Long milliseconds;

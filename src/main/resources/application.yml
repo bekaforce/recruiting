@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://psg/sks_recruiting
+    url: jdbc:postgresql://10.16.230.116/sks_recruiting
     username: postgres
     password: 5Rag^ycn
     platform: postgres
@@ -9,7 +9,7 @@ spring:
       max-file-size: 30MB
       max-request-size: 30MB
   mail:
-    host: 172.28.142.5
+    host: 172.28.142.101
     port: 25
   thymeleaf:
     check-template-location: true
@@ -36,6 +36,11 @@ server:
   ssl.key-store: classpath:ira_test.jks
   ssl.key-store-password: 3edcVFR$
   ssl.keyStoreType: JKS
+
+google:
+  recaptcha:
+      secret: 6LcrcuQgAAAAACUxehzCFszX0SIIrdIBhFLaAh1R
+      site: 6LdRg-MgAAAAAIpf1RjR1JmRaGkJB8Vh30ix8Fs0
 
 #    location: '${user.dir}/uploads'
 #    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'

@@ -2,7 +2,6 @@ package com.beeline.cc_question.controllers.interview;
 
 import com.beeline.cc_question.controllers.Url;
 import com.beeline.cc_question.entities.dtos.interview.TestDto;
-import com.beeline.cc_question.entities.interview.Test;
 import com.beeline.cc_question.services.interview.impl.TestServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

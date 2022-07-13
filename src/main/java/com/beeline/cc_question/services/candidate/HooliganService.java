@@ -1,6 +1,6 @@
-package com.beeline.cc_question.services;
+package com.beeline.cc_question.services.candidate;
 
-import com.beeline.cc_question.entities.Hooligan;
+import com.beeline.cc_question.entities.candidate.Hooligan;
 
 import java.time.LocalDate;
 import java.util.List;

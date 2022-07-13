@@ -6,7 +6,6 @@ import com.beeline.cc_question.entities.candidate.Candidate;
 import com.beeline.cc_question.entities.candidate.CandidateType;
 import com.beeline.cc_question.repos.candidate.CandidateRepo;
 import com.beeline.cc_question.services.candidate.CandidateService;
-import com.beeline.cc_question.services.impl.HooliganServiceImpl;
 import org.springframework.stereotype.Service;
 
 
@@ -54,11 +53,6 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public Candidate candidateById(Long id) {
         return candidateRepo.findCandidateById(id);
-    }
-
-    @Override
-    public List<Candidate> getAll() {
-        return candidateRepo.findAll();
     }
 
     @Override

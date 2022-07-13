@@ -17,7 +17,7 @@ public class CandidateType {
     private Long id;
     private String candidateType;
     private boolean internal;
-    @OneToMany(mappedBy = "candidateType")
+    @OneToMany(mappedBy = "candidateType", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Question> questions;
     @OneToMany(mappedBy = "candidateType")

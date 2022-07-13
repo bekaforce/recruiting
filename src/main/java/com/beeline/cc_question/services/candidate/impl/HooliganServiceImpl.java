@@ -1,8 +1,8 @@
-package com.beeline.cc_question.services.impl;
+package com.beeline.cc_question.services.candidate.impl;
 
-import com.beeline.cc_question.entities.Hooligan;
-import com.beeline.cc_question.repos.HooliganRepo;
-import com.beeline.cc_question.services.HooliganService;
+import com.beeline.cc_question.entities.candidate.Hooligan;
+import com.beeline.cc_question.repos.candidate.HooliganRepo;
+import com.beeline.cc_question.services.candidate.HooliganService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

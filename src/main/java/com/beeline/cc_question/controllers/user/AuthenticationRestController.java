@@ -44,7 +44,7 @@ public class AuthenticationRestController {
                 return new ResponseEntity<>("Пользоветель с логином " + username + " не найден", HttpStatus.NOT_FOUND);
             }
             if (candidateService.expiration(candidate.getRegistrationDate())){
-                return new ResponseEntity<>("Срок прохождения собеседования истек", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>("Время прохождения онлайн собеседования прошло, просьба начать с начала", HttpStatus.UNAUTHORIZED);
             }
             String token = jwtTokenProvider.createToken(username, user.getRoles());
             return userService.response(username, token);

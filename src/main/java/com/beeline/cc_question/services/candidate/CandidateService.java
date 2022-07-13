@@ -11,7 +11,6 @@ import java.util.List;
 public interface CandidateService {
     Candidate save(CandidateDto candidateDto);
     Candidate candidateById(Long id);
-    List<Candidate> getAll();
     Candidate setStage(Candidate candidate, String stage);
     String setStatus(String name, LocalDate birthday);
     String getStage(Long candidate_id);

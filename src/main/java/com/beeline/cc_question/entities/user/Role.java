@@ -1,6 +1,5 @@
 package com.beeline.cc_question.entities.user;
 
-import com.beeline.cc_question.entities.user.User;
 import lombok.Data;
 
 import javax.persistence.*;

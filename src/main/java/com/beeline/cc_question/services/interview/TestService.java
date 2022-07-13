@@ -2,7 +2,6 @@ package com.beeline.cc_question.services.interview;
 
 import com.beeline.cc_question.entities.dtos.interview.ResultDto;
 import com.beeline.cc_question.entities.dtos.interview.TestDto;
-import com.beeline.cc_question.entities.interview.Test;
 
 import java.util.List;
 

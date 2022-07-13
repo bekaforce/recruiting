@@ -1,6 +1,6 @@
 package com.beeline.cc_question.entities.candidate;
 
-import com.beeline.cc_question.entities.candidate.Candidate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

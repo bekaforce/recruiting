@@ -2,6 +2,7 @@ package com.beeline.cc_question.services.candidate.impl;
 
 import com.beeline.cc_question.entities.dtos.candidate.CandidateDto;
 import com.beeline.cc_question.entities.candidate.Candidate;
+import com.beeline.cc_question.entities.dtos.interview.SuccessDto;
 import com.beeline.cc_question.entities.user.User;
 import com.beeline.cc_question.services.candidate.GuestService;
 import com.beeline.cc_question.services.user.impl.UserServiceImpl;
@@ -60,5 +61,14 @@ public class GuestServiceImpl implements GuestService {
         else {
             return null;
         }
+    }
+
+    @Override
+    public SuccessDto success(Long candidate_id) {
+        Candidate candidate = candidateService.candidateById(candidate_id);
+        if (candidate != null){
+            return messageService.success(candidate.getName(), candidate.getCandidateType().getCandidateType());
+        }
+        return null;
     }
 }

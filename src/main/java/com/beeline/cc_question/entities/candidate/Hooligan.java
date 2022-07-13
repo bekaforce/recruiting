@@ -1,4 +1,4 @@
-package com.beeline.cc_question.entities;
+package com.beeline.cc_question.entities.candidate;
 
 
 import lombok.Data;

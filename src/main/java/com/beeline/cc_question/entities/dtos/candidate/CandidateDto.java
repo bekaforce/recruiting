@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class CandidateDto {
     private String name;
+    private String surname;
     private String phoneNumber;
     private String email;
     private String citizenship;
@@ -21,10 +22,11 @@ public class CandidateDto {
     private String schedule;
     private String address;
     private Long candidateType_id;
-    private String captcha;
+    private String recaptcha;
 
-    public CandidateDto(String name, String phoneNumber, String email, String citizenship, LocalDate birthday, Experience experience, String education, List<Questionnaire> questionnaireList, String schedule, String address, Long candidateType_id, String captcha) {
+    public CandidateDto(String name, String surname, String phoneNumber, String email, String citizenship, LocalDate birthday, Experience experience, String education, List<Questionnaire> questionnaireList, String schedule, String address, Long candidateType_id, String recaptcha) {
         this.name = name;
+        this.surname = surname;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.citizenship = citizenship;
@@ -35,6 +37,6 @@ public class CandidateDto {
         this.schedule = schedule;
         this.address = address;
         this.candidateType_id = candidateType_id;
-        this.captcha = captcha;
+        this.recaptcha = recaptcha;
     }
 }

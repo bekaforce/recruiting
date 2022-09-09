@@ -18,6 +18,7 @@ public class Candidate {
     @SequenceGenerator(name = "candidate_seq", initialValue = 1, allocationSize = 1, sequenceName = "candidate_id_seq")
     private Long id;
     private String name;
+    private String surname;
     private String phoneNumber;
     private String email;
     private String citizenship;
@@ -43,26 +44,5 @@ public class Candidate {
     private List<Questionnaire> questionnaire;
     private LocalDate invitationDate;
     private String stage;
-
-    public Candidate(String name, String phoneNumber, String email, String citizenship, LocalDate birthday, String address, Experience experience, String education, String schedule, LocalDateTime now, String comment, CandidateType candidateType, String status, LocalDate invitationDate, String stage) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.citizenship = citizenship;
-        this.birthday = birthday;
-        this.address = address;
-        this.experience = experience;
-        this.education = education;
-        this.schedule = schedule;
-        this.registrationDate = now;
-        this.comment = comment;
-        this.candidateType = candidateType;
-        this.status = status;
-        this.invitationDate = invitationDate;
-        this.stage = stage;
-    }
-
-    public Candidate() {
-
-    }
+    private String gender;
 }

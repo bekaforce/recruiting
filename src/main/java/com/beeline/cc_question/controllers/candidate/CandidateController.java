@@ -2,7 +2,6 @@ package com.beeline.cc_question.controllers.candidate;
 
 import com.beeline.cc_question.controllers.Url;
 import com.beeline.cc_question.entities.candidate.Candidate;
-import com.beeline.cc_question.entities.candidate.recaptcha.Recaptcha;
 import com.beeline.cc_question.entities.dtos.candidate.CandidateDto;
 import com.beeline.cc_question.entities.dtos.interview.SuccessDto;
 import com.beeline.cc_question.services.candidate.impl.GuestServiceImpl;
@@ -26,7 +25,7 @@ public class CandidateController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody CandidateDto candidateDto){
         Candidate response = null;
-        if (recaptchaService.isValidCaptcha(candidateDto.getCaptcha())){
+        if (recaptchaService.isValidCaptcha(candidateDto.getRecaptcha())){
             response = guestService.add(candidateDto);
         }
         return response != null

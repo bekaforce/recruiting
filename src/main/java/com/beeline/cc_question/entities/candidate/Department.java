@@ -15,7 +15,7 @@ public class Department {
     @SequenceGenerator(name = "department_seq", initialValue = 1, allocationSize = 1, sequenceName = "department_id_seq")
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "candidateType", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<CandidateType> candidateTypes;
 

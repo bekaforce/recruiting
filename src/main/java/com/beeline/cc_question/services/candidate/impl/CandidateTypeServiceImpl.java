@@ -1,6 +1,7 @@
 package com.beeline.cc_question.services.candidate.impl;
 
 import com.beeline.cc_question.entities.candidate.CandidateType;
+import com.beeline.cc_question.entities.dtos.candidate.CandidateTypeDto;
 import com.beeline.cc_question.repos.candidate.CandidateTypeRepo;
 import com.beeline.cc_question.services.candidate.CandidateTypeService;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,10 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
     @Override
     public List<CandidateType> allActiveAndExternal() {
         return candidateTypeRepo.allActiveAndExternal();
+    }
+
+    @Override
+    public CandidateTypeDto nameById(Long id) {
+        return new CandidateTypeDto(candidateTypeById(id).getCandidateType());
     }
 }

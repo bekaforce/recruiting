@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 
 @Service
 public class CandidateServiceImpl implements CandidateService {
@@ -31,6 +30,7 @@ public class CandidateServiceImpl implements CandidateService {
             LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bishkek"));
             Candidate candidate = new Candidate();
             candidate.setName(candidateDto.getName());
+            candidate.setSurname(candidateDto.getSurname());
             candidate.setPhoneNumber(candidateDto.getPhoneNumber());
             candidate.setEmail(candidateDto.getEmail());
             candidate.setCitizenship(candidateDto.getCitizenship());
@@ -46,6 +46,7 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setStatus(setStatus(candidateDto.getName(), candidateDto.getBirthday()));
             candidate.setQuestionnaire(candidateDto.getQuestionnaireList());
             candidate.setInvitationDate(null);
+            candidate.setGender(null);
             candidate.setStage("testing");
             return candidateRepo.save(candidate);
     }

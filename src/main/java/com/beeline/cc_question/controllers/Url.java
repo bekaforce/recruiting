@@ -10,6 +10,7 @@ public class Url {
     public final static String KNOWLEDGE = "knowledge";
     public final static String KNOWLEDGETYPE = "knowledgetype";
     public final static String API = "/api/";
+    public final static String FEEDBACK = "feedback";
 
 }
 

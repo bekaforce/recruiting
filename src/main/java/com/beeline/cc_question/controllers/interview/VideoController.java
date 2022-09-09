@@ -23,6 +23,7 @@ private final VideoResultServiceImpl videoResultService;
 
     @PostMapping("/upload/{candidate_id}")
     public ResponseEntity<?> upload(@RequestParam("multipartFile")MultipartFile multipartFile, @PathVariable(name = "candidate_id") Long candidate_id, @RequestParam String questionText, @RequestParam Long position) throws IOException {
+        System.out.println(multipartFile.getSize());
         boolean response = videoResultService.uploadFile(multipartFile, candidate_id, questionText, position);
         return response
                 ? new ResponseEntity<>("File was uploaded successfully", HttpStatus.OK)

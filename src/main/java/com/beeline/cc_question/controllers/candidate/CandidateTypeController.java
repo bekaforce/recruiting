@@ -2,13 +2,11 @@ package com.beeline.cc_question.controllers.candidate;
 
 import com.beeline.cc_question.controllers.Url;
 import com.beeline.cc_question.entities.candidate.CandidateType;
+import com.beeline.cc_question.entities.dtos.candidate.CandidateTypeDto;
 import com.beeline.cc_question.services.candidate.impl.CandidateTypeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,12 @@ public class CandidateTypeController {
     @GetMapping("/allActiveAndExternal")
     public ResponseEntity<?> allActiveAndExternal(){
         List<CandidateType> response = candidateTypeService.allActiveAndExternal();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("nameById/{id}")
+    public ResponseEntity<?> nameById(@PathVariable(value = "id") Long id){
+        CandidateTypeDto response = candidateTypeService.nameById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,15 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://10.16.230.116/sks_recruiting
+    url: jdbc:postgresql://psg/sks_recruiting
     username: postgres
     password: 5Rag^ycn
     platform: postgres
   servlet:
     multipart:
-      max-file-size: 30MB
-      max-request-size: 30MB
+      max-file-size: 100MB
+      max-request-size: 100MB
   mail:
-    host: 172.28.142.101
+    host: 172.28.142.5
     port: 25
   thymeleaf:
     check-template-location: true

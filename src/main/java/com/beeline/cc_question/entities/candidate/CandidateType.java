@@ -17,6 +17,7 @@ public class CandidateType {
     private Long id;
     private String candidateType;
     private boolean internal;
+    private String city;
     @OneToMany(mappedBy = "candidateType", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Question> questions;
@@ -30,4 +31,5 @@ public class CandidateType {
     @ManyToOne()
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
+    private String teamType;
 }

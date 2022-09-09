@@ -3,10 +3,11 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 import com.example.admin_cc_questionback.entities.candidate.CandidateType;
 import com.example.admin_cc_questionback.entities.candidate.Department;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeDto;
+import com.example.admin_cc_questionback.entities.dtos.CandidateTypeUpdateDto;
 import com.example.admin_cc_questionback.repository.candidate.CandidateTypeRepo;
 import com.example.admin_cc_questionback.service.candidate.CandidateTypeService;
-import com.example.admin_cc_questionback.service.impl.loggers.CandidateTypeLoggerServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.loggers.impl.CandidateTypeLoggerServiceImpl;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
             candidateType.setCandidateType(candidateTypeDto.getCandidateType());
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
+            candidateType.setCity(candidateTypeDto.getCity());
+            candidateType.setTeamType(candidateTypeDto.getTeamType());
             candidateTypeRepo.save(candidateType);
             candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), department.getName(), LoggerStatus.CREATED);
             return candidateType;
@@ -56,16 +59,15 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
     }
 
     @Override
-    public CandidateType update(CandidateTypeDto candidateTypeDto, Long id) {
+    public CandidateType update(CandidateTypeUpdateDto candidateTypeDto, Long id) {
         CandidateType candidateType = candidateTypeById(id);
-        Department before = departmentService.departmentById(candidateType.getDepartment().getId());
-        Department after  = departmentService.departmentById(candidateTypeDto.getDepartmentId());
-        if (after != null){
-            candidateTypeLoggerService.update(candidateTypeDto, candidateType, before, after);
-            candidateType.setDepartment(after);
+        if (candidateType != null){
+            Department department = candidateType.getDepartment();
+            candidateTypeLoggerService.update(candidateTypeDto, candidateType, department);
             candidateType.setCandidateType(candidateTypeDto.getCandidateType());
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
+            candidateType.setTeamType(candidateTypeDto.getTeamType());
             candidateTypeRepo.save(candidateType);
             return candidateType;
         }

@@ -2,6 +2,7 @@ package com.example.admin_cc_questionback.controller.interview;
 
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.entities.dtos.QuestionDto;
+import com.example.admin_cc_questionback.entities.dtos.QuestionVideoDto;
 import com.example.admin_cc_questionback.entities.interview.Question;
 import com.example.admin_cc_questionback.entities.dtos.QuestionUpdateDto;
 import com.example.admin_cc_questionback.service.interview.impl.QuestionServiceImpl;
@@ -30,8 +31,8 @@ public class QuestionController {
     }
 
     @PostMapping("/saveToVideo")
-    public ResponseEntity<?> saveForVideo(@RequestBody QuestionDto question){
-        Question response = questionService.saveQuestionForVideo(question);
+    public ResponseEntity<?> saveForVideo(@RequestBody QuestionVideoDto questionVideoDto){
+        Question response = questionService.saveQuestionForVideo(questionVideoDto);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);

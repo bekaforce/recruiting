@@ -11,4 +11,8 @@ public interface DepartmentService {
     boolean delete(Long id);
     Department update(DepartmentDto departmentDto, Long id);
     Department departmentById(Long id);
+    void saveUpdatedDepartmentToLogs(String before, String after);
+    void saveCreatedDepartmentToLogs(String name);
+    void saveDeletedDepartmentToLogs(String name);
+
 }

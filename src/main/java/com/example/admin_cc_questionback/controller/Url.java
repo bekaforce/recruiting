@@ -14,4 +14,5 @@ public class Url {
     public final static String TEST = "test";
     public final static String DEPARTMENT = "department";
     public final static String HOOLIGAN = "hooligan";
+    public final static String FEEDBACK = "feedback";
 }

@@ -3,11 +3,11 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 import com.example.admin_cc_questionback.entities.candidate.Knowledge;
 import com.example.admin_cc_questionback.entities.candidate.Level;
 import com.example.admin_cc_questionback.entities.dtos.LevelDto;
+import com.example.admin_cc_questionback.entities.dtos.LevelUpdateDto;
 import com.example.admin_cc_questionback.repository.candidate.LevelRepo;
 import com.example.admin_cc_questionback.service.candidate.LevelService;
-import com.example.admin_cc_questionback.service.candidate.impl.KnowledgeServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LevelLoggerServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.loggers.impl.LevelLoggerServiceImpl;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,20 +29,20 @@ public class LevelServiceImpl implements LevelService {
         if (knowledge != null){
             Level level = new Level(levelDto.getName(), knowledge);
             levelRepo.save(level);
-            loggerService.save(level.getName(), level.getKnowledge().getKnowledgeName(), LoggerStatus.CREATED);
+            saveCreatedLevelToLogs(level.getName(), level.getKnowledge().getKnowledgeName());
             return level;
         }
         return null;
     }
 
     @Override
-    public Level update(Long id, String name) {
-        Level level = levelRepo.findLevelById(id);
+    public Level update(LevelUpdateDto levelUpdateDto) {
+        Level level = levelRepo.findLevelById(levelUpdateDto.getId());
         if (level != null){
             String before = level.getName();
-            level.setName(name);
+            level.setName(levelUpdateDto.getName());
             levelRepo.save(level);
-            loggerService.saveUpdate(before, name, level.getKnowledge().getKnowledgeName());
+            saveUpdatedLevelToLogs(before, level.getName(), level.getKnowledge().getKnowledgeName());
             return level;
         }
         return null;
@@ -53,9 +53,24 @@ public class LevelServiceImpl implements LevelService {
         Level level = levelRepo.findLevelById(id);
         if (level != null){
             levelRepo.deleteById(id);
-            loggerService.save(level.getName(), level.getKnowledge().getKnowledgeName(), LoggerStatus.DELETED);
+            saveDeletedLevelToLogs(level.getName(), level.getKnowledge().getKnowledgeName());
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void saveCreatedLevelToLogs(String level, String knowledge) {
+        loggerService.save(level, knowledge, LoggerStatus.CREATED);
+    }
+
+    @Override
+    public void saveDeletedLevelToLogs(String level, String knowledge) {
+        loggerService.save(level, knowledge, LoggerStatus.DELETED);
+    }
+
+    @Override
+    public void saveUpdatedLevelToLogs(String before, String level, String knowledge) {
+        loggerService.saveUpdate(before, level, knowledge);
     }
 }

@@ -14,7 +14,7 @@ public class DepartmentLogger {
     @SequenceGenerator(name = "department_logger_seq", initialValue = 1, allocationSize = 1, sequenceName = "department_logger_id_seq")
     private Long id;
     private String login;
-    private LocalDateTime localDateTime;
+    private LocalDateTime dateTime;
     private String before;
     private String after;
     private String status;

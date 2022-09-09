@@ -17,6 +17,7 @@ public class CandidateType {
     private Long id;
     private String candidateType;
     private boolean internal;
+    private String city;
     @OneToMany(mappedBy = "candidateType")
     @JsonIgnore
     private List<Question> questions;
@@ -28,6 +29,7 @@ public class CandidateType {
     private List<Candidate> candidates;
     private boolean active;
     @ManyToOne()
-
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
+    private String teamType;
 }

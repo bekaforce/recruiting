@@ -1,9 +1,14 @@
-package com.example.admin_cc_questionback.service.impl.loggers;
+package com.example.admin_cc_questionback.service.loggers.impl;
 
+import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.entities.loggers.LevelLogger;
 import com.example.admin_cc_questionback.repository.loggers.LevelLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.LevelLoggerService;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LevelLoggerServiceImpl implements LevelLoggerService {
@@ -35,5 +40,10 @@ public class LevelLoggerServiceImpl implements LevelLoggerService {
         levelLogger.setDateTime(loggerService.bishkekNow());
         levelLogger.setStatus(LoggerStatus.UPDATED);
         return levelLoggerRepo.save(levelLogger);
+    }
+
+    @Override
+    public List<LevelLogger> all() {
+        return levelLoggerRepo.findAll().stream().sorted(Comparator.comparingLong(LevelLogger::getId).reversed()).collect(Collectors.toList());
     }
 }

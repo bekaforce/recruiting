@@ -13,8 +13,6 @@ spring:
       max-request-size: 30MB
   main:
     allow-bean-definition-overriding: true
-
-
     allow-circular-references: true
 #    location: '${user.dir}/uploads'
 #    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
@@ -23,6 +21,11 @@ spring:
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
+
+server:
+  ssl.key-store: classpath:ira_test.jks
+  ssl.key-store-password: 3edcVFR$
+  ssl.keyStoreType: JKS
 
 ldap:
   provider:

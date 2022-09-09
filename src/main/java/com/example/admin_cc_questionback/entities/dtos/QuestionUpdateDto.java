@@ -6,5 +6,5 @@ import lombok.Data;
 public class QuestionUpdateDto {
     private String questionText;
     private boolean key;
-    private Long milliseconds;
+    private Long seconds;
 }

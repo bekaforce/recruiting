@@ -6,8 +6,8 @@ import com.example.admin_cc_questionback.entities.interview.Answer;
 import com.example.admin_cc_questionback.entities.interview.Question;
 import com.example.admin_cc_questionback.repository.interview.AnswerRepo;
 import com.example.admin_cc_questionback.service.interview.AnswerService;
-import com.example.admin_cc_questionback.service.impl.loggers.AnswerLoggerServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.loggers.impl.AnswerLoggerServiceImpl;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +28,7 @@ public class AnswerServiceImpl implements AnswerService {
         Question question = questionService.questionById(answerDto.getQuestion_id());
         if (question != null){
             Answer answer = answerRepo.save(new Answer(answerDto.getContent(), question,answerDto.isCorrect()));
-            answerLoggerService.save(answer.getContent(), question.getQuestionText(), String.valueOf(answer.isCorrect()), LoggerStatus.CREATED);
+            saveCreatedAnswerToLogs(answer);
             return answer;
         }
         return null;
@@ -38,7 +38,7 @@ public class AnswerServiceImpl implements AnswerService {
     public boolean delete(Long id) {
         Answer answer = answerRepo.getAnswerById(id);
         if (answer != null){
-            answerLoggerService.save(answer.getContent(), answer.getQuestion().getQuestionText(), String.valueOf(answer.isCorrect()), LoggerStatus.DELETED);
+            saveDeletedAnswerToLogs(answer);
             answerRepo.deleteById(id);
             return true;
         }
@@ -49,7 +49,7 @@ public class AnswerServiceImpl implements AnswerService {
     public Answer update(ContentDto content, Long id) {
         Answer answer = answerById(id);
         if (answer != null){
-            answerLoggerService.saveUpdate(content.getContent(), answer.getQuestion().getQuestionText(), String.valueOf(content.isCorrect()), answer);
+            saveUpdatedAnswerToLogs(content, answer);
             answer.setContent(content.getContent());
             answer.setCorrect(content.isCorrect());
             answerRepo.save(answer);
@@ -61,5 +61,20 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Answer answerById(Long answer_id) {
         return answerRepo.getAnswerById(answer_id);
+    }
+
+    @Override
+    public void saveCreatedAnswerToLogs(Answer answer) {
+        answerLoggerService.save(answer, LoggerStatus.CREATED);
+    }
+
+    @Override
+    public void saveDeletedAnswerToLogs(Answer answer) {
+        answerLoggerService.save(answer, LoggerStatus.DELETED);
+    }
+
+    @Override
+    public void saveUpdatedAnswerToLogs(ContentDto content, Answer answer) {
+        answerLoggerService.saveUpdate(content, answer);
     }
 }

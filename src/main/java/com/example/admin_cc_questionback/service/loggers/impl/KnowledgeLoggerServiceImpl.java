@@ -1,9 +1,14 @@
-package com.example.admin_cc_questionback.service.impl.loggers;
+package com.example.admin_cc_questionback.service.loggers.impl;
 
+import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.entities.loggers.KnowledgeLogger;
 import com.example.admin_cc_questionback.repository.loggers.KnowledgeLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.KnowledgeLoggerService;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KnowledgeLoggerServiceImpl implements KnowledgeLoggerService {
@@ -35,6 +40,11 @@ public class KnowledgeLoggerServiceImpl implements KnowledgeLoggerService {
         knowledgeLogger.setLogin(loggerService.login());
         knowledgeLogger.setDateTime(loggerService.bishkekNow());
         return knowledgeLoggerRepo.save(knowledgeLogger);
+    }
+
+    @Override
+    public List<KnowledgeLogger> all() {
+        return knowledgeLoggerRepo.findAll().stream().sorted(Comparator.comparingLong(KnowledgeLogger::getId).reversed()).collect(Collectors.toList());
     }
 
 

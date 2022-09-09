@@ -1,6 +1,5 @@
 package com.example.admin_cc_questionback.entities.candidate;
 
-import com.example.admin_cc_questionback.entities.candidate.Candidate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

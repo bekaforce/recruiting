@@ -3,6 +3,7 @@ package com.example.admin_cc_questionback.controller.candidate;
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.entities.candidate.CandidateType;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeDto;
+import com.example.admin_cc_questionback.entities.dtos.CandidateTypeUpdateDto;
 import com.example.admin_cc_questionback.service.candidate.impl.CandidateTypeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class CandidateTypeController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@RequestBody CandidateTypeDto candidateTypeDto, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody CandidateTypeUpdateDto candidateTypeDto, @PathVariable Long id){
         CandidateType response = candidateTypeService.update(candidateTypeDto, id);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)

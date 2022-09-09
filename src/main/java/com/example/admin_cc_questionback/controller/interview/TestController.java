@@ -1,13 +1,10 @@
 package com.example.admin_cc_questionback.controller.interview;
 
 import com.example.admin_cc_questionback.controller.Url;
-import com.example.admin_cc_questionback.entities.dtos.ResultDto;
 import com.example.admin_cc_questionback.service.interview.impl.TestServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -17,12 +14,6 @@ public class TestController {
 
     public TestController(TestServiceImpl testService) {
         this.testService = testService;
-    }
-
-    @GetMapping(value = "/result/{candidate_id}")
-    public ResponseEntity<?> result(@PathVariable(value = "candidate_id") Long candidate_id) {
-        List<ResultDto> response = testService.result(candidate_id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/percentage/{candidate_id}")

@@ -5,5 +5,6 @@ import java.time.LocalDateTime;
 public interface CandidateDto {
     Long getId();
     String getName();
+    String getSurname();
     LocalDateTime getRegistration_Date();
 }

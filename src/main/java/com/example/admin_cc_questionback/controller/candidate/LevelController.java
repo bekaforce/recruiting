@@ -3,6 +3,7 @@ package com.example.admin_cc_questionback.controller.candidate;
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.entities.candidate.Level;
 import com.example.admin_cc_questionback.entities.dtos.LevelDto;
+import com.example.admin_cc_questionback.entities.dtos.LevelUpdateDto;
 import com.example.admin_cc_questionback.service.candidate.impl.LevelServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +35,11 @@ public class LevelController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestParam String name){
-        Level response = levelService.update(id, name);
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody LevelUpdateDto levelUpdateDto){
+        Level response = levelService.update(levelUpdateDto);
         return response != null
-                ? new ResponseEntity<>("Level was updated by id: " + id, HttpStatus.OK)
+                ? new ResponseEntity<>("Level was updated by id: " + levelUpdateDto.getId(), HttpStatus.OK)
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 

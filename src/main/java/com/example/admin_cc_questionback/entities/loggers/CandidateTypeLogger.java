@@ -17,7 +17,7 @@ public class CandidateTypeLogger {
     private String internal;
     private String active;
     private String department;
-    private LocalDateTime datetime;
+    private LocalDateTime dateTime;
     private String status;
     private String login;
 }

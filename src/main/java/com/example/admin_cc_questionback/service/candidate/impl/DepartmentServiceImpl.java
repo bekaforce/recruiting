@@ -4,9 +4,9 @@ import com.example.admin_cc_questionback.entities.candidate.Department;
 import com.example.admin_cc_questionback.entities.dtos.DepartmentDto;
 import com.example.admin_cc_questionback.repository.candidate.DepartmentRepo;
 import com.example.admin_cc_questionback.service.candidate.DepartmentService;
-import com.example.admin_cc_questionback.service.impl.loggers.DepartmentLoggerServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerService;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.loggers.impl.DepartmentLoggerServiceImpl;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerService;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department save(DepartmentDto departmentDto) {
         Department department = departmentRepo.save(new Department(departmentDto.getName()));
-        departmentLoggerService.logger(loggerService.empty, department.getName(), LoggerStatus.CREATED, department.getName());
+        saveCreatedDepartmentToLogs(department.getName());
         return department;
     }
 
@@ -39,8 +39,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     public boolean delete(Long id) {
         Department department = departmentById(id);
         if (department != null){
-            departmentLoggerService.logger(department.getName(), loggerService.empty, LoggerStatus.DELETED, department.getName());
-            departmentRepo.delete(departmentById(id));
+            saveDeletedDepartmentToLogs(department.getName());
+            departmentRepo.delete(department);
             return true;
         }
         return false;
@@ -53,9 +53,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             String before = department.getName();
             department.setName(departmentDto.getName());
             departmentRepo.save(department);
-            if (!loggerService.beforeAndAfter(before, departmentDto.getName())){
-                departmentLoggerService.logger(before, department.getName(), LoggerStatus.UPDATED, department.getName());
-            }
+            saveUpdatedDepartmentToLogs(before, departmentDto.getName());
             return department;
         }
         return null;
@@ -64,5 +62,22 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department departmentById(Long id) {
         return departmentRepo.findDepartmentById(id);
+    }
+
+    @Override
+    public void saveUpdatedDepartmentToLogs(String before, String after) {
+        if (!loggerService.beforeAndAfter(before, after)){
+            departmentLoggerService.save(before, after, LoggerStatus.UPDATED, after);
+        }
+    }
+
+    @Override
+    public void saveCreatedDepartmentToLogs(String name) {
+        departmentLoggerService.save(loggerService.empty, name, LoggerStatus.CREATED, name);
+    }
+
+    @Override
+    public void saveDeletedDepartmentToLogs(String name) {
+        departmentLoggerService.save(name, loggerService.empty, LoggerStatus.DELETED, name);
     }
 }

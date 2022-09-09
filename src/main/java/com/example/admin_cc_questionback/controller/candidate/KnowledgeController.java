@@ -3,6 +3,7 @@ package com.example.admin_cc_questionback.controller.candidate;
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.entities.candidate.Knowledge;
 import com.example.admin_cc_questionback.entities.dtos.KnowledgeDto;
+import com.example.admin_cc_questionback.entities.dtos.KnowledgeUpdateDto;
 import com.example.admin_cc_questionback.service.candidate.impl.KnowledgeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +43,11 @@ public class KnowledgeController {
                 : new ResponseEntity<>("Try Again", HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, String name){
-        Knowledge response = knowledgeService.update(id, name);
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody KnowledgeUpdateDto knowledgeUpdateDto){
+        Knowledge response = knowledgeService.update(knowledgeUpdateDto);
         return response != null
-                ? new ResponseEntity<>("Knowledge was updated by id: " + id, HttpStatus.OK)
+                ? new ResponseEntity<>("Knowledge was updated by id: " + knowledgeUpdateDto.getId(), HttpStatus.OK)
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 }

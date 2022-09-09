@@ -1,9 +1,14 @@
-package com.example.admin_cc_questionback.service.impl.loggers;
+package com.example.admin_cc_questionback.service.loggers.impl;
 
+import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.entities.loggers.KnowledgeTypeLogger;
 import com.example.admin_cc_questionback.repository.loggers.KnowledgeTypeLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.KnowledgeTypeLoggerService;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KnowledgeTypeLoggerServiceImpl implements KnowledgeTypeLoggerService {
@@ -38,5 +43,10 @@ public class KnowledgeTypeLoggerServiceImpl implements KnowledgeTypeLoggerServic
             return knowledgeTypeLoggerRepo.save(knowledgeTypeLogger);
         }
         return null;
+    }
+
+    @Override
+    public List<KnowledgeTypeLogger> all() {
+        return knowledgeTypeLoggerRepo.findAll().stream().sorted(Comparator.comparingLong(KnowledgeTypeLogger::getId).reversed()).collect(Collectors.toList());
     }
 }

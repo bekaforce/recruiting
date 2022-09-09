@@ -1,14 +1,11 @@
 package com.example.admin_cc_questionback.entities.candidate;
 
-import com.example.admin_cc_questionback.entities.candidate.CandidateType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "department", schema = "vcv")
 public class Department {
     @Id
@@ -16,12 +13,36 @@ public class Department {
     @SequenceGenerator(name = "department_seq", initialValue = 1, allocationSize = 1, sequenceName = "department_id_seq")
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "candidateType", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<CandidateType> candidateTypes;
 
     public Department(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<CandidateType> getCandidateTypes() {
+        return candidateTypes;
+    }
+
+    public void setCandidateTypes(List<CandidateType> candidateTypes) {
+        this.candidateTypes = candidateTypes;
     }
 
     public Department() {

@@ -3,10 +3,11 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 import com.example.admin_cc_questionback.entities.candidate.Knowledge;
 import com.example.admin_cc_questionback.entities.candidate.KnowledgeType;
 import com.example.admin_cc_questionback.entities.dtos.KnowledgeDto;
+import com.example.admin_cc_questionback.entities.dtos.KnowledgeUpdateDto;
 import com.example.admin_cc_questionback.repository.candidate.KnowledgeRepo;
 import com.example.admin_cc_questionback.service.candidate.KnowledgeService;
-import com.example.admin_cc_questionback.service.impl.loggers.KnowledgeLoggerServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.loggers.impl.KnowledgeLoggerServiceImpl;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +35,8 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     public boolean delete(Long id) {
         if (knowledgeById(id) != null){
             Knowledge knowledge = knowledgeById(id);
+            saveDeletedKnowledgeToLogs(knowledge.getKnowledgeName(), knowledge.getKnowledgeType().getName());
             knowledgeRepo.deleteById(id);
-            knowledgeLoggerService.save(knowledge.getKnowledgeName(), knowledge.getKnowledgeType().getName(), LoggerStatus.DELETED);
             return true;
         }
         return false;
@@ -52,23 +53,38 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         if (knowledgeType != null){
             Knowledge knowledge = new Knowledge(knowledgeDto.getKnowledgeName(), knowledgeType);
             knowledgeRepo.save(knowledge);
-            knowledgeLoggerService.save(knowledge.getKnowledgeName(), knowledge.getKnowledgeType().getName(), LoggerStatus.CREATED);
+            saveCreatedKnowledgeToLogs(knowledge.getKnowledgeName(), knowledge.getKnowledgeType().getName());
             return knowledge;
         }
         return null;
     }
 
     @Override
-    public Knowledge update(Long id, String name) {
-        Knowledge knowledge = knowledgeById(id);
+    public Knowledge update(KnowledgeUpdateDto knowledgeUpdateDto) {
+        Knowledge knowledge = knowledgeById(knowledgeUpdateDto.getId());
         if (knowledge != null){
             String before = knowledge.getKnowledgeName();
-            knowledge.setKnowledgeName(name);
+            knowledge.setKnowledgeName(knowledgeUpdateDto.getKnowledgeName());
             knowledgeRepo.save(knowledge);
-            knowledgeLoggerService.saveUpdate(before, knowledge.getKnowledgeName(), knowledge.getKnowledgeType().getName());
+            saveUpdatedKnowledgeToLogs(before, knowledge.getKnowledgeName(), knowledge.getKnowledgeType().getName());
             return knowledge;
         }
         return null;
+    }
+
+    @Override
+    public void saveCreatedKnowledgeToLogs(String knowledge, String knowledgeType) {
+        knowledgeLoggerService.save(knowledge, knowledgeType, LoggerStatus.CREATED);
+    }
+
+    @Override
+    public void saveDeletedKnowledgeToLogs(String knowledge, String knowledgeType) {
+        knowledgeLoggerService.save(knowledge, knowledgeType, LoggerStatus.DELETED);
+    }
+
+    @Override
+    public void saveUpdatedKnowledgeToLogs(String before, String knowledge, String knowledgeType) {
+        knowledgeLoggerService.saveUpdate(before, knowledge, knowledgeType);
     }
 
 }

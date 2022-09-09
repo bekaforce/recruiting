@@ -11,4 +11,7 @@ public interface KnowledgeTypeService {
     KnowledgeType update(Long id, String name);
     KnowledgeType knowledgeTypeById(Long id);
     List<KnowledgeType> allByCandidateType(Long candidateType);
+    void saveCreatedKnowledgeTypeToLogs(String knowledgeType, String candidateType);
+    void saveDeletedKnowledgeTypeToLogs(String knowledgeType, String candidateType);
+    void saveUpdatedKnowledgeTypeToLogs(String before, String knowledge, String candidateType);
 }

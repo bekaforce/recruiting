@@ -40,7 +40,7 @@ public class CandidateController {
 
     @PutMapping("/comment/{id}")
     public ResponseEntity<?> comment(@PathVariable(value = "id") Long id, @RequestParam String comment){
-        String response = candidateService.comment(id, comment);
+        String response = candidateService.setComment(id, comment);
         return response != null && !response.isEmpty()
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
@@ -59,6 +59,14 @@ public class CandidateController {
         LocalDate response = candidateService.setInvitationDate(invitationDate, id);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
+                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/setGender/{id}")
+    public ResponseEntity<?> setGender(@PathVariable(value = "id") Long id, @RequestParam String gender){
+        boolean response = candidateService.setGender(id, gender);
+        return response
+                ? new ResponseEntity<>(true, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 }

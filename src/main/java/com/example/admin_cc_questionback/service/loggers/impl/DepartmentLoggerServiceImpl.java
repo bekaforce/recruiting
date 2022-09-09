@@ -1,5 +1,6 @@
-package com.example.admin_cc_questionback.service.impl.loggers;
+package com.example.admin_cc_questionback.service.loggers.impl;
 
+import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.entities.loggers.DepartmentLogger;
 import com.example.admin_cc_questionback.repository.loggers.DepartmentLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.DepartmentLoggerService;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentLoggerServiceImpl implements DepartmentLoggerService {
@@ -20,14 +23,14 @@ public class DepartmentLoggerServiceImpl implements DepartmentLoggerService {
 
     @Override
     public List<DepartmentLogger> all() {
-        return departmentLoggerRepo.findAll();
+        return departmentLoggerRepo.findAll().stream().sorted(Comparator.comparingLong(DepartmentLogger::getId).reversed()).collect(Collectors.toList());
     }
 
     @Override
-    public DepartmentLogger logger(String before, String after, String status, String entity) {
+    public DepartmentLogger save(String before, String after, String status, String entity) {
         DepartmentLogger departmentLogger = new DepartmentLogger();
         departmentLogger.setLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        departmentLogger.setLocalDateTime(LocalDateTime.now(ZoneId.of(LoggerService.bishkek)));
+        departmentLogger.setDateTime(LocalDateTime.now(ZoneId.of(LoggerService.bishkek)));
         departmentLogger.setBefore(before);
         departmentLogger.setAfter(after);
         departmentLogger.setStatus(status);

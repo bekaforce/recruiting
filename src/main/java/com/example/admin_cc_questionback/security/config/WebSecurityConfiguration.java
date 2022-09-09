@@ -149,8 +149,8 @@ public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-ui/**",
                 // other public endpoints of your API may be appended to this array
                 "/profile",
-                "/api/candidate/save",
-                "/api/**"
+                //"/api/candidate/save",
+                "/api/video/download/**"
         };
 
         httpSecurity

@@ -2,7 +2,7 @@ package com.example.admin_cc_questionback.entities.candidate;
 
 import com.example.admin_cc_questionback.entities.interview.Test;
 import com.example.admin_cc_questionback.entities.interview.VideoResult;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "candidate", schema = "vcv")
 public class Candidate {
     @Id
@@ -18,6 +21,7 @@ public class Candidate {
     @SequenceGenerator(name = "candidate_seq", initialValue = 1, allocationSize = 1, sequenceName = "candidate_id_seq")
     private Long id;
     private String name;
+    private String surname;
     private String phoneNumber;
     private String email;
     private String citizenship;
@@ -43,4 +47,5 @@ public class Candidate {
     private List<Questionnaire> questionnaire;
     private LocalDate invitationDate;
     private String stage;
+    private String gender;
 }

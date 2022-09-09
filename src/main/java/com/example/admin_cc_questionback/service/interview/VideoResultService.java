@@ -16,6 +16,6 @@ public interface VideoResultService {
     boolean deleteFileById(Long id);
     boolean deleteFileByName(String filename);
     ResponseEntity<byte[]> download(Long id) throws IOException;
-    ResponseEntity<byte[]> downloadById(Long id, String candidateName, String fileName, String question) throws IOException;
+    ResponseEntity<byte[]> downloadById(String fileName) throws IOException;
     List<File> all();
 }

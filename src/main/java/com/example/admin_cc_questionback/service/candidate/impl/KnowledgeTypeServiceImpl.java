@@ -5,9 +5,8 @@ import com.example.admin_cc_questionback.entities.candidate.KnowledgeType;
 import com.example.admin_cc_questionback.entities.dtos.KnowledgeTypeDto;
 import com.example.admin_cc_questionback.repository.candidate.KnowledgeTypeRepo;
 import com.example.admin_cc_questionback.service.candidate.KnowledgeTypeService;
-import com.example.admin_cc_questionback.service.candidate.impl.CandidateTypeServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.KnowledgeTypeLoggerServiceImpl;
-import com.example.admin_cc_questionback.service.impl.loggers.LoggerStatus;
+import com.example.admin_cc_questionback.service.loggers.impl.KnowledgeTypeLoggerServiceImpl;
+import com.example.admin_cc_questionback.service.loggers.impl.LoggerStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class KnowledgeTypeServiceImpl implements KnowledgeTypeService {
         if (candidateType != null){
             KnowledgeType knowledgeType = new KnowledgeType(knowledgeTypeDto.getName(), candidateType);
             knowledgeTypeRepo.save(knowledgeType);
-            knowledgeTypeLoggerService.save(knowledgeType.getName(), knowledgeType.getCandidateType().getCandidateType(), LoggerStatus.CREATED);
+            saveCreatedKnowledgeTypeToLogs(knowledgeType.getName(), knowledgeType.getCandidateType().getCandidateType());
             return knowledgeType;
         }
         return null;
@@ -40,8 +39,8 @@ public class KnowledgeTypeServiceImpl implements KnowledgeTypeService {
     public boolean delete(Long id) {
         KnowledgeType knowledgeType = knowledgeTypeById(id);
         if (knowledgeType != null){
+            saveDeletedKnowledgeTypeToLogs(knowledgeType.getName(), knowledgeType.getCandidateType().getCandidateType());
             knowledgeTypeRepo.deleteById(id);
-            knowledgeTypeLoggerService.save(knowledgeType.getName(), knowledgeType.getCandidateType().getCandidateType(), LoggerStatus.DELETED);
             return true;
         }
         return false;
@@ -54,7 +53,7 @@ public class KnowledgeTypeServiceImpl implements KnowledgeTypeService {
             String before = knowledgeType.getName();
             knowledgeType.setName(name);
             knowledgeTypeRepo.save(knowledgeType);
-            knowledgeTypeLoggerService.saveUpdate(before, name, knowledgeType.getCandidateType().getCandidateType());
+            saveUpdatedKnowledgeTypeToLogs(before, knowledgeType.getName(), knowledgeType.getCandidateType().getCandidateType());
             return knowledgeType;
         }
         return null;
@@ -68,5 +67,20 @@ public class KnowledgeTypeServiceImpl implements KnowledgeTypeService {
     @Override
     public List<KnowledgeType> allByCandidateType(Long candidateType) {
         return knowledgeTypeRepo.findAllByCandidateType_Id(candidateType);
+    }
+
+    @Override
+    public void saveCreatedKnowledgeTypeToLogs(String knowledgeType, String candidateType) {
+        knowledgeTypeLoggerService.save(knowledgeType, candidateType, LoggerStatus.CREATED);
+    }
+
+    @Override
+    public void saveDeletedKnowledgeTypeToLogs(String knowledgeType, String candidateType) {
+        knowledgeTypeLoggerService.save(knowledgeType, candidateType, LoggerStatus.DELETED);
+    }
+
+    @Override
+    public void saveUpdatedKnowledgeTypeToLogs(String before, String knowledge, String candidateType) {
+        knowledgeTypeLoggerService.saveUpdate(before, knowledge, candidateType);
     }
 }

@@ -35,17 +35,9 @@ public class MessageController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestParam String text){
-        Message response = messageService.save(text);
-        return response != null
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
-    }
-
     @PutMapping("/update")
-    public ResponseEntity<?> updateMessage(@RequestBody Message message){
-        Message response = messageService.update(message);
+    public ResponseEntity<?> updateMessage(@RequestBody Message updatedMessage){
+        Message response = messageService.update(updatedMessage);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);

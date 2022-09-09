@@ -2,13 +2,16 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 
 import com.example.admin_cc_questionback.entities.dtos.CandidateDto;
 import com.example.admin_cc_questionback.entities.candidate.Candidate;
+import com.example.admin_cc_questionback.entities.interview.VideoResult;
 import com.example.admin_cc_questionback.repository.candidate.CandidateRepo;
 import com.example.admin_cc_questionback.service.candidate.CandidateService;
 import com.example.admin_cc_questionback.service.impl.ParticipantServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,7 +26,12 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate candidateById(Long id) {
-        return candidateRepo.findCandidateById(id);
+        Candidate candidate = candidateRepo.findCandidateById(id);
+        if (candidate != null){
+            List<VideoResult> videoResults = sortVideoResults(candidate.getVideoResults());
+            candidate.setVideoResults(videoResults);
+        }
+        return candidate;
     }
 
     @Override
@@ -32,7 +40,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public String comment(Long id, String comment) {
+    public String setComment(Long id, String comment) {
         Candidate candidate = candidateById(id);
         if (candidate != null){
             candidate.setComment(comment);
@@ -47,8 +55,9 @@ public class CandidateServiceImpl implements CandidateService {
         Candidate candidate = candidateById(id);
         if (candidate != null){
             candidate.setStatus(status);
+
+            participantService.save(candidate.getName(), candidate.getSurname(), candidate.getBirthday(), candidate.getEmail(), candidate.getAddress(), candidate.getCandidateType().getTeamType(), status, candidate.getPhoneNumber(), candidate.getCandidateType().getCity(), candidate.getInvitationDate(), candidate.getGender());
             candidateRepo.save(candidate);
-            participantService.save(candidate.getName(), candidate.getBirthday(), candidate.getEmail(), candidate.getAddress(), candidate.getCandidateType().getCandidateType(), status, candidate.getPhoneNumber());
             return status;
         }
         return null;
@@ -61,6 +70,25 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setInvitationDate(invitationDate);
             candidateRepo.save(candidate);
             return invitationDate;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setGender(Long id, String gender) {
+        Candidate candidate = candidateById(id);
+        if (candidate != null){
+            candidate.setGender(gender);
+            candidateRepo.save(candidate);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<VideoResult> sortVideoResults(List<VideoResult> videoResults) {
+        if (!videoResults.isEmpty()){
+            return videoResults.stream().sorted(Comparator.comparingLong(VideoResult::getId)).collect(Collectors.toList());
         }
         return null;
     }

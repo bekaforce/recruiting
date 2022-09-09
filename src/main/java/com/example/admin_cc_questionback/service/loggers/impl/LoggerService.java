@@ -1,4 +1,4 @@
-package com.example.admin_cc_questionback.service.impl.loggers;
+package com.example.admin_cc_questionback.service.loggers.impl;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

@@ -96,17 +96,15 @@ public class VideoResultServiceImpl implements VideoResultService {
     @Override
     public ResponseEntity<byte[]> download(Long id) throws IOException {
         VideoResult videoResult = videoResultRepo.getVideoResultById(id);
-        String candidateName = videoResult.getCandidate().getName();
         String fileName = videoResult.getVideoName();
-        String question = videoResult.getQuestion();
-        return downloadById(id, candidateName, fileName, question);
+        return downloadById(fileName);
     }
 
     @Override
-    public ResponseEntity<byte[]> downloadById(Long id, String candidateName, String fileName, String question) throws IOException {
+    public ResponseEntity<byte[]> downloadById(String fileName) throws IOException {
         ResponseEntity<byte[]> result;
         byte[] resource = sendFile(fileName);
-        ContentDisposition contentDisposition = ContentDisposition.builder("inline").filename(fileName + ".mp4").build();
+        ContentDisposition contentDisposition = ContentDisposition.builder("inline").filename(fileName + ".mp4").build(); //fileName + .mp4
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentDisposition(contentDisposition);
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);

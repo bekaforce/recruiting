@@ -31,7 +31,7 @@ public class HooliganServiceImpl implements HooliganService {
         Hooligan hooligan = hooliganRepo.findHooliganById(id);
         if (hooligan != null){
             hooligan.setName(hooligan.getName());
-            hooligan.setBirthday(hooligan.getBirthday());
+            hooligan.setBirthday(hooliganDto.getBirthday());
             hooligan.setReason(hooliganDto.getReason());
             hooliganRepo.save(hooligan);
             return hooligan;

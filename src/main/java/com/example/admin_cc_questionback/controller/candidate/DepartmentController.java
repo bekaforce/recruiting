@@ -37,7 +37,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id){
         boolean response = departmentService.delete(id);
         return response
                 ? new ResponseEntity<>("Department was removed by Id: " + id, HttpStatus.OK)
@@ -45,7 +45,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@RequestBody DepartmentDto departmentDto, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody DepartmentDto departmentDto, @PathVariable(value = "id") Long id){
         Department response = departmentService.update(departmentDto, id);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)

@@ -7,13 +7,14 @@ import com.example.admin_cc_questionback.entities.dtos.KnowledgeUpdateDto;
 import com.example.admin_cc_questionback.service.candidate.impl.KnowledgeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = Url.API + Url.KNOWLEDGE)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.KNOWLEDGE)
 public class KnowledgeController {
     private final KnowledgeServiceImpl knowledgeService;
 
@@ -21,12 +22,14 @@ public class KnowledgeController {
         this.knowledgeService = knowledgeService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @GetMapping("/all/{knowledge_type_id}")
     public ResponseEntity<?> allByKnowledgeType(@PathVariable(name = "knowledge_type_id") Long knowledgeType){
         List<Knowledge> response = knowledgeService.allByKnowledgeType(knowledgeType);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
         boolean response = knowledgeService.delete(id);
@@ -35,6 +38,7 @@ public class KnowledgeController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody KnowledgeDto knowledgeDto){
         Knowledge response = knowledgeService.save(knowledgeDto);
@@ -43,6 +47,7 @@ public class KnowledgeController {
                 : new ResponseEntity<>("Try Again", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody KnowledgeUpdateDto knowledgeUpdateDto){
         Knowledge response = knowledgeService.update(knowledgeUpdateDto);

@@ -36,8 +36,16 @@ public class QuestionServiceImpl implements QuestionService {
     public Question saveQuestionForVideo(QuestionVideoDto questionVideoDto) {
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionText(questionVideoDto.getQuestionText());
+        if (questionVideoDto.getSeconds() == null){
+            questionVideoDto.setSeconds(0L);
+        }
         questionDto.setCandidateType_id(questionVideoDto.getCandidateType_id());
-        return save(QuestionType.VIDEO.toString(), questionDto, questionVideoDto.getSeconds() * 1000);
+        Question question = save(QuestionType.VIDEO.toString(), questionDto, questionVideoDto.getSeconds() * 1000);
+        if (question != null){
+            question.setMilliseconds(questionVideoDto.getSeconds());
+            return question;
+        }
+        return null;
     }
 
     @Override

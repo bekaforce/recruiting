@@ -14,13 +14,14 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = Url.API + Url.FEEDBACK)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.FEEDBACK)
 public class FeedbackController {
     private final FeedbackServiceImpl feedbackService;
 
     public FeedbackController(FeedbackServiceImpl feedbackService) {
         this.feedbackService = feedbackService;
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<?> all(){

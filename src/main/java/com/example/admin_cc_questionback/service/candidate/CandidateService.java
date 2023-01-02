@@ -10,6 +10,8 @@ import java.util.List;
 public interface CandidateService {
     Candidate candidateById(Long id);
     List<CandidateDto> all(Long candidateType_id);
+    List<CandidateDto> allFailed(Long candidateType_id);
+    List<CandidateDto> allOnVideo(Long candidateType_id);
     String setComment(Long id, String comment);
     String setStatus(String status, Long id);
     LocalDate setInvitationDate(LocalDate invitationDate, Long id);

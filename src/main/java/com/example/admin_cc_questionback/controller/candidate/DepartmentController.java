@@ -6,13 +6,14 @@ import com.example.admin_cc_questionback.entities.dtos.DepartmentDto;
 import com.example.admin_cc_questionback.service.candidate.impl.DepartmentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.API + Url.DEPARTMENT)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.DEPARTMENT)
 public class DepartmentController {
     private final DepartmentServiceImpl departmentService;
 
@@ -20,6 +21,7 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody DepartmentDto departmentDto){
         Department response = departmentService.save(departmentDto);
@@ -28,6 +30,7 @@ public class DepartmentController {
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @GetMapping("/all")
     public ResponseEntity<?> all(){
         List<Department> response = departmentService.all();
@@ -36,6 +39,7 @@ public class DepartmentController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id){
         boolean response = departmentService.delete(id);
@@ -44,6 +48,7 @@ public class DepartmentController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody DepartmentDto departmentDto, @PathVariable(value = "id") Long id){
         Department response = departmentService.update(departmentDto, id);

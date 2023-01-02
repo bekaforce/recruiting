@@ -68,6 +68,7 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
             candidateType.setTeamType(candidateTypeDto.getTeamType());
+            candidateType.setCity(candidateTypeDto.getCity());
             candidateTypeRepo.save(candidateType);
             return candidateType;
         }

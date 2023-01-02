@@ -16,4 +16,11 @@ public interface CandidateRepo extends JpaRepository<Candidate, Long> {
 
     @Query(value = "SELECT c.id , c.name, c.surname, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'completed' order by c.id desc", nativeQuery = true)
     List<CandidateDto> all(@Param("candidate_type_id") Long candidate_type_id);
+
+    @Query(value = "SELECT c.id , c.name, c.surname, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'failed' order by c.id desc", nativeQuery = true)
+    List<CandidateDto> allFailed(@Param("candidate_type_id") Long candidate_type_id);
+
+    @Query(value = "SELECT c.id , c.name, c.surname, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'video' order by c.id desc", nativeQuery = true)
+    List<CandidateDto> allOnVideo(@Param("candidate_type_id") Long candidate_type_id);
+
 }

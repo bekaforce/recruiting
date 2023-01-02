@@ -7,11 +7,12 @@ import com.example.admin_cc_questionback.entities.dtos.LevelUpdateDto;
 import com.example.admin_cc_questionback.service.candidate.impl.LevelServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = Url.API + Url.LEVEL)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.LEVEL)
 public class LevelController {
     private final LevelServiceImpl levelService;
 
@@ -19,6 +20,7 @@ public class LevelController {
         this.levelService = levelService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody LevelDto levelDto){
         Level response = levelService.save(levelDto);
@@ -27,6 +29,7 @@ public class LevelController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
         boolean response = levelService.delete(id);
@@ -35,6 +38,7 @@ public class LevelController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody LevelUpdateDto levelUpdateDto){
         Level response = levelService.update(levelUpdateDto);

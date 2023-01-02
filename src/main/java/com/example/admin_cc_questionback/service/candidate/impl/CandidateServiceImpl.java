@@ -40,6 +40,16 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    public List<CandidateDto> allFailed(Long candidateType_id) {
+        return candidateRepo.allFailed(candidateType_id);
+    }
+
+    @Override
+    public List<CandidateDto> allOnVideo(Long candidateType_id) {
+        return candidateRepo.allOnVideo(candidateType_id);
+    }
+
+    @Override
     public String setComment(Long id, String comment) {
         Candidate candidate = candidateById(id);
         if (candidate != null){

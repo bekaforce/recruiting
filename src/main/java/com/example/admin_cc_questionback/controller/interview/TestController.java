@@ -4,11 +4,12 @@ import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.service.interview.impl.TestServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.API + Url.TEST)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.TEST)
 public class TestController {
     private final TestServiceImpl testService;
 
@@ -16,6 +17,7 @@ public class TestController {
         this.testService = testService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @GetMapping(value = "/percentage/{candidate_id}")
     public ResponseEntity<?> percentage(@PathVariable(value = "candidate_id") Long candidate_id) {
         Long response = testService.percentage(candidate_id);

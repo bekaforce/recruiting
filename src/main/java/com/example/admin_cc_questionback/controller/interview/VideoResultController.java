@@ -2,10 +2,9 @@ package com.example.admin_cc_questionback.controller.interview;
 
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.service.interview.impl.VideoResultServiceImpl;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.API + Url.VIDEO)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.VIDEO)
 public class VideoResultController {
     private final VideoResultServiceImpl videoResultService;
 
@@ -24,6 +23,7 @@ public class VideoResultController {
         this.videoResultService = videoResultService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping ("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
         boolean response = videoResultService.delete(id);
@@ -41,6 +41,7 @@ public class VideoResultController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping ("/comment/{id}")
     public ResponseEntity<?> comment(@PathVariable(value = "id") Long id, @RequestParam String comment){
         String response = videoResultService.comment(comment, id);
@@ -49,7 +50,7 @@ public class VideoResultController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
-
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/deleteFileById/{id}")
     public ResponseEntity<?> deleteFileById(@PathVariable(value = "id") Long id){
         boolean response = videoResultService.deleteFileById(id);
@@ -58,6 +59,8 @@ public class VideoResultController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
+
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/deleteFileByName")
     public ResponseEntity<?> deleteFileByName(@RequestParam String filename){
         boolean response = videoResultService.deleteFileByName(filename);
@@ -66,6 +69,7 @@ public class VideoResultController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @GetMapping ("/all")
     public ResponseEntity<?> all(){
         List<File> response = videoResultService.all();

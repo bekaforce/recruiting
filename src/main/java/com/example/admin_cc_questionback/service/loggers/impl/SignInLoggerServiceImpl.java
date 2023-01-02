@@ -1,6 +1,5 @@
 package com.example.admin_cc_questionback.service.loggers.impl;
 
-import com.example.admin_cc_questionback.entities.loggers.QuestionLogger;
 import com.example.admin_cc_questionback.entities.loggers.SignInLogger;
 import com.example.admin_cc_questionback.repository.loggers.SignInLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.SignInLoggerService;
@@ -13,13 +12,19 @@ import java.util.stream.Collectors;
 @Service
 public class SignInLoggerServiceImpl implements SignInLoggerService {
     private final SignInLoggerRepo signInLoggerRepo;
+    private final LoggerService loggerService;
 
-    public SignInLoggerServiceImpl(SignInLoggerRepo signInLoggerRepo) {
+    public SignInLoggerServiceImpl(SignInLoggerRepo signInLoggerRepo, LoggerService loggerService) {
         this.signInLoggerRepo = signInLoggerRepo;
+        this.loggerService = loggerService;
     }
 
     @Override
-    public void save(SignInLogger signInLogger) {
+    public void save(String username) {
+        SignInLogger signInLogger = new SignInLogger();
+        signInLogger.setLogin(username);
+        signInLogger.setDateTime(loggerService.bishkekNow());
+        signInLogger.setAction("Вход");
         signInLoggerRepo.save(signInLogger);
     }
 

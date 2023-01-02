@@ -7,13 +7,14 @@ import com.example.admin_cc_questionback.entities.dtos.CandidateTypeUpdateDto;
 import com.example.admin_cc_questionback.service.candidate.impl.CandidateTypeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.API + Url.CANDIDATETYPE)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.CANDIDATETYPE)
 public class CandidateTypeController {
     private final CandidateTypeServiceImpl candidateTypeService;
 
@@ -21,6 +22,7 @@ public class CandidateTypeController {
         this.candidateTypeService = candidateTypeService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody CandidateTypeDto candidateType){
         CandidateType response = candidateTypeService.save(candidateType);
@@ -37,6 +39,7 @@ public class CandidateTypeController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         boolean response = candidateTypeService.delete(id);
@@ -45,6 +48,7 @@ public class CandidateTypeController {
                 : new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody CandidateTypeUpdateDto candidateTypeDto, @PathVariable Long id){
         CandidateType response = candidateTypeService.update(candidateTypeDto, id);

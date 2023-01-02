@@ -8,13 +8,14 @@ import com.example.admin_cc_questionback.entities.dtos.QuestionUpdateDto;
 import com.example.admin_cc_questionback.service.interview.impl.QuestionServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = Url.API + Url.QUESTION)
+@RequestMapping(value = Url.ADMIN + Url.API + Url.QUESTION)
 public class QuestionController {
     private final QuestionServiceImpl questionService;
 
@@ -22,6 +23,7 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping("/saveToTest")
     public ResponseEntity<?> saveForTest(@RequestBody QuestionDto question){
         Question response = questionService.saveQuestionForTest(question);
@@ -30,6 +32,7 @@ public class QuestionController {
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping("/saveToVideo")
     public ResponseEntity<?> saveForVideo(@RequestBody QuestionVideoDto questionVideoDto){
         Question response = questionService.saveQuestionForVideo(questionVideoDto);
@@ -38,6 +41,7 @@ public class QuestionController {
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/deleteFromTest")
     public ResponseEntity<?> deleteForTestById(@RequestParam Long question_id){
         boolean response = questionService.deleteQuestionForTest(question_id);
@@ -46,6 +50,7 @@ public class QuestionController {
                 : new ResponseEntity<>("Question was not found by id: " + question_id, HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @DeleteMapping("/deleteFromVideo")
     public ResponseEntity<?> deleteForVideoById(@RequestParam Long question_id){
         boolean response = questionService.deleteQuestionForVideo(question_id);
@@ -54,6 +59,7 @@ public class QuestionController {
                 : new ResponseEntity<>("Question was not found by id: " + question_id, HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin', 'APP_Recruiting_Obuchenie')")
     @GetMapping("/questionsForTest/{candidateType_id}")
     public ResponseEntity<?> questionsForTest(@PathVariable(name = "candidateType_id") Long candidateType_id){
         List<Question> response = questionService.getQuestionsForTest(candidateType_id);
@@ -61,12 +67,14 @@ public class QuestionController {
     }
 
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin', 'APP_Recruiting_Obuchenie')")
     @GetMapping("/questionsForVideo/{candidateType_id}")
     public ResponseEntity<?> questionsForVideo(@PathVariable(name = "candidateType_id") Long candidateType_id){
         List<Question> response = questionService.getQuestionsForVideo(candidateType_id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") Long id, @RequestBody QuestionUpdateDto questionUpdateDto){
         Question response = questionService.update(questionUpdateDto, id);

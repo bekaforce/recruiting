@@ -4,11 +4,10 @@ import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.security.JwtUtils;
 import com.example.admin_cc_questionback.security.model.AuthenticationRequest;
 import com.example.admin_cc_questionback.security.model.AuthenticationResponse;
+import com.example.admin_cc_questionback.service.loggers.impl.SignInLoggerServiceImpl;
 import com.nimbusds.jose.JOSEException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,14 +27,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "auth")
+@RequestMapping(value = Url.ADMIN + "/auth")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
+    private final SignInLoggerServiceImpl signInLoggerService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager) {
+    public AuthenticationController(AuthenticationManager authenticationManager, SignInLoggerServiceImpl signInLoggerService) {
         this.authenticationManager = authenticationManager;
+        this.signInLoggerService = signInLoggerService;
     }
 
 
@@ -55,7 +56,7 @@ public class AuthenticationController {
         int expirationInMinutes = 8 * 60;
 
         String token = JwtUtils.generateHMACToken(username, authentication.getAuthorities(), secret, expirationInMinutes);
-
+        signInLoggerService.save(username);
         // Return the token
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }

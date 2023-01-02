@@ -75,7 +75,7 @@ public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         class MyLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator {
 
             private final String[] GROUP_ATTRIBUTE = {"cn"};
-            private final String REQUIRED_GROUP = "APP_SmartCare";
+            private final String REQUIRED_GROUP = "APP_Recruiting";
             private final SpringSecurityLdapTemplate ldapTemplate;
 
             private MyLdapAuthoritiesPopulator(ContextSource contextSource) {
@@ -135,9 +135,9 @@ public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         String secret = IOUtils.toString(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("secret.key")), Charset.defaultCharset());
 
         String[] AUTH_WHITELIST = {
-                "/auth/**",
+                "/admin/auth/**",
                 // -- Swagger UI v2
-                "/v2/api-docs",
+                //"/v2/api-docs",
                 "/swagger-resources",
                 "/swagger-resources/**",
                 "/configuration/ui",
@@ -150,13 +150,13 @@ public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // other public endpoints of your API may be appended to this array
                 "/profile",
                 //"/api/candidate/save",
-                "/api/video/download/**"
+                "/admin/api/video/download/**"
         };
 
         httpSecurity
                 .csrf().disable()
                 .cors().disable()
-                .addFilterAfter(jwtTokenAuthenticationFilter("/api/**", secret), ExceptionTranslationFilter.class)
+                .addFilterAfter(jwtTokenAuthenticationFilter("/admin/api/**", secret), ExceptionTranslationFilter.class)
                 .addFilterAfter(corsFilter(), ExceptionTranslationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())

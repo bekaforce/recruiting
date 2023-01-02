@@ -27,6 +27,8 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate save(CandidateDto candidateDto) {
+        CandidateType candidateType = candidateTypeService.candidateTypeById(candidateDto.getCandidateType_id());
+        if (candidateType != null) {
             LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bishkek"));
             Candidate candidate = new Candidate();
             candidate.setName(candidateDto.getName());
@@ -41,7 +43,6 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setSchedule(candidateDto.getSchedule());
             candidate.setRegistrationDate(now);
             candidate.setComment(null);
-            CandidateType candidateType = candidateTypeService.candidateTypeById(candidateDto.getCandidateType_id());
             candidate.setCandidateType(candidateType);
             candidate.setStatus(setStatus(candidateDto.getName(), candidateDto.getBirthday()));
             candidate.setQuestionnaire(candidateDto.getQuestionnaireList());
@@ -49,6 +50,8 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setGender(null);
             candidate.setStage("testing");
             return candidateRepo.save(candidate);
+        }
+        return null;
     }
 
     @Override
@@ -90,7 +93,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public boolean expiration(LocalDateTime registration_date) {
-        long daysToExpire = 1L;
+        long daysToExpire = 2L;
         LocalDateTime expirationDate = registration_date.plusDays(daysToExpire);
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bishkek"));
         return now.compareTo(expirationDate) > 0;

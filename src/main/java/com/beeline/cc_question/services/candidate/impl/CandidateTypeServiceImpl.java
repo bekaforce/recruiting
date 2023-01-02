@@ -32,6 +32,11 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
     }
 
     @Override
+    public List<CandidateType> allActiveAndInternal() {
+        return candidateTypeRepo.allActiveAndInternal();
+    }
+
+    @Override
     public CandidateTypeDto nameById(Long id) {
         return new CandidateTypeDto(candidateTypeById(id).getCandidateType());
     }

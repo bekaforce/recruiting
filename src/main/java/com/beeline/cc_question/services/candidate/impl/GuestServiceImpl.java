@@ -28,19 +28,25 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public Candidate add(CandidateDto candidateDto) {
         String password = String.valueOf(generateDigits());
-            if (sendMessage(candidateDto.getName(), candidateDto.getEmail(), password)){
-                String encoded = passwordEncoder.encode(password);
-                userService.register(candidateDto.getEmail(), candidateDto.getPhoneNumber(), encoded);
-                return candidateService.save(candidateDto);
-            }
-            else {
-                return null;
-            }
+        Candidate candidate = candidateService.save(candidateDto);
+        if (candidate != null) {
+            String encoded = passwordEncoder.encode(password);
+            userService.register(candidateDto.getEmail(), candidateDto.getPhoneNumber(), encoded);
+            sendMessage(candidateDto.getName(), candidateDto.getEmail(), password);
+            return candidate;
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public boolean sendMessage(String name, String email, String password){
-        return messageService.sendEmail(name, email, password);
+    public boolean sendMessage(String name, String email, String password) {
+        try {
+            return messageService.sendEmail(name, email, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

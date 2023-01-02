@@ -15,4 +15,7 @@ public interface CandidateTypeRepo extends JpaRepository<CandidateType, Long> {
 
     @Query(value = "select * from vcv.candidate_type ct where ct.active = true and ct.internal = false", nativeQuery = true)
     List<CandidateType> allActiveAndExternal();
+
+    @Query(value = "select * from vcv.candidate_type ct where ct.active = true and ct.internal = true", nativeQuery = true)
+    List<CandidateType> allActiveAndInternal();
 }

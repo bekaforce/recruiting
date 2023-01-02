@@ -34,6 +34,12 @@ public class CandidateTypeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/allActiveAndInternal")
+    public ResponseEntity<?> allActiveAndInternal(){
+        List<CandidateType> response = candidateTypeService.allActiveAndInternal();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("nameById/{id}")
     public ResponseEntity<?> nameById(@PathVariable(value = "id") Long id){
         CandidateTypeDto response = candidateTypeService.nameById(id);

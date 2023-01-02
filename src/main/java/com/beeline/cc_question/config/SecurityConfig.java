@@ -9,8 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -40,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             //
-            "/swagger-ui/**",
+            //"/swagger-ui/**",
             // other public endpoints of your API may be appended to this array
             "/profile",
             "/api/candidate/**",
@@ -48,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/candidatetype/**",
             "/api/knowledgetype/**",
             //"/api/question/**",
-            "/api/test/**"
+            //"/api/test/**"
     };
 
     @Override

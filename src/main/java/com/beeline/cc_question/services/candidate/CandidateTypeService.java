@@ -9,5 +9,6 @@ public interface CandidateTypeService {
     List<CandidateType> all();
     CandidateType candidateTypeById(Long id);
     List<CandidateType> allActiveAndExternal();
+    List<CandidateType> allActiveAndInternal();
     CandidateTypeDto nameById(Long id);
 }

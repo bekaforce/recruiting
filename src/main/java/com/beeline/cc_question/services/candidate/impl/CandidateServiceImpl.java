@@ -35,7 +35,6 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setSurname(candidateDto.getSurname());
             candidate.setPhoneNumber(candidateDto.getPhoneNumber());
             candidate.setEmail(candidateDto.getEmail());
-            candidate.setCitizenship(candidateDto.getCitizenship());
             candidate.setBirthday(candidateDto.getBirthday());
             candidate.setAddress(candidateDto.getAddress());
             candidate.setEducation(candidateDto.getEducation());
@@ -44,7 +43,7 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setRegistrationDate(now);
             candidate.setComment(null);
             candidate.setCandidateType(candidateType);
-            candidate.setStatus(setStatus(candidateDto.getName(), candidateDto.getBirthday()));
+            candidate.setStatus(checkCandidate(candidateDto.getName(), candidate.getSurname(), candidateDto.getBirthday()));
             candidate.setQuestionnaire(candidateDto.getQuestionnaireList());
             candidate.setInvitationDate(null);
             candidate.setGender(null);
@@ -66,8 +65,8 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public String setStatus(String name, LocalDate birthday) {
-       if (hooliganService.checkCandidate(name, birthday)){
+    public String checkCandidate(String name, String surname, LocalDate birthday) {
+       if (hooliganService.isCandidateHooligan(name, surname, birthday)){
            return "В черном списке";
        }
        else {

@@ -22,15 +22,12 @@ public class HooliganServiceImpl implements HooliganService {
     }
 
     @Override
-    public boolean checkCandidate(String name, LocalDate date) {
+    public boolean isCandidateHooligan(String name, String surname, LocalDate dateOfBirth) {
         List<Hooligan> hooligans = all();
-        String[] array = name.split(" ");
         for (Hooligan hooligan : hooligans){
-            for (String part : array){
-                if (hooligan.getName().toLowerCase().contains(part.toLowerCase()) && hooligan.getBirthday().isEqual(date)){
+                if (hooligan.getName().equalsIgnoreCase(name) && hooligan.getSurname().equalsIgnoreCase(surname) && hooligan.getBirthday().isEqual(dateOfBirth)){
                     return true;
                 }
-            }
         }
         return false;
     }

@@ -61,7 +61,7 @@ public class VideoResultServiceImpl implements VideoResultService {
     @Override
     public VideoResult save(VideoResult videoResult) {
         Long candidateType_id = videoResult.getCandidate().getCandidateType().getId();
-        Long maxPosition = questionService.maxPosition(QuestionType.VIDEO.toString(), candidateType_id);
+        Long maxPosition = questionService.maxPosition(QuestionType.INTERVIEW.toString(), candidateType_id);
         if (videoResult.getPosition() >= maxPosition){
             candidateService.setStage(videoResult.getCandidate(), "completed");
         }

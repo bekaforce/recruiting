@@ -1,7 +1,7 @@
 package com.beeline.cc_question.entities.interview;
 
 public enum QuestionType {
-    TEST("TEST"), VIDEO("VIDEO");
+    TEST("TEST"), INTERVIEW("INTERVIEW"), VIDEO("VIDEO"), ESSAY("ESSAY");
 
    private final String type;
    QuestionType(String type) {

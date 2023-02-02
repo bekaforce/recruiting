@@ -34,7 +34,7 @@ public class CandidateController {
     }
 
     @GetMapping("/success/{candidate_id}")
-    public ResponseEntity<?> all(@PathVariable(name = "candidate_id") Long candidate_id){
+    public ResponseEntity<?> success(@PathVariable(name = "candidate_id") Long candidate_id){
         SuccessDto success = guestService.success(candidate_id);
         return success != null
                 ? new ResponseEntity<>(success, HttpStatus.OK)

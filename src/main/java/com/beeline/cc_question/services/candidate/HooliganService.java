@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface HooliganService {
     List<Hooligan> all();
-    boolean checkCandidate(String name, LocalDate date);
+    boolean isCandidateHooligan(String name, String surname, LocalDate dateOfBirth);
 }

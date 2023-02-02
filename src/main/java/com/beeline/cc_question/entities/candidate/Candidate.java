@@ -1,5 +1,6 @@
 package com.beeline.cc_question.entities.candidate;
 
+import com.beeline.cc_question.entities.interview.Essay;
 import com.beeline.cc_question.entities.interview.Test;
 import com.beeline.cc_question.entities.interview.VideoResult;
 import lombok.Data;
@@ -21,7 +22,6 @@ public class Candidate {
     private String surname;
     private String phoneNumber;
     private String email;
-    private String citizenship;
     private LocalDate birthday;
     private String address;
     @OneToOne(cascade = CascadeType.ALL)
@@ -32,6 +32,8 @@ public class Candidate {
     private LocalDateTime registrationDate;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<VideoResult> videoResults;
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
+    private List<Essay> essays;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<Test> tests;
     @ManyToOne()

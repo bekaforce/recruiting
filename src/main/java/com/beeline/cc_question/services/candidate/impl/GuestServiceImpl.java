@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GuestServiceImpl implements GuestService {
+    private final EmailSenderServiceImpl emailSenderService;
     private final MessageServiceImpl messageService;
     private final UserServiceImpl userService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final CandidateServiceImpl candidateService;
 
-    public GuestServiceImpl(MessageServiceImpl messageService, UserServiceImpl userService, BCryptPasswordEncoder passwordEncoder, CandidateServiceImpl candidateService) {
+    public GuestServiceImpl(EmailSenderServiceImpl emailSenderService, MessageServiceImpl messageService, UserServiceImpl userService, BCryptPasswordEncoder passwordEncoder, CandidateServiceImpl candidateService) {
+        this.emailSenderService = emailSenderService;
         this.messageService = messageService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -42,7 +44,7 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public boolean sendMessage(String name, String email, String password) {
         try {
-            return messageService.sendEmail(name, email, password);
+            return emailSenderService.sendEmail(name, email, password);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

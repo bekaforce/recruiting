@@ -17,7 +17,7 @@ public class Department {
     private String name;
     @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private List<CandidateType> candidateTypes;
+    private List<TeamType> teamTypes;
 
     public Department(String name) {
         this.name = name;

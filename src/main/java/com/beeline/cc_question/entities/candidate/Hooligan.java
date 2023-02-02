@@ -15,6 +15,7 @@ public class Hooligan {
     @SequenceGenerator(name = "hooligan_seq", initialValue = 1, allocationSize = 1, sequenceName = "hooligan_id_seq")
     private Long id;
     private String name;
+    private String surname;
     private LocalDate birthday;
     private String reason;
 }

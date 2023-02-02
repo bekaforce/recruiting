@@ -29,7 +29,6 @@ public class CandidateType {
     private List<Candidate> candidates;
     private boolean active;
     @ManyToOne()
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
-    private Department department;
-    private String teamType;
+    @JoinColumn(name = "teamType_id", referencedColumnName = "id")
+    private TeamType teamType;
 }

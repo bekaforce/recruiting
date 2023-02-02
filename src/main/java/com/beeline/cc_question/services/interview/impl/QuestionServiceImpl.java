@@ -23,8 +23,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> questionsForVideo(Long candidateType_id) {
-        return questions(QuestionType.VIDEO.toString(), candidateType_id);
+    public List<Question> questionsForInterview(Long candidateType_id) {
+        return questions(QuestionType.INTERVIEW.toString(), candidateType_id);
     }
 
     @Override

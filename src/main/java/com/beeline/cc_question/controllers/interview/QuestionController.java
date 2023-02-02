@@ -25,9 +25,9 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/forVideo/{candidate_type_id}")
-    public ResponseEntity<?> questionsForVideo(@PathVariable(name = "candidate_type_id") Long candidateType_id){
-        List<Question> response = questionService.questionsForVideo(candidateType_id);
+    @GetMapping("/forInterview/{candidate_type_id}")
+    public ResponseEntity<?> questionsForInterview(@PathVariable(name = "candidate_type_id") Long candidateType_id){
+        List<Question> response = questionService.questionsForInterview(candidateType_id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

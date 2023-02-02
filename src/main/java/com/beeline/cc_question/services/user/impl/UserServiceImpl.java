@@ -5,6 +5,7 @@ import com.beeline.cc_question.entities.user.Role;
 import com.beeline.cc_question.entities.candidate.Status;
 import com.beeline.cc_question.entities.user.User;
 import com.beeline.cc_question.repos.user.UserRepo;
+import com.beeline.cc_question.services.interview.impl.EssayServiceImpl;
 import com.beeline.cc_question.services.interview.impl.VideoResultServiceImpl;
 import com.beeline.cc_question.services.user.UserService;
 import com.beeline.cc_question.services.candidate.impl.CandidateServiceImpl;
@@ -26,12 +27,14 @@ public class UserServiceImpl implements UserService {
     private final RoleServiceImpl roleService;
     private final CandidateServiceImpl candidateService;
     private final VideoResultServiceImpl videoResultService;
+    private final EssayServiceImpl essayService;
 
-    public UserServiceImpl(UserRepo userRepo, RoleServiceImpl roleService, CandidateServiceImpl candidateService, VideoResultServiceImpl videoResultService) {
+    public UserServiceImpl(UserRepo userRepo, RoleServiceImpl roleService, CandidateServiceImpl candidateService, VideoResultServiceImpl videoResultService, EssayServiceImpl essayService) {
         this.userRepo = userRepo;
         this.roleService = roleService;
         this.candidateService = candidateService;
         this.videoResultService = videoResultService;
+        this.essayService = essayService;
     }
 
 
@@ -84,6 +87,10 @@ public class UserServiceImpl implements UserService {
             }
             if (stage.contains("testing")){
                 response.put("index", 0);
+            }
+            if (stage.contains("essay")){
+                Long index = essayService.position(candidate.getId());
+                response.put("index", index);
             }
         return ResponseEntity.ok(response);
     }

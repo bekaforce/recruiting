@@ -11,6 +11,10 @@ public class Url {
     public final static String KNOWLEDGETYPE = "knowledgetype";
     public final static String API = "/api/";
     public final static String FEEDBACK = "feedback";
-
+    public final static String ESSAY = "essay";
+    public final static String CHOICE = "choice";
+    public final static String BETWEEN = "between";
+    public final static String ESSAYANDVIDEO = "/essayAndVideo";
+    public final static String ALL = "all";
 }
 

@@ -32,7 +32,7 @@ public class TestServiceImpl implements TestService {
                 Test test = new Test(testDto.getQuestion(), testDto.getAnswer(), candidate, now, testDto.isCorrect(), testDto.isKey());
                 testRepo.save(test);
             });
-            candidateService.setStage(candidate, "video");
+            candidateService.setStage(candidate, "choice");
             return stage(candidateId);
         }
         return null;

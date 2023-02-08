@@ -8,5 +8,4 @@ public class CandidateTypeUpdateDto {
     private boolean internal;
     private boolean active;
     private String city;
-    private String teamType;
 }

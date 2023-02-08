@@ -1,6 +1,5 @@
 package com.example.admin_cc_questionback.service.loggers.impl;
 
-import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.entities.loggers.DepartmentLogger;
 import com.example.admin_cc_questionback.repository.loggers.DepartmentLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.DepartmentLoggerService;
@@ -16,9 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class DepartmentLoggerServiceImpl implements DepartmentLoggerService {
     private final DepartmentLoggerRepo departmentLoggerRepo;
+    private final LoggerService loggerService;
 
-    public DepartmentLoggerServiceImpl(DepartmentLoggerRepo departmentLoggerRepo) {
+    public DepartmentLoggerServiceImpl(DepartmentLoggerRepo departmentLoggerRepo, LoggerService loggerService) {
         this.departmentLoggerRepo = departmentLoggerRepo;
+        this.loggerService = loggerService;
     }
 
     @Override
@@ -27,10 +28,10 @@ public class DepartmentLoggerServiceImpl implements DepartmentLoggerService {
     }
 
     @Override
-    public DepartmentLogger save(String before, String after, String status, String entity) {
+    public DepartmentLogger save(String before, String after, String status) {
         DepartmentLogger departmentLogger = new DepartmentLogger();
-        departmentLogger.setLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        departmentLogger.setDateTime(LocalDateTime.now(ZoneId.of(LoggerService.bishkek)));
+        departmentLogger.setLogin(loggerService.login());
+        departmentLogger.setDateTime(loggerService.bishkekNow());
         departmentLogger.setBefore(before);
         departmentLogger.setAfter(after);
         departmentLogger.setStatus(status);

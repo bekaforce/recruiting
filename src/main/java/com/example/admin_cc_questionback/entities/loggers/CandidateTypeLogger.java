@@ -16,7 +16,7 @@ public class CandidateTypeLogger {
     private String candidateType;
     private String internal;
     private String active;
-    private String department;
+    private String teamType;
     private LocalDateTime dateTime;
     private String status;
     private String login;

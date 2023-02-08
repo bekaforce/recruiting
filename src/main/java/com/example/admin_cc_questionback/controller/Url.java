@@ -17,4 +17,6 @@ public final static String HOOLIGAN = "hooligan";
 public final static String FEEDBACK = "feedback";
 public final static String SIGN_IN = "sign-in";
 public final static String ADMIN = "admin";
-        }
+public final static String ESSAY = "essay";
+public final static String TEAM_TYPE = "teamtype";
+}

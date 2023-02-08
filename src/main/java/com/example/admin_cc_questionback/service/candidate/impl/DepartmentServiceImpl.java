@@ -67,17 +67,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void saveUpdatedDepartmentToLogs(String before, String after) {
         if (!loggerService.beforeAndAfter(before, after)){
-            departmentLoggerService.save(before, after, LoggerStatus.UPDATED, after);
+            departmentLoggerService.save(before, after, LoggerStatus.UPDATED);
         }
     }
 
     @Override
     public void saveCreatedDepartmentToLogs(String name) {
-        departmentLoggerService.save(loggerService.empty, name, LoggerStatus.CREATED, name);
+        departmentLoggerService.save(loggerService.empty, name, LoggerStatus.CREATED);
     }
 
     @Override
     public void saveDeletedDepartmentToLogs(String name) {
-        departmentLoggerService.save(name, loggerService.empty, LoggerStatus.DELETED, name);
+        departmentLoggerService.save(name, loggerService.empty, LoggerStatus.DELETED);
     }
 }

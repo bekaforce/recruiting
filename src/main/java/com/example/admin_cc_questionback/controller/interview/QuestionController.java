@@ -2,7 +2,7 @@ package com.example.admin_cc_questionback.controller.interview;
 
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.entities.dtos.QuestionDto;
-import com.example.admin_cc_questionback.entities.dtos.QuestionVideoDto;
+import com.example.admin_cc_questionback.entities.dtos.QuestionInterviewDto;
 import com.example.admin_cc_questionback.entities.interview.Question;
 import com.example.admin_cc_questionback.entities.dtos.QuestionUpdateDto;
 import com.example.admin_cc_questionback.service.interview.impl.QuestionServiceImpl;
@@ -33,9 +33,9 @@ public class QuestionController {
     }
 
     @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
-    @PostMapping("/saveToVideo")
-    public ResponseEntity<?> saveForVideo(@RequestBody QuestionVideoDto questionVideoDto){
-        Question response = questionService.saveQuestionForVideo(questionVideoDto);
+    @PostMapping("/saveToInterview")
+    public ResponseEntity<?> saveForInterview(@RequestBody QuestionInterviewDto questionInterviewDto){
+        Question response = questionService.saveQuestionForInterview(questionInterviewDto);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
@@ -51,9 +51,9 @@ public class QuestionController {
     }
 
     @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
-    @DeleteMapping("/deleteFromVideo")
-    public ResponseEntity<?> deleteForVideoById(@RequestParam Long question_id){
-        boolean response = questionService.deleteQuestionForVideo(question_id);
+    @DeleteMapping("/deleteFromInterview")
+    public ResponseEntity<?> deleteForInterviewById(@RequestParam Long question_id){
+        boolean response = questionService.deleteQuestionForInterview(question_id);
         return response
                 ? new ResponseEntity<>("Question was deleted by id: " + question_id, HttpStatus.OK)
                 : new ResponseEntity<>("Question was not found by id: " + question_id, HttpStatus.NOT_FOUND);
@@ -68,9 +68,9 @@ public class QuestionController {
 
 
     @PreAuthorize("hasAnyRole('APP_Recruiting_Admin', 'APP_Recruiting_Obuchenie')")
-    @GetMapping("/questionsForVideo/{candidateType_id}")
-    public ResponseEntity<?> questionsForVideo(@PathVariable(name = "candidateType_id") Long candidateType_id){
-        List<Question> response = questionService.getQuestionsForVideo(candidateType_id);
+    @GetMapping("/questionsForInterview/{candidateType_id}")
+    public ResponseEntity<?> questionsForInterview(@PathVariable(name = "candidateType_id") Long candidateType_id){
+        List<Question> response = questionService.getQuestionsForInterview(candidateType_id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

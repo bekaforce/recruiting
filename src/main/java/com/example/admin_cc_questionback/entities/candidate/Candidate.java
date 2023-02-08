@@ -1,5 +1,6 @@
 package com.example.admin_cc_questionback.entities.candidate;
 
+import com.example.admin_cc_questionback.entities.interview.Essay;
 import com.example.admin_cc_questionback.entities.interview.Test;
 import com.example.admin_cc_questionback.entities.interview.VideoResult;
 import lombok.*;
@@ -24,8 +25,7 @@ public class Candidate {
     private String surname;
     private String phoneNumber;
     private String email;
-    private String citizenship;
-    private LocalDate birthday;
+    private String birthday;
     private String address;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "experience_id", referencedColumnName = "id")
@@ -35,6 +35,8 @@ public class Candidate {
     private LocalDateTime registrationDate;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<VideoResult> videoResults;
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
+    private List<Essay> essays;
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.REMOVE)
     private List<Test> tests;
     @ManyToOne()

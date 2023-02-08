@@ -1,7 +1,7 @@
 package com.example.admin_cc_questionback.service.interview.impl;
 
 import com.example.admin_cc_questionback.entities.candidate.CandidateType;
-import com.example.admin_cc_questionback.entities.dtos.QuestionVideoDto;
+import com.example.admin_cc_questionback.entities.dtos.QuestionInterviewDto;
 import com.example.admin_cc_questionback.entities.interview.Question;
 import com.example.admin_cc_questionback.entities.candidate.QuestionType;
 import com.example.admin_cc_questionback.entities.dtos.QuestionDto;
@@ -33,16 +33,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question saveQuestionForVideo(QuestionVideoDto questionVideoDto) {
+    public Question saveQuestionForInterview(QuestionInterviewDto questionInterviewDto) {
         QuestionDto questionDto = new QuestionDto();
-        questionDto.setQuestionText(questionVideoDto.getQuestionText());
-        if (questionVideoDto.getSeconds() == null){
-            questionVideoDto.setSeconds(0L);
+        questionDto.setQuestionText(questionInterviewDto.getQuestionText());
+        if (questionInterviewDto.getSeconds() == null){
+            questionInterviewDto.setSeconds(0L);
         }
-        questionDto.setCandidateType_id(questionVideoDto.getCandidateType_id());
-        Question question = save(QuestionType.VIDEO.toString(), questionDto, questionVideoDto.getSeconds() * 1000);
+        questionDto.setCandidateType_id(questionInterviewDto.getCandidateType_id());
+        Question question = save(QuestionType.INTERVIEW.toString(), questionDto, questionInterviewDto.getSeconds() * 1000);
         if (question != null){
-            question.setMilliseconds(questionVideoDto.getSeconds());
+            question.setMilliseconds(questionInterviewDto.getSeconds());
             return question;
         }
         return null;
@@ -81,8 +81,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> getQuestionsForVideo(Long candidateType_id) {
-        return getQuestions(QuestionType.VIDEO.toString(), candidateType_id);
+    public List<Question> getQuestionsForInterview(Long candidateType_id) {
+        return getQuestions(QuestionType.INTERVIEW.toString(), candidateType_id);
     }
 
     @Override
@@ -123,8 +123,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public boolean deleteQuestionForVideo(Long question_id) {
-        return delete(question_id, QuestionType.VIDEO.toString());
+    public boolean deleteQuestionForInterview(Long question_id) {
+        return delete(question_id, QuestionType.INTERVIEW.toString());
     }
 
     @Override

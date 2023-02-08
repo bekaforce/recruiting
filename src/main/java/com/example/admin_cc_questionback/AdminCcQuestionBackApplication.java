@@ -8,5 +8,4 @@ public class AdminCcQuestionBackApplication {
     public static void main(String[] args) {
         SpringApplication.run(AdminCcQuestionBackApplication.class, args);
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 
 import com.example.admin_cc_questionback.entities.candidate.CandidateType;
 import com.example.admin_cc_questionback.entities.candidate.Department;
+import com.example.admin_cc_questionback.entities.candidate.TeamType;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeDto;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeUpdateDto;
 import com.example.admin_cc_questionback.repository.candidate.CandidateTypeRepo;
@@ -15,28 +16,28 @@ import java.util.List;
 @Service
 public class CandidateTypeServiceImpl implements CandidateTypeService {
     private final CandidateTypeRepo candidateTypeRepo;
-    private final DepartmentServiceImpl departmentService;
+    private final TeamTypeServiceImpl teamTypeService;
     private final CandidateTypeLoggerServiceImpl candidateTypeLoggerService;
 
-    public CandidateTypeServiceImpl(CandidateTypeRepo candidateTypeRepo, DepartmentServiceImpl departmentService, CandidateTypeLoggerServiceImpl candidateTypeLoggerService) {
+    public CandidateTypeServiceImpl(CandidateTypeRepo candidateTypeRepo, TeamTypeServiceImpl teamTypeService, CandidateTypeLoggerServiceImpl candidateTypeLoggerService) {
         this.candidateTypeRepo = candidateTypeRepo;
-        this.departmentService = departmentService;
+        this.teamTypeService = teamTypeService;
         this.candidateTypeLoggerService = candidateTypeLoggerService;
     }
+
 
     @Override
     public CandidateType save(CandidateTypeDto candidateTypeDto) {
         CandidateType candidateType = new CandidateType();
-        Department department = departmentService.departmentById(candidateTypeDto.getDepartmentId());
-        if (department != null){
-            candidateType.setDepartment(department);
+        TeamType teamType = teamTypeService.teamTypeById(candidateTypeDto.getTeamTypeId());
+        if (teamType != null){
+            candidateType.setTeamType(teamType);
             candidateType.setCandidateType(candidateTypeDto.getCandidateType());
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
             candidateType.setCity(candidateTypeDto.getCity());
-            candidateType.setTeamType(candidateTypeDto.getTeamType());
             candidateTypeRepo.save(candidateType);
-            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), department.getName(), LoggerStatus.CREATED);
+            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), teamType.getName(), LoggerStatus.CREATED);
             return candidateType;
         }
         return null;
@@ -52,7 +53,7 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
         CandidateType candidateType = candidateTypeById(id);
         if (candidateType != null){
             candidateTypeRepo.deleteById(id);
-            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), candidateType.getDepartment().getName(), LoggerStatus.DELETED);
+            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), candidateType.getTeamType().getName(), LoggerStatus.DELETED);
             return true;
         }
         return false;
@@ -62,12 +63,11 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
     public CandidateType update(CandidateTypeUpdateDto candidateTypeDto, Long id) {
         CandidateType candidateType = candidateTypeById(id);
         if (candidateType != null){
-            Department department = candidateType.getDepartment();
-            candidateTypeLoggerService.update(candidateTypeDto, candidateType, department);
+            TeamType teamType = candidateType.getTeamType();
+            candidateTypeLoggerService.update(candidateTypeDto, candidateType, teamType);
             candidateType.setCandidateType(candidateTypeDto.getCandidateType());
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
-            candidateType.setTeamType(candidateTypeDto.getTeamType());
             candidateType.setCity(candidateTypeDto.getCity());
             candidateTypeRepo.save(candidateType);
             return candidateType;

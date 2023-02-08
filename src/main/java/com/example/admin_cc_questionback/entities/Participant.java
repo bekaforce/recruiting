@@ -15,12 +15,12 @@ import java.time.LocalDate;
 @Table(name = "participant", schema = "vcv")
 public class Participant {
     @Id
-    @GeneratedValue(strategy = javax.persistence.GenerationType.SEQUENCE, generator = "participant_seq")
-    @SequenceGenerator(name = "participant_seq", initialValue = 1, allocationSize = 1, sequenceName = "participant_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String lastName;
     private Boolean gender;
+    private String channel;
     private LocalDate birthday;
     private String email;
     private String address;

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface DepartmentLoggerService {
     List<DepartmentLogger> all();
-    DepartmentLogger save(String before, String after, String status, String entity);
+    DepartmentLogger save(String before, String after, String status);
 }

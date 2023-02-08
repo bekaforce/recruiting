@@ -7,7 +7,6 @@ public class CandidateTypeDto {
     private String candidateType;
     private boolean internal;
     private boolean active;
-    private Long departmentId;
+    private Long teamTypeId;
     private String city;
-    private String teamType;
 }

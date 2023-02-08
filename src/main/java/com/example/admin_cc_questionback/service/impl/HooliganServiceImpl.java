@@ -19,9 +19,7 @@ public class HooliganServiceImpl implements HooliganService {
     @Override
     public Hooligan save(HooliganDto hooliganDto) {
         Hooligan hooligan = new Hooligan();
-        hooligan.setName(hooliganDto.getName());
-        hooligan.setBirthday(hooliganDto.getBirthday());
-        hooligan.setReason(hooliganDto.getReason());
+        hooligan = setHooligan(hooligan, hooliganDto);
         hooliganRepo.save(hooligan);
         return hooligan;
     }
@@ -30,9 +28,7 @@ public class HooliganServiceImpl implements HooliganService {
     public Hooligan update(Long id, HooliganDto hooliganDto) {
         Hooligan hooligan = hooliganRepo.findHooliganById(id);
         if (hooligan != null){
-            hooligan.setName(hooligan.getName());
-            hooligan.setBirthday(hooliganDto.getBirthday());
-            hooligan.setReason(hooliganDto.getReason());
+            hooligan = setHooligan(hooligan, hooliganDto);
             hooliganRepo.save(hooligan);
             return hooligan;
         }
@@ -52,5 +48,14 @@ public class HooliganServiceImpl implements HooliganService {
     @Override
     public List<Hooligan> all() {
         return hooliganRepo.findAll();
+    }
+
+    @Override
+    public Hooligan setHooligan(Hooligan hooligan, HooliganDto hooliganDto) {
+        hooligan.setName(hooliganDto.getName());
+        hooligan.setBirthday(hooliganDto.getBirthday());
+        hooligan.setSurname(hooliganDto.getSurname());
+        hooligan.setReason(hooliganDto.getReason());
+        return hooligan;
     }
 }

@@ -36,6 +36,17 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public String getText(Long id) {
+        Message message = messageById(id);
+        if (message != null){
+            return message.getText();
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
     public List<Message> message() {
         return messageRepo.findAllOrderById();
     }
@@ -44,4 +55,6 @@ public class MessageServiceImpl implements MessageService {
     public void saveCreatedMessageToLogs(String nameBefore, String nameNow, String textBefore, String textNow) {
         messageLoggerService.saveUpdate(nameBefore, nameNow, textBefore, textNow);
     }
+
+
 }

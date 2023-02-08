@@ -10,4 +10,5 @@ public interface HooliganService {
     Hooligan update(Long id, HooliganDto hooliganDto);
     boolean delete(Long id);
     List<Hooligan> all();
+    Hooligan setHooligan(Hooligan hooligan, HooliganDto hooliganDto);
 }

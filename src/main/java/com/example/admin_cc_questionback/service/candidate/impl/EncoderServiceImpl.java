@@ -1,6 +1,6 @@
 package com.example.admin_cc_questionback.service.candidate.impl;
 
-import com.example.admin_cc_questionback.service.candidate.DecoderService;
+import com.example.admin_cc_questionback.service.candidate.EncoderService;
 import org.apache.commons.codec.DecoderException;
 import org.springframework.stereotype.Service;
 import org.apache.commons.codec.binary.Hex;
@@ -14,11 +14,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-public class DecoderServiceImpl implements DecoderService {
+public class EncoderServiceImpl implements EncoderService {
     Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
     SecretKeySpec key = new SecretKeySpec("20002302031022BZ".getBytes(), "AES");
 
-    public DecoderServiceImpl() throws NoSuchPaddingException, NoSuchAlgorithmException {
+    public EncoderServiceImpl() throws NoSuchPaddingException, NoSuchAlgorithmException {
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.example.admin_cc_questionback.service.loggers.impl;
 
 import com.example.admin_cc_questionback.entities.dtos.ContentDto;
 import com.example.admin_cc_questionback.entities.interview.Answer;
-import com.example.admin_cc_questionback.entities.interview.VideoResult;
 import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.repository.loggers.AnswerLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.AnswerLoggerService;

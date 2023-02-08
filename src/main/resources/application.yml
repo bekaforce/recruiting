@@ -1,29 +1,41 @@
 spring:
   datasource:
-    url: jdbc:postgresql://10.16.230.116/sks_recruiting
+    url: jdbc:postgresql://psg/sks_recruiting
     username: postgres
     password: 5Rag^ycn
     platform: postgres
-  jpa:
-    database: POSTGRESQL
-    generate-ddl: true
   servlet:
     multipart:
       max-file-size: 30MB
       max-request-size: 30MB
-  main:
-    allow-bean-definition-overriding: true
-    allow-circular-references: true
+  mail:
+    host: 172.28.142.5
+    port: 25
+  thymeleaf:
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+  jpa:
+    generate-ddl: true
+    database: POSTGRESQL
+  #main:
+  #  allow-circular-references: true
+
 #    location: '${user.dir}/uploads'
 #    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
 #    10.16.230.116
+#    172.28.142.101
+#    172.28.142.5
 #    sks_recruiting
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
 
 server:
-  ssl.key-store: classpath:ira_test.jks
+  ssl.key-store: classpath:beeline.jks
   ssl.key-store-password: 3edcVFR$
   ssl.keyStoreType: JKS
 

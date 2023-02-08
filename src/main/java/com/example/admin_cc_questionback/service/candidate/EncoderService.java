@@ -6,7 +6,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import java.security.InvalidKeyException;
 
-public interface DecoderService {
+public interface EncoderService {
     String encrypt(String strToEncrypt) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException;
     String decrypt(String strToDecrypt) throws InvalidKeyException, DecoderException, IllegalBlockSizeException, BadPaddingException;
 }

@@ -1,9 +1,8 @@
 package com.example.admin_cc_questionback.service.loggers.impl;
 
 import com.example.admin_cc_questionback.entities.candidate.CandidateType;
-import com.example.admin_cc_questionback.entities.candidate.Department;
+import com.example.admin_cc_questionback.entities.candidate.TeamType;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeUpdateDto;
-import com.example.admin_cc_questionback.entities.loggers.AnswerLogger;
 import com.example.admin_cc_questionback.entities.loggers.CandidateTypeLogger;
 import com.example.admin_cc_questionback.repository.loggers.CandidateTypeLoggerRepo;
 import com.example.admin_cc_questionback.service.loggers.CandidateTypeLoggerService;
@@ -24,12 +23,12 @@ public class CandidateTypeLoggerServiceImpl implements CandidateTypeLoggerServic
     }
 
     @Override
-    public CandidateTypeLogger save(String name, boolean internal, boolean active, String departmentName, String status) {
+    public CandidateTypeLogger save(String name, boolean internal, boolean active, String teamTypeName, String status) {
         CandidateTypeLogger candidateTypeLogger = new CandidateTypeLogger();
         candidateTypeLogger.setCandidateType(name);
         candidateTypeLogger.setInternal(String.valueOf(internal));
         candidateTypeLogger.setActive(String.valueOf(active));
-        candidateTypeLogger.setDepartment(departmentName);
+        candidateTypeLogger.setTeamType(teamTypeName);
         candidateTypeLogger.setDateTime(loggerService.bishkekNow());
         candidateTypeLogger.setStatus(status);
         candidateTypeLogger.setLogin(loggerService.login());
@@ -37,12 +36,12 @@ public class CandidateTypeLoggerServiceImpl implements CandidateTypeLoggerServic
     }
 
     @Override
-    public CandidateTypeLogger update(CandidateTypeUpdateDto candidateTypeDto, CandidateType candidateType, Department department) {
+    public CandidateTypeLogger update(CandidateTypeUpdateDto candidateTypeDto, CandidateType candidateType, TeamType teamType) {
         CandidateTypeLogger candidateTypeLogger = new CandidateTypeLogger();
         candidateTypeLogger.setCandidateType(loggerService.setParam(candidateType.getCandidateType(), candidateTypeDto.getCandidateType()));
         candidateTypeLogger.setInternal(loggerService.setParam(String.valueOf(candidateType.isInternal()), String.valueOf(candidateTypeDto.isInternal())));
         candidateTypeLogger.setActive(loggerService.setParam(String.valueOf(candidateType.isActive()), String.valueOf(candidateTypeDto.isActive())));
-        candidateTypeLogger.setDepartment(loggerService.setParam(department.getName(), department.getName()));
+        candidateTypeLogger.setTeamType(loggerService.setParam(teamType.getName(), teamType.getName()));
         candidateTypeLogger.setDateTime(loggerService.bishkekNow());
         candidateTypeLogger.setStatus(LoggerStatus.UPDATED);
         candidateTypeLogger.setLogin(loggerService.login());

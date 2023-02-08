@@ -27,9 +27,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
@@ -49,7 +46,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableTransactionManagement
-public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${ldap.provider.url}")
     private String providerUrl;
 
@@ -142,14 +139,15 @@ public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/configuration/ui",
                 "/configuration/security",
-                "/swagger-ui.html",
+                //"/swagger-ui.html",
                 "/webjars/**",
                 // -- Swagger UI v3 (OpenAPI)
                 "/v3/api-docs/**",
-                "/swagger-ui/**",
+                //"/swagger-ui/**",
                 // other public endpoints of your API may be appended to this array
                 "/profile",
-                //"/api/candidate/save",
+                "/admin/api/candidate/get/{id}",
+                //"/admin/api/hooligan/**",
                 "/admin/api/video/download/**"
         };
 
@@ -198,15 +196,6 @@ public class    WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
-
-    @Bean
-    public WebMvcConfigurer mvcConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("GET", "PUT", "POST", "GET", "OPTIONS");
-            }
-        };
     }
 }
 

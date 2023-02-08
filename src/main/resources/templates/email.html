@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mail message</title>
+    <style>
+        .main-block{
+            background: #F5F5F5;
+            padding: 20px;
+        }
+        table{
+            background: #fff;
+            color: #272C36;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            margin: auto;
+            text-align: center;
+        }
+        .button {
+            max-width: 100px;
+            width: 100%;
+            height: 30px;
+            background-color: #FFCD00;
+            border: none;
+            padding: 10px 25px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            border-radius: 40px;
+            margin: 10px;
+        }
+        .text-title {
+            font-weight: bold;
+            font-size: 2rem;
+            line-height: 2rem;
+        }
+        .text-subtitle {
+            font-size: 1.25rem;
+            line-height: 1.625rem;
+            letter-spacing: 0.01em;
+        }
+    </style>
+</head>
+<body style="margin: 0;padding: 0;">
+
+<div class="main-block">
+    <table>
+        <tr>
+            <td style="padding: 0px 20px 10px 30px">
+                <p class="text-title"><!--/*@thymesVar id="introduction" type="templates"*/--><span th:text = "${introduction}"></span></p>
+            </td>
+
+        <tr>
+            <td colspan = "2" style = "padding: 0px 20px 10px 30px">
+                <p class="text-subtitle"><!--/*@thymesVar id="body" type="templates"*/--><span th:text="${body}"></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!--/*@thymesVar id="login" type="templates"*/-->
+                <a class="button" th:href="${login}">Перейти</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

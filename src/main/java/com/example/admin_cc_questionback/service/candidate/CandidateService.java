@@ -14,7 +14,8 @@ import java.security.InvalidKeyException;
 import java.util.List;
 
 public interface CandidateService {
-    Candidate candidateById(Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
+    Candidate encodedCandidateById(Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
+    Candidate decodedCandidateById(Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     List<CandidateDto> all(Long candidateType_id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     List<CandidateDto> allFailed(Long candidateType_id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     List<CandidateDto> allOnInterview(Long candidateType_id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
@@ -27,4 +28,5 @@ public interface CandidateService {
     Candidate encodePersonalInfo(Candidate candidate) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     Candidate decodePersonalInfo(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     List<CandidateDto> decodeCandidates(List<GetCandidateDto> list) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
+    Candidate isArchive(boolean isArchive, Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
 }

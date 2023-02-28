@@ -28,7 +28,7 @@ public class CandidateController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getCandidate(@PathVariable Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        Candidate response = candidateService.candidateById(id);
+        Candidate response = candidateService.decodedCandidateById(id);
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
@@ -76,4 +76,15 @@ public class CandidateController {
         List<String> response = candidateService.inviteOrReject();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
+    @PutMapping("/setArchive/{id}")
+    public ResponseEntity<?> setArchive(@PathVariable(value = "id") Long id, @RequestParam boolean isArchive) {
+        Candidate response = candidateService.isArchive(isArchive, id);
+        return response != null
+                ? new ResponseEntity<>(response, HttpStatus.OK)
+                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    }
+
+
 }

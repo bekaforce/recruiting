@@ -31,4 +31,5 @@ public class CandidateType {
     @ManyToOne()
     @JoinColumn(name = "teamType_id", referencedColumnName = "id")
     private TeamType teamType;
+    private boolean schedule;
 }

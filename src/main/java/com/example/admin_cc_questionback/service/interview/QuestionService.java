@@ -10,7 +10,7 @@ import java.util.List;
 public interface QuestionService {
     Question saveQuestionForTest(QuestionDto questionDto);
     Question saveQuestionForInterview(QuestionInterviewDto questionInterviewDto);
-    Question save(String questionType, QuestionDto questionDto, Long milliseconds);
+    Question save(String questionType, QuestionDto questionDto, Long milliseconds, boolean key);
     List<Question> getQuestions(String questionType, Long candidateType_id);
     List<Question> getQuestionsForTest(Long candidateType_id);
     List<Question> getQuestionsForInterview(Long candidateType_id);

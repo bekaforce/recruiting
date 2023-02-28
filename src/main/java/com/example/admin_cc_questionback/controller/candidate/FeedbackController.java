@@ -16,18 +16,16 @@ import java.util.List;
 @RestController
 @RequestMapping(value = Url.ADMIN + Url.API + Url.FEEDBACK)
 public class FeedbackController {
+
     private final FeedbackServiceImpl feedbackService;
 
     public FeedbackController(FeedbackServiceImpl feedbackService) {
         this.feedbackService = feedbackService;
     }
 
-
     @GetMapping("/all")
     public ResponseEntity<?> all(){
         List<Feedback> response = feedbackService.all();
-        return response != null && !response.isEmpty()
-                ? new ResponseEntity<>(response, HttpStatus.OK)
-                : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

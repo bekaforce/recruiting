@@ -23,7 +23,7 @@ public class CandidateTypeLoggerServiceImpl implements CandidateTypeLoggerServic
     }
 
     @Override
-    public CandidateTypeLogger save(String name, boolean internal, boolean active, String teamTypeName, String status) {
+    public CandidateTypeLogger save(String name, boolean internal, boolean active, String teamTypeName, String status, boolean schedule) {
         CandidateTypeLogger candidateTypeLogger = new CandidateTypeLogger();
         candidateTypeLogger.setCandidateType(name);
         candidateTypeLogger.setInternal(String.valueOf(internal));
@@ -32,6 +32,7 @@ public class CandidateTypeLoggerServiceImpl implements CandidateTypeLoggerServic
         candidateTypeLogger.setDateTime(loggerService.bishkekNow());
         candidateTypeLogger.setStatus(status);
         candidateTypeLogger.setLogin(loggerService.login());
+        candidateTypeLogger.setSchedule(String.valueOf(schedule));
         return candidateTypeLoggerRepo.save(candidateTypeLogger);
     }
 
@@ -45,6 +46,7 @@ public class CandidateTypeLoggerServiceImpl implements CandidateTypeLoggerServic
         candidateTypeLogger.setDateTime(loggerService.bishkekNow());
         candidateTypeLogger.setStatus(LoggerStatus.UPDATED);
         candidateTypeLogger.setLogin(loggerService.login());
+        candidateTypeLogger.setSchedule(loggerService.setParam(String.valueOf(candidateType.isSchedule()), String.valueOf(candidateTypeDto.isSchedule())));
         return candidateTypeLoggerRepo.save(candidateTypeLogger);
     }
 

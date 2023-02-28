@@ -29,7 +29,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question saveQuestionForTest(QuestionDto questionDto) {
-        return save(QuestionType.TEST.toString(), questionDto, 0L);
+        return save(QuestionType.TEST.toString(), questionDto, 0L, questionDto.isKey());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionInterviewDto.setSeconds(0L);
         }
         questionDto.setCandidateType_id(questionInterviewDto.getCandidateType_id());
-        Question question = save(QuestionType.INTERVIEW.toString(), questionDto, questionInterviewDto.getSeconds() * 1000);
+        Question question = save(QuestionType.INTERVIEW.toString(), questionDto, questionInterviewDto.getSeconds() * 1000, questionInterviewDto.isKey());
         if (question != null){
             question.setMilliseconds(questionInterviewDto.getSeconds());
             return question;
@@ -49,7 +49,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question save(String questionType, QuestionDto questionDto, Long milliseconds) {
+    public Question save(String questionType, QuestionDto questionDto, Long milliseconds, boolean key) {
         Question question = new Question();
         question.setQuestionText(questionDto.getQuestionText());
         question.setQuestionType(QuestionType.valueOf(questionType));
@@ -64,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService {
             position = questionRepo.maxPosition(questionType, candidateType.getId());
         }
         question.setPosition(position + 1);
-        question.setKey(false);
+        question.setKey(key);
         questionRepo.save(question);
         saveCreatedQuestionToLogs(question);
         return question;

@@ -14,13 +14,12 @@ import java.util.List;
 public interface CandidateRepo extends JpaRepository<Candidate, Long> {
     Candidate findCandidateById(Long id);
 
-    @Query(value = "SELECT c.id , c.name, c.surname, c.status, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'completed' order by c.id desc", nativeQuery = true)
+    @Query(value = "SELECT c.id , c.name, c.surname, c.status, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'completed' and c.is_archive is false order by c.id desc", nativeQuery = true)
     List<GetCandidateDto> all(@Param("candidate_type_id") Long candidate_type_id);
 
-    @Query(value = "SELECT c.id , c.name, c.surname, c.status, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'failed' order by c.id desc", nativeQuery = true)
+    @Query(value = "SELECT c.id , c.name, c.surname, c.status, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'failed' and c.is_archive is false order by c.id desc", nativeQuery = true)
     List<GetCandidateDto> allFailed(@Param("candidate_type_id") Long candidate_type_id);
 
-    @Query(value = "SELECT c.id , c.name, c.surname, c.status, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage = 'video' or c.stage = 'essay' or c.stage = 'choice' order by c.id desc", nativeQuery = true)
+    @Query(value = "SELECT c.id , c.name, c.surname, c.status, c.registration_date FROM vcv.candidate c where c.candidate_type_id = :candidate_type_id and c.stage in ('choice','video','essay') and c.is_archive is false order by c.id desc", nativeQuery = true)
     List<GetCandidateDto> allOnInterview(@Param("candidate_type_id") Long candidate_type_id);
-
 }

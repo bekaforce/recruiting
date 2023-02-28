@@ -9,4 +9,5 @@ public class CandidateTypeDto {
     private boolean active;
     private Long teamTypeId;
     private String city;
+    private boolean schedule;
 }

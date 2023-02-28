@@ -1,7 +1,6 @@
 package com.example.admin_cc_questionback.service.candidate.impl;
 
 import com.example.admin_cc_questionback.entities.candidate.CandidateType;
-import com.example.admin_cc_questionback.entities.candidate.Department;
 import com.example.admin_cc_questionback.entities.candidate.TeamType;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeDto;
 import com.example.admin_cc_questionback.entities.dtos.CandidateTypeUpdateDto;
@@ -36,8 +35,9 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
             candidateType.setCity(candidateTypeDto.getCity());
+            candidateType.setSchedule(candidateTypeDto.isSchedule());
             candidateTypeRepo.save(candidateType);
-            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), teamType.getName(), LoggerStatus.CREATED);
+            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), teamType.getName(), LoggerStatus.CREATED, candidateType.isSchedule());
             return candidateType;
         }
         return null;
@@ -53,7 +53,7 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
         CandidateType candidateType = candidateTypeById(id);
         if (candidateType != null){
             candidateTypeRepo.deleteById(id);
-            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), candidateType.getTeamType().getName(), LoggerStatus.DELETED);
+            candidateTypeLoggerService.save(candidateType.getCandidateType(), candidateType.isInternal(), candidateType.isActive(), candidateType.getTeamType().getName(), LoggerStatus.DELETED, candidateType.isSchedule());
             return true;
         }
         return false;
@@ -69,6 +69,7 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
             candidateType.setInternal(candidateTypeDto.isInternal());
             candidateType.setActive(candidateTypeDto.isActive());
             candidateType.setCity(candidateTypeDto.getCity());
+            candidateType.setSchedule(candidateTypeDto.isSchedule());
             candidateTypeRepo.save(candidateType);
             return candidateType;
         }

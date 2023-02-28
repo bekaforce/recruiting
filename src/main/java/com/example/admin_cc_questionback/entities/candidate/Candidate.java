@@ -50,4 +50,5 @@ public class Candidate {
     private LocalDate invitationDate;
     private String stage;
     private String gender;
+    private boolean isArchive;
 }

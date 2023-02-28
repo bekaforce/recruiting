@@ -9,5 +9,6 @@ public class CandidateDto {
     private Long id;
     private String name;
     private String status;
+    private String schedule;
     private LocalDateTime registration_Date;
 }

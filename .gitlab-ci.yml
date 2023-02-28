@@ -1,0 +1,79 @@
+stages:
+  - build
+  - test
+  - release
+  - publish
+
+image: maven:latest
+
+build application:
+  stage: build
+  before_script:
+    - whoami
+  script:
+    - echo 'mvn clean install'
+    - mvn clean install
+    - echo 'success'
+  only:
+    - admin
+
+  tags:
+    - Shell
+
+
+test1:
+  stage: test
+  script:
+    - echo 'this is test_1'
+  tags:
+    - Shell
+
+test2:
+  stage: test
+  script:
+    - echo 'this is test_2'
+  # tags:
+  #   - windows
+release:
+  stage: release
+  script: mvn clean package
+  artifacts:
+    paths:
+      - /home/gitlab-runner/builds/kE7G8GRy/0/beenavigator/admin_cc_question-back/target/admin_cc_question-back-0.0.1-SNAPSHOT.jar
+  only:
+    - admin
+  tags:
+    - Shell
+
+publish to dev:
+  stage: publish
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - echo $CI_PIPELINE_ID
+    - docker build --rm -t gitlab.beeline.kg:4567/beenavigator/recruiting-admin-back:$(echo $CI_PIPELINE_ID) .
+    - docker push gitlab.beeline.kg:4567/beenavigator/recruiting-admin-back:$(echo $CI_PIPELINE_ID)
+    - echo $CI_REGISTRY_IMAGE
+  #    - docker image prune -a -f
+  tags:
+    - Shell
+#    - docker image prune -a -f
+
+publish to prod:
+  stage: publish
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull gitlab.beeline.kg:4567/beenavigator/recruiting-admin-back:$(echo $CI_PIPELINE_ID)
+    - docker rm -f admin-recruiting-test
+    - docker run -it -v psg-volume:/var/lib/docker/volumes/psg-volume/_data -p 8040:8080 --net vcv-bridge-network --name admin-recruiting-test gitlab.beeline.kg:4567/beenavigator/recruiting-back:$(echo $CI_PIPELINE_ID)
+    - echo 'publish to dev'
+    - docker image prune -a -f
+  only:
+    - admin
+  when: on_success
+
+  tags:
+    - recruiting
+
+

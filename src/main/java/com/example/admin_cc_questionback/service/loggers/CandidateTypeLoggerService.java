@@ -9,7 +9,7 @@ import com.example.admin_cc_questionback.entities.loggers.CandidateTypeLogger;
 import java.util.List;
 
 public interface CandidateTypeLoggerService {
-    CandidateTypeLogger save(String name, boolean internal, boolean active, String teamTypeName, String status);
+    CandidateTypeLogger save(String name, boolean internal, boolean active, String teamTypeName, String status, boolean schedule);
     CandidateTypeLogger update(CandidateTypeUpdateDto candidateTypeDto, CandidateType candidateType, TeamType teamType);
     List<CandidateTypeLogger> all();
 }

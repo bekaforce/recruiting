@@ -20,4 +20,5 @@ public class CandidateTypeLogger {
     private LocalDateTime dateTime;
     private String status;
     private String login;
+    private String schedule;
 }

@@ -38,13 +38,21 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Candidate candidateById(Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+    public Candidate encodedCandidateById(Long id) {
         Candidate candidate = candidateRepo.findCandidateById(id);
         if (candidate != null){
             List<VideoResult> videoResults = sortVideoResults(candidate.getVideoResults());
             List<Essay> essays = sortEssays(candidate.getEssays());
             candidate.setVideoResults(videoResults);
             candidate.setEssays(essays);
+        }
+        return candidate;
+    }
+
+    @Override
+    public Candidate decodedCandidateById(Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        Candidate candidate = encodedCandidateById(id);
+        if (candidate != null){
             candidate = decodePersonalInfo(candidate);
         }
         return candidate;
@@ -78,8 +86,8 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public String setComment(Long id, String comment) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        Candidate candidate = candidateById(id);
+    public String setComment(Long id, String comment) {
+        Candidate candidate = encodedCandidateById(id);
         if (candidate != null){
             candidate.setComment(comment);
             candidateRepo.save(candidate);
@@ -90,7 +98,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate setStatus(InvitationDto invitationDto, Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        Candidate candidate = candidateById(id);
+        Candidate candidate = encodedCandidateById(id);
         if (candidate != null){
             if (invitationDto.getStatus().equals(Status.INVITE)){
                 candidate.setStatus(Status.INVITED);
@@ -102,7 +110,6 @@ public class CandidateServiceImpl implements CandidateService {
                 candidate.setStatus(Status.REJECTED);
             }
             checkCandidateAndSaveParticipant(candidate);
-            candidate = encodePersonalInfo(candidate);
             return candidateRepo.save(candidate);
         }
         return null;
@@ -174,5 +181,15 @@ public class CandidateServiceImpl implements CandidateService {
             candidates.add(candidateDto);
         }
         return candidates;
+    }
+
+    @Override
+    public Candidate isArchive(boolean isArchive, Long id){
+        Candidate candidate = encodedCandidateById(id);
+        if (candidate != null){
+            candidate.setArchive(isArchive);
+            return candidateRepo.save(candidate);
+        }
+        return null;
     }
 }

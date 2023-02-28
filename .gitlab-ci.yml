@@ -39,7 +39,7 @@ release:
   script: mvn clean package
   artifacts:
     paths:
-      - /var/lib/docker/tmp/docker-builder125829102/target/admin_cc_question-back-0.0.1-SNAPSHOT.jar
+      - /home/gitlab-runner/builds/kE7G8GRy/0/beenavigator/admin_cc_question-back/target/admin_cc_question-back-0.0.1-SNAPSHOT.jar
   only:
     - admin
   tags:
@@ -51,6 +51,7 @@ publish to dev:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo $CI_PIPELINE_ID
+    - echo $CI_REGISTRY_IMAGE
     - docker build --rm -t $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID) .
     - docker push $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
     - echo $CI_REGISTRY_IMAGE

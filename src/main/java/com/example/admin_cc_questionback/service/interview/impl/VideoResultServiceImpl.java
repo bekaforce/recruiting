@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -117,6 +119,10 @@ public class VideoResultServiceImpl implements VideoResultService {
     @Override
     public List<File> all() {
         File dir = new File(UPLOADED_FOLDER);
-        return List.of(dir.listFiles());
+        File[] array = dir.listFiles();
+        if (array != null){
+            return Arrays.asList(array);
+        }
+            return new ArrayList<>();
     }
 }

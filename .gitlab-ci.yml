@@ -39,7 +39,7 @@ release:
   script: mvn clean package
   artifacts:
     paths:
-      - /home/gitlab-runner/builds/kE7G8GRy/0/beenavigator/admin_cc_question-back/target/admin_cc_question-back-0.0.1-SNAPSHOT.jar
+      - /home/gitlab-runner/builds/kE7G8GRy/0/beenavigator/recruiting-admin-back/target/admin_cc_question-back-0.0.1-SNAPSHOT.jar
   only:
     - admin
   tags:

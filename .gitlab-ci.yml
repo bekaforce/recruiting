@@ -51,8 +51,8 @@ publish to dev:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo $CI_PIPELINE_ID
-    - docker build --rm -t gitlab.beeline.kg:4567/beenavigator/recruiting-admin-back:$(echo $CI_PIPELINE_ID) .
-    - docker push gitlab.beeline.kg:4567/beenavigator/recruiting-admin-back:$(echo $CI_PIPELINE_ID)
+    - docker build --rm -t $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID) .
+    - docker push $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
     - echo $CI_REGISTRY_IMAGE
   #    - docker image prune -a -f
   tags:

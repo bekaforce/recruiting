@@ -66,9 +66,9 @@ publish to prod:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker pull $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
-#   - docker rm -f admin-recruiting-test
+#    - docker rm -f admin-recruiting-test
     - echo $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
-    - docker run -d -it --name admin-recruiting-test -v psg-volume:/var/lib/docker/volumes/psg-volume/_data -p 8040:8080 --net vcv-bridge-network $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
+    - docker run -it -v psg-volume:/var/lib/docker/volumes/psg-volume/_data -p 8040:8080 --net vcv-bridge-network --name admin-recruiting-test $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
     - echo 'publish to dev'
     - docker image prune -a -f
   only:

@@ -75,5 +75,3 @@ publish to prod:
   when: on_success
   tags:
     - recruiting
-
-

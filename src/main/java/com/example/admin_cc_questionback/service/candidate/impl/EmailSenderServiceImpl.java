@@ -3,14 +3,18 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 import com.example.admin_cc_questionback.entities.candidate.Candidate;
 import com.example.admin_cc_questionback.entities.candidate.MailMessage;
 import com.example.admin_cc_questionback.service.candidate.EmailSenderService;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,15 +23,17 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine thymeleafTemplateEngine;
     private final MessageServiceImpl messageService;
+    private final EncoderServiceImpl encoderService;
 
-    public EmailSenderServiceImpl(JavaMailSender emailSender, SpringTemplateEngine thymeleafTemplateEngine, MessageServiceImpl messageService) {
+    public EmailSenderServiceImpl(JavaMailSender emailSender, SpringTemplateEngine thymeleafTemplateEngine, MessageServiceImpl messageService, EncoderServiceImpl encoderService) {
         this.emailSender = emailSender;
         this.thymeleafTemplateEngine = thymeleafTemplateEngine;
         this.messageService = messageService;
+        this.encoderService = encoderService;
     }
 
     @Override
-    public boolean sendEmail(Candidate candidate, String introduction, String body) {
+    public boolean sendEmail(Candidate candidate, String introduction, String body) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         MailMessage mailMessage = new MailMessage();
         mailMessage.setTemplateId("email");
         Map<String, Object> paramMap = new HashMap<>();
@@ -36,7 +42,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         //paramMap.put("documents", "https://recruiting.beeline.kg/#/documents"); //https://recruiting.beeline.kg/#/login
         mailMessage.setParamMap(paramMap);
         mailMessage.setFrom("recruiting@beeline.kg");
-        mailMessage.setTo(candidate.getEmail());
+        mailMessage.setTo(encoderService.decrypt(candidate.getEmail()));
         mailMessage.setSubject("Подтвердите авторизацию");
         return sendMessage(mailMessage);
     }
@@ -62,11 +68,13 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     }
 
     @Override
-    public boolean sendCongratulationMessage(Candidate candidate) {
+    public boolean sendCongratulationMessage(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         String introduction = messageService.getText(6L);
         String body = messageService.getText(7L);
-        introduction = introduction.replaceAll("name", candidate.getName());
-        body = body.replaceAll("candidateType", candidate.getCandidateType().getCandidateType());
+        String name = encoderService.decrypt(candidate.getName());
+        String candidateType = candidate.getCandidateType().getCandidateType();
+        introduction = introduction.replaceAll("name", name);
+        body = body.replaceAll("candidateType", candidateType);
         return sendEmail(candidate, introduction, body);
     }
 }

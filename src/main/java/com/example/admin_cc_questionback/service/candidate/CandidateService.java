@@ -24,7 +24,7 @@ public interface CandidateService {
     List<VideoResult> sortVideoResults(List<VideoResult> videoResults);
     List<Essay> sortEssays(List<Essay> essays);
     List<String> inviteOrReject();
-    void checkCandidateAndSaveParticipant(Candidate candidate);
+    void checkCandidateAndSaveParticipant(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     Candidate encodePersonalInfo(Candidate candidate) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     Candidate decodePersonalInfo(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     List<CandidateDto> decodeCandidates(List<GetCandidateDto> list) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;

@@ -98,19 +98,19 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate setStatus(InvitationDto invitationDto, Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        Candidate candidate = encodedCandidateById(id);
-        if (candidate != null){
+        Candidate encodedCandidate = encodedCandidateById(id);
+        if (encodedCandidate != null){
             if (invitationDto.getStatus().equals(Status.INVITE)){
-                candidate.setStatus(Status.INVITED);
-                candidate.setInvitationDate(invitationDto.getInvitationDate());
-                candidate.setGender(invitationDto.getGender());
-                emailSenderService.sendCongratulationMessage(candidate);
+                encodedCandidate.setStatus(Status.INVITED);
+                encodedCandidate.setInvitationDate(invitationDto.getInvitationDate());
+                encodedCandidate.setGender(invitationDto.getGender());
+                emailSenderService.sendCongratulationMessage(encodedCandidate);
             }
             else {
-                candidate.setStatus(Status.REJECTED);
+                encodedCandidate.setStatus(Status.REJECTED);
             }
-            checkCandidateAndSaveParticipant(candidate);
-            return candidateRepo.save(candidate);
+            checkCandidateAndSaveParticipant(encodedCandidate);
+            return candidateRepo.save(encodedCandidate);
         }
         return null;
     }
@@ -140,9 +140,10 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void checkCandidateAndSaveParticipant(Candidate candidate) {
+    public void checkCandidateAndSaveParticipant(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         if (candidate.getCandidateType().getTeamType().isToEducate()){
-            LocalDate birthday = LocalDate.parse(candidate.getBirthday());
+            String birth = encoderService.decrypt(candidate.getBirthday());
+            LocalDate birthday = LocalDate.parse(birth);
             participantService.save(candidate.getName(), candidate.getSurname(), birthday, candidate.getEmail(), candidate.getAddress(), candidate.getCandidateType().getCandidateType(), candidate.getStatus(), candidate.getPhoneNumber(), candidate.getCandidateType().getCity(), candidate.getInvitationDate(), candidate.getGender());
         }
     }

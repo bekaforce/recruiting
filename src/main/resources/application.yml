@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://psg/sks_recruiting
-    username: postgres
+    username: db_recruiting
     password: 5Rag^ycn
     platform: postgres
   servlet:

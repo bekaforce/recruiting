@@ -1,0 +1,4 @@
+server:
+  ssl.key-store: classpath:beeline.jks
+  ssl.key-store-password: 3edcVFR$
+  ssl.keyStoreType: JKS

@@ -142,9 +142,7 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public void checkCandidateAndSaveParticipant(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         if (candidate.getCandidateType().getTeamType().isToEducate()){
-            String birth = encoderService.decrypt(candidate.getBirthday());
-            LocalDate birthday = LocalDate.parse(birth);
-            participantService.save(candidate.getName(), candidate.getSurname(), birthday, candidate.getEmail(), candidate.getAddress(), candidate.getCandidateType().getCandidateType(), candidate.getStatus(), candidate.getPhoneNumber(), candidate.getCandidateType().getCity(), candidate.getInvitationDate(), candidate.getGender());
+            participantService.save(candidate.getName(), candidate.getSurname(), candidate.getBirthday(), candidate.getEmail(), candidate.getAddress(), candidate.getCandidateType().getCandidateType(), candidate.getStatus(), candidate.getPhoneNumber(), candidate.getCandidateType().getCity(), candidate.getInvitationDate(), candidate.getGender());
         }
     }
 

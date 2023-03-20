@@ -6,9 +6,6 @@ import com.example.admin_cc_questionback.service.ParticipantService;
 import com.example.admin_cc_questionback.service.candidate.impl.EncoderServiceImpl;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import java.security.InvalidKeyException;
 import java.time.LocalDate;
 
 @Service
@@ -21,7 +18,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public void save(String name, String lastName, LocalDate birthday, String email, String address, String candidate_type, String status, String phone_number, String city, LocalDate invitation_date, String gender) {
+    public void save(String name, String lastName, String birthday, String email, String address, String candidate_type, String status, String phone_number, String city, LocalDate invitation_date, String gender) {
         if (status.equals(Status.INVITED)){
             Participant participant = new Participant();
             participant.setName(name);

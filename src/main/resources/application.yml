@@ -1,9 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://psg/sks_recruiting
-    username: db_recruiting
-    password: 5Rag^ycn
-    platform: postgres
   servlet:
     multipart:
       max-file-size: 30MB
@@ -21,6 +16,8 @@ spring:
   jpa:
     generate-ddl: true
     database: POSTGRESQL
+  config:
+    import: optional:prod.yml
   #main:
   #  allow-circular-references: true
 
@@ -33,19 +30,3 @@ spring:
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
-
-server:
-  ssl.key-store: classpath:beeline.jks
-  ssl.key-store-password: 3edcVFR$
-  ssl.keyStoreType: JKS
-
-ldap:
-  provider:
-    url: ldap://172.28.141.130:389
-    userdn: CN=smartcare_tech,CN=Users,DC=bee,DC=skymobile,DC=local
-    password: DW2gx3LB
-  user:
-    dn:
-      patterns:
-        bishkek: CN={0},OU=Bishkek,DC=bee,DC=skymobile,DC=local
-        all: DC=bee,DC=skymobile,DC=local

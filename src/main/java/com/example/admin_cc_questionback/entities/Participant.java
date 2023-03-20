@@ -21,7 +21,7 @@ public class Participant {
     private String lastName;
     private Boolean gender;
     private String channel;
-    private LocalDate birthday;
+    private String birthday;
     private String email;
     private String address;
     private String candidate_type;

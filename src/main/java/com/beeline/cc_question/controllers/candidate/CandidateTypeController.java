@@ -40,9 +40,9 @@ public class CandidateTypeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("nameById/{id}")
-    public ResponseEntity<?> nameById(@PathVariable(value = "id") Long id){
-        CandidateTypeDto response = candidateTypeService.nameById(id);
+    @GetMapping("candidateTypeById/{id}")
+    public ResponseEntity<?> candidateTypeById(@PathVariable(value = "id") Long id){
+        CandidateTypeDto response = candidateTypeService.candidateTypeDtoById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

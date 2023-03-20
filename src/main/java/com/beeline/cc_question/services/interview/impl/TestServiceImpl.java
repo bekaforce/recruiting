@@ -33,7 +33,7 @@ public class TestServiceImpl implements TestService {
                 testRepo.save(test);
             });
             candidateService.setStage(candidate, "choice");
-            return stage(candidateId);
+            return stage(candidate);
         }
         return null;
     }
@@ -53,10 +53,9 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public String stage(Long candidate_id) {
-        Candidate candidate = candidateService.candidateById(candidate_id);
-        if (percentage(candidate_id) < 70){
-            candidateService.setStage(candidateService.candidateById(candidate_id), "failed");
+    public String stage(Candidate candidate) {
+        if (percentage(candidate.getId()) < 70){
+            candidate = candidateService.setStage(candidate, "failed");
             return candidate.getStage();
         }
         return candidate.getStage();

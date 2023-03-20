@@ -51,5 +51,13 @@ public class MessageServiceImpl implements MessageService {
         return text;
     }
 
+    @Override
+    public String setAuthEmailText(String name, String password, Long message_id) {
+        String text = getText(message_id);
+        text = text.replaceAll("name", name);
+        text = text.replaceAll("password", password);
+        return text;
+    }
+
 
 }

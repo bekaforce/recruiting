@@ -1,5 +1,6 @@
 package com.beeline.cc_question.services.interview;
 
+import com.beeline.cc_question.entities.candidate.Candidate;
 import com.beeline.cc_question.entities.dtos.interview.ResultDto;
 import com.beeline.cc_question.entities.dtos.interview.TestDto;
 
@@ -9,5 +10,5 @@ public interface TestService {
     String save(List<TestDto> testDtoList, Long candidateId);
     Long percentage(Long candidate_id);
     List<ResultDto> result(Long candidate_id);
-    String stage(Long candidate_id);
+    String stage(Candidate candidate);
 }

@@ -8,5 +8,6 @@ public interface MessageService {
     Message messageById(Long id);
     String getText(Long id);
     String setSuccessText(String name, String candidate_type, Long message_id);
+    String setAuthEmailText(String name, String password, Long message_id);
     SuccessDto success(String name, String candidate_type);
 }

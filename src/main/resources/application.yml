@@ -1,15 +1,10 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://10.16.230.116/sks_recruiting
-    username: postgres
-    password: 5Rag^ycn
-    platform: postgres
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
   mail:
-    host: 172.28.142.101
+    host: 172.28.142.5
     port: 25
   thymeleaf:
     check-template-location: true
@@ -21,6 +16,9 @@ spring:
   jpa:
     generate-ddl: true
     database: POSTGRESQL
+  config:
+    import: optional:prod.yml
+
 
 security:
   jwt:
@@ -31,15 +29,3 @@ security:
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
-
-server:
-  ssl.key-store: classpath:beeline.jks
-  ssl.key-store-password: 3edcVFR$
-  ssl.keyStoreType: JKS
-
-#    location: '${user.dir}/uploads'
-#    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
-#    10.16.230.116
-#    172.28.142.101
-#    172.28.142.5
-#    sks_recruiting

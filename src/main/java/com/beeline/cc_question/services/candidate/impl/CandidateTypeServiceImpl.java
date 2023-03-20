@@ -37,7 +37,8 @@ public class CandidateTypeServiceImpl implements CandidateTypeService {
     }
 
     @Override
-    public CandidateTypeDto nameById(Long id) {
-        return new CandidateTypeDto(candidateTypeById(id).getCandidateType());
+    public CandidateTypeDto candidateTypeDtoById(Long id) {
+        CandidateType candidateType = candidateTypeById(id);
+        return new CandidateTypeDto(candidateType.getCandidateType(), candidateType.isSchedule());
     }
 }

@@ -19,36 +19,11 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine thymeleafTemplateEngine;
     private final MessageServiceImpl messageService;
-    Long introduction_id = 1L;
-    Long body_id = 2L;
 
     public EmailSenderServiceImpl(JavaMailSender emailSender, SpringTemplateEngine thymeleafTemplateEngine, MessageServiceImpl messageService) {
         this.emailSender = emailSender;
         this.thymeleafTemplateEngine = thymeleafTemplateEngine;
         this.messageService = messageService;
-    }
-
-    @Override
-    public boolean sendAuthEmail(String name, String email, String password) {
-        MailMessage mailMessage = new MailMessage();
-        mailMessage.setTemplateId("email");
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("introduction", setMessageText(name, password, introduction_id));
-        paramMap.put("body", setMessageText(name, password, body_id));
-        paramMap.put("login", "https://recruiting.beeline.kg/#/?email=" + email + "&login=true"); //https://recruiting.beeline.kg/#/login
-        mailMessage.setParamMap(paramMap);
-        mailMessage.setFrom("recruiting@beeline.kg");
-        mailMessage.setTo(email);
-        mailMessage.setSubject("Подтвердите авторизацию");
-        return sendMessage(mailMessage);
-    }
-
-    @Override
-    public String setMessageText(String name, String password, Long message_id) {
-        String text = messageService.getText(message_id);
-        text = text.replaceAll("name", name);
-        text = text.replaceAll("password", password);
-        return text;
     }
 
     @Override
@@ -72,8 +47,43 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     }
 
     @Override
-    public boolean sendConfirmationEmail(Candidate candidate) {
+    public boolean sendEmail(String email, String introduction, String body, String templateId, String login) {
+        MailMessage mailMessage = new MailMessage();
+        mailMessage.setTemplateId(templateId);
+        mailMessage.setParamMap(setParamMap(introduction, body, login));
+        mailMessage.setFrom("recruiting@beeline.kg");
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Подтверждение прохождения собеседования");
+        return sendMessage(mailMessage);
+    }
 
-        return false;
+    @Override
+    public Map<String, Object> setParamMap(String introduction, String body, String login) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("introduction", introduction);
+        paramMap.put("body", body);
+        paramMap.put("login", login);
+        return paramMap;
+    }
+
+    @Override
+    public void sendConfirmationEmail(Candidate candidate) {
+        Long title_id = 3L;
+        Long text_id = 4L;
+        String introduction = messageService.setSuccessText(candidate.getName(), candidate.getCandidateType().getCandidateType(), title_id);
+        String body = messageService.setSuccessText(candidate.getName(), candidate.getCandidateType().getCandidateType(), text_id);
+        String templateId = "confirmation-email";
+        sendEmail(candidate.getEmail(), introduction, body, templateId, "");
+    }
+
+    @Override
+    public boolean sendAuthEmail(String name, String email, String password) {
+        Long title_id = 1L;
+        Long text_id = 2L;
+        String introduction = messageService.setAuthEmailText(name, password, title_id);
+        String body = messageService.setAuthEmailText(name, password, text_id);
+        String login = "https://recruiting.beeline.kg/#/?email=" + email + "&login=true";
+        String templateId = "email";
+        return sendEmail(email, introduction, body, templateId, login);
     }
 }

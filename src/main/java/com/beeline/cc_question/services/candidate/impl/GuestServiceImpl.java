@@ -6,8 +6,13 @@ import com.beeline.cc_question.entities.dtos.interview.SuccessDto;
 import com.beeline.cc_question.entities.user.User;
 import com.beeline.cc_question.services.candidate.GuestService;
 import com.beeline.cc_question.services.user.impl.UserServiceImpl;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import java.security.InvalidKeyException;
 
 
 @Service
@@ -28,26 +33,16 @@ public class GuestServiceImpl implements GuestService {
 
     //String name, String phoneNumber, String email
     @Override
-    public Candidate add(CandidateDto candidateDto) {
+    public Candidate add(CandidateDto candidateDto) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         String password = String.valueOf(generateDigits());
         Candidate candidate = candidateService.save(candidateDto);
         if (candidate != null) {
             String encoded = passwordEncoder.encode(password);
             userService.register(candidateDto.getEmail(), candidateDto.getPhoneNumber(), encoded);
-            sendMessage(candidateDto.getName(), candidateDto.getEmail(), password);
+            emailSenderService.sendAuthEmail(candidateDto.getName(), candidateDto.getEmail(), password);
             return candidate;
         } else {
             return null;
-        }
-    }
-
-    @Override
-    public boolean sendMessage(String name, String email, String password) {
-        try {
-            return emailSenderService.sendEmail(name, email, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -72,9 +67,10 @@ public class GuestServiceImpl implements GuestService {
     }
 
     @Override
-    public SuccessDto success(Long candidate_id) {
-        Candidate candidate = candidateService.candidateById(candidate_id);
+    public SuccessDto success(Long candidate_id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        Candidate candidate = candidateService.decodedCandidateById(candidate_id);
         if (candidate != null){
+            emailSenderService.sendConfirmationEmail(candidate);
             return messageService.success(candidate.getName(), candidate.getCandidateType().getCandidateType());
         }
         return null;

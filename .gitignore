@@ -34,3 +34,5 @@ build/
 
 ### Uploaded media files ###
 .uploads/
+
+src/main/resources/prod.yml

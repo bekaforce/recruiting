@@ -26,16 +26,4 @@ public class TestController {
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
     }
-
-    @GetMapping(value = "/percentage/{candidate_id}")
-    public ResponseEntity<?> percentage(@PathVariable(value = "candidate_id") Long candidate_id) {
-        Long response = testService.percentage(candidate_id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/stage/{candidate_id}")
-    public ResponseEntity<?> stage(@PathVariable(value = "candidate_id") Long candidate_id) {
-        String response = testService.stage(candidate_id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 }

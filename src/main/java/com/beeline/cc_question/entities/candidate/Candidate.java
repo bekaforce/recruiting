@@ -22,7 +22,7 @@ public class Candidate {
     private String surname;
     private String phoneNumber;
     private String email;
-    private LocalDate birthday;
+    private String birthday;
     private String address;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "experience_id", referencedColumnName = "id")
@@ -47,4 +47,5 @@ public class Candidate {
     private LocalDate invitationDate;
     private String stage;
     private String gender;
+    private boolean isArchive;
 }

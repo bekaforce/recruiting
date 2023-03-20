@@ -1,0 +1,72 @@
+stages:
+  - build
+  - test
+  - release
+  - publish
+
+image: maven:latest
+
+build application:
+  stage: build
+  before_script:
+    - whoami
+  script:
+    - echo 'mvn clean install'
+    - mvn clean install
+    - echo 'success'
+  only:
+    - master
+  tags:
+    - Shell
+
+test1:
+  stage: test
+  script:
+    - echo 'this is test_1'
+  tags:
+    - Shell
+
+test2:
+  stage: test
+  script:
+    - echo 'this is test_2'
+
+release:
+  stage: release
+  script: mvn clean package
+  artifacts:
+    paths:
+      - /home/gitlab-runner/builds/kE7G8GRy/0/beenavigator/azadash/target/demo-0.0.1-SNAPSHOT.jar
+  only:
+    - master
+  tags:
+    - Shell
+
+publish to dev:
+  stage: publish
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - echo $CI_PIPELINE_ID
+    - docker build --rm -t $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID) .
+    - docker push $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
+  #    - docker image prune -a -f
+  tags:
+    - Shell
+
+publish to prod:
+  stage: publish
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
+#    - docker rm -f recruiting-test
+#    - docker run -e TZ=Asia/Bishkek -d -it --name azadash -v aza_file:/var/lib/docker/volumes/aza_file/_data -p 8181:8080 $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
+     - docker run -e TZ=Asia/Bishkek -it -v psg-volume:/var/lib/docker/volumes/psg-volume/_data -p 8050:8080 --net vcv-bridge-network --name recruiting-test $CI_REGISTRY_IMAGE:$(echo $CI_PIPELINE_ID)
+#    - echo 'publish to dev'
+#    - docker image prune -a -f
+
+  only:
+    - master
+  when: manual
+  tags:
+    - sks

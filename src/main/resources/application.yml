@@ -21,12 +21,5 @@ spring:
   #main:
   #  allow-circular-references: true
 
-#    location: '${user.dir}/uploads'
-#    prodLocation: '/var/lib/docker/volumes/psg-volume/_data'
-#    10.16.230.116
-#    172.28.142.101
-#    172.28.142.5
-#    sks_recruiting
-
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'

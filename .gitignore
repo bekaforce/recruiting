@@ -33,3 +33,4 @@ build/
 .vscode/
 
 src/main/resources/prod.yml
+src/main/resources/secret.key

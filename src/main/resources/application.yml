@@ -23,3 +23,5 @@ spring:
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
+
+encoderKey: "20002302031022BZ"

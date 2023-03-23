@@ -2,6 +2,7 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 
 import com.example.admin_cc_questionback.service.candidate.EncoderService;
 import org.apache.commons.codec.DecoderException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.apache.commons.codec.binary.Hex;
 

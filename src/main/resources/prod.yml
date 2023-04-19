@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://10.16.230.116:5430/recruiting_vcv?ssl=true&sslmode=require
+    username: recruiting_superuser
+    password: )4F101CDe:Gbw&47
+    platform: postgres
+
+server:
+  ssl.key-store: classpath:recruiting.jks
+  ssl.key-store-password: ertf108!R2+9&6y
+  ssl.keyStoreType: JKS
+
+
+ldap:
+  provider:
+    url: ldap://172.28.141.130:389
+    userdn: CN=smartcare_tech,CN=Users,DC=bee,DC=skymobile,DC=local
+    password: fhzf108!R2=9&9B
+  user:
+    dn:
+      patterns:
+        bishkek: CN={0},OU=Bishkek,DC=bee,DC=skymobile,DC=local
+        all: DC=bee,DC=skymobile,DC=local

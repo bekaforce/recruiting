@@ -30,9 +30,9 @@ public class CandidateController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody CandidateDto candidateDto) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException, DecoderException {
         Candidate response = null;
-        //if (recaptchaService.isValidCaptcha(candidateDto.getRecaptcha())){
+        if (recaptchaService.isValidCaptcha(candidateDto.getRecaptcha())){
             response = guestService.add(candidateDto);
-        //}
+        }
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);

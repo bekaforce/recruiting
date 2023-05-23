@@ -25,3 +25,7 @@ server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
 
 encoderKey: "20002302031022BZ"
+
+#172.28.142.5
+
+#172.28.142.101 - for local smtp

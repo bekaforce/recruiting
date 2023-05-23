@@ -21,3 +21,6 @@ ldap:
       patterns:
         bishkek: CN={0},OU=Bishkek,DC=bee,DC=skymobile,DC=local
         all: DC=bee,DC=skymobile,DC=local
+
+#10.16.230.116 - server ip address
+#recruitingpsg

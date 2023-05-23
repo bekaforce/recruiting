@@ -19,4 +19,5 @@ public final static String SIGN_IN = "sign-in";
 public final static String ADMIN = "admin";
 public final static String ESSAY = "essay";
 public final static String TEAM_TYPE = "teamtype";
+public final static String INVITATION = "invitation";
 }

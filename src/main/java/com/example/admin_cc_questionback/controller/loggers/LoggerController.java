@@ -3,6 +3,7 @@ package com.example.admin_cc_questionback.controller.loggers;
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.entities.loggers.*;
 import com.example.admin_cc_questionback.service.loggers.impl.*;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import java.security.InvalidKeyException;
 import java.util.List;
 
 @CrossOrigin
@@ -27,8 +31,9 @@ public class LoggerController {
     private final QuestionLoggerServiceImpl questionLoggerService;
     private final SignInLoggerServiceImpl signInLoggerService;
     private final TeamTypeLoggerServiceImpl teamTypeLoggerService;
+    private final InvitationLoggerServiceImpl invitationLoggerService;
 
-    public LoggerController(AnswerLoggerServiceImpl answerLoggerService, CandidateTypeLoggerServiceImpl candidateTypeLoggerService, DepartmentLoggerServiceImpl departmentLoggerService, KnowledgeTypeLoggerServiceImpl knowledgeTypeLoggerService, KnowledgeLoggerServiceImpl knowledgeLoggerService, LevelLoggerServiceImpl levelLoggerService, MessageLoggerServiceImpl messageLoggerService, QuestionLoggerServiceImpl questionLoggerService, SignInLoggerServiceImpl signInLoggerService, TeamTypeLoggerServiceImpl teamTypeLoggerService) {
+    public LoggerController(AnswerLoggerServiceImpl answerLoggerService, CandidateTypeLoggerServiceImpl candidateTypeLoggerService, DepartmentLoggerServiceImpl departmentLoggerService, KnowledgeTypeLoggerServiceImpl knowledgeTypeLoggerService, KnowledgeLoggerServiceImpl knowledgeLoggerService, LevelLoggerServiceImpl levelLoggerService, MessageLoggerServiceImpl messageLoggerService, QuestionLoggerServiceImpl questionLoggerService, SignInLoggerServiceImpl signInLoggerService, TeamTypeLoggerServiceImpl teamTypeLoggerService, InvitationLoggerServiceImpl invitationLoggerService) {
         this.answerLoggerService = answerLoggerService;
         this.candidateTypeLoggerService = candidateTypeLoggerService;
         this.departmentLoggerService = departmentLoggerService;
@@ -39,6 +44,7 @@ public class LoggerController {
         this.questionLoggerService = questionLoggerService;
         this.signInLoggerService = signInLoggerService;
         this.teamTypeLoggerService = teamTypeLoggerService;
+        this.invitationLoggerService = invitationLoggerService;
     }
 
     @PreAuthorize("hasAnyRole('APP_Recruiting_Admin', 'APP_Recruiting_it_audit')")
@@ -113,6 +119,13 @@ public class LoggerController {
     @GetMapping(Url.TEAM_TYPE)
     public ResponseEntity<?> team_type_Logs(){
         List<TeamTypeLogger> response = teamTypeLoggerService.all();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin', 'APP_Recruiting_it_audit')")
+    @GetMapping(Url.INVITATION)
+    public ResponseEntity<?> invitationLogs() {
+        List<InvitationLogger> response = invitationLoggerService.getAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

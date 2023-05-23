@@ -10,6 +10,7 @@ import com.example.admin_cc_questionback.repository.candidate.CandidateRepo;
 import com.example.admin_cc_questionback.service.candidate.CandidateService;
 import com.example.admin_cc_questionback.service.impl.ParticipantServiceImpl;
 import com.example.admin_cc_questionback.service.impl.Status;
+import com.example.admin_cc_questionback.service.loggers.impl.InvitationLoggerServiceImpl;
 import org.apache.commons.codec.DecoderException;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,14 @@ public class CandidateServiceImpl implements CandidateService {
     private final ParticipantServiceImpl participantService;
     private final EmailSenderServiceImpl emailSenderService;
     private final EncoderServiceImpl encoderService;
+    private final InvitationLoggerServiceImpl invitationLoggerService;
 
-    public CandidateServiceImpl(CandidateRepo candidateRepo, ParticipantServiceImpl participantService, EmailSenderServiceImpl emailSenderService, EncoderServiceImpl encoderService) {
+    public CandidateServiceImpl(CandidateRepo candidateRepo, ParticipantServiceImpl participantService, EmailSenderServiceImpl emailSenderService, EncoderServiceImpl encoderService, InvitationLoggerServiceImpl invitationLoggerService) {
         this.candidateRepo = candidateRepo;
         this.participantService = participantService;
         this.emailSenderService = emailSenderService;
         this.encoderService = encoderService;
+        this.invitationLoggerService = invitationLoggerService;
     }
 
     @Override
@@ -110,6 +113,7 @@ public class CandidateServiceImpl implements CandidateService {
                 encodedCandidate.setStatus(Status.REJECTED);
             }
             checkCandidateAndSaveParticipant(encodedCandidate);
+            invitationLoggerService.save(encodedCandidate);
             return candidateRepo.save(encodedCandidate);
         }
         return null;

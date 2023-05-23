@@ -101,9 +101,10 @@ public class CandidateServiceImpl implements CandidateService {
         if (encodedCandidate != null){
             if (invitationDto.getStatus().equals(Status.INVITE)){
                 encodedCandidate.setStatus(Status.INVITED);
-                encodedCandidate.setInvitationDate(invitationDto.getInvitationDate());
+                encodedCandidate.setInvitationDate(invitationDto.getInvitationDate().toLocalDate());
                 encodedCandidate.setGender(invitationDto.getGender());
-                emailSenderService.sendCongratulationMessage(encodedCandidate);
+                encodedCandidate.setInvitationLocation(invitationDto.getInvitationLocation());
+                emailSenderService.sendCongratulationMessage(encodedCandidate, invitationDto);
             }
             else {
                 encodedCandidate.setStatus(Status.REJECTED);

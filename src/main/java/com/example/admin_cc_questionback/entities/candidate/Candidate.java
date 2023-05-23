@@ -51,4 +51,5 @@ public class Candidate {
     private String stage;
     private String gender;
     private boolean isArchive;
+    private String invitationLocation;
 }

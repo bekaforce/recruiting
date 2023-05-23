@@ -2,6 +2,7 @@ package com.example.admin_cc_questionback.service.candidate.impl;
 
 import com.example.admin_cc_questionback.entities.candidate.Candidate;
 import com.example.admin_cc_questionback.entities.candidate.MailMessage;
+import com.example.admin_cc_questionback.entities.dtos.InvitationDto;
 import com.example.admin_cc_questionback.service.candidate.EmailSenderService;
 import org.apache.commons.codec.DecoderException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,6 +16,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.security.InvalidKeyException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,13 +71,17 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     }
 
     @Override
-    public boolean sendCongratulationMessage(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+    public boolean sendCongratulationMessage(Candidate candidate, InvitationDto invitationDto) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy в HH:mm");
         String introduction = messageService.getText(6L);
         String body = messageService.getText(7L);
         String name = encoderService.decrypt(candidate.getName());
         String candidateType = candidate.getCandidateType().getCandidateType();
         introduction = introduction.replaceAll("name", name);
         body = body.replaceAll("candidateType", candidateType);
+        body = body.replaceAll("location", candidate.getInvitationLocation());
+        body = body.replaceAll("datetime", invitationDto.getInvitationDate().format(formatter));
         return sendEmail(candidate, introduction, body);
     }
+
 }

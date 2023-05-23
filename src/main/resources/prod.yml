@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://10.16.230.116:5430/recruiting_vcv?ssl=true&sslmode=require
+    url: jdbc:postgresql://recruitingpsg/recruiting_vcv?ssl=true&sslmode=require
     username: recruiting_superuser
     password: )4F101CDe:Gbw&47
     platform: postgres

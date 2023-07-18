@@ -1,8 +1,10 @@
 package com.example.admin_cc_questionback.controller.candidate;
 
 import com.example.admin_cc_questionback.controller.Url;
+import com.example.admin_cc_questionback.entities.dtos.StageAnalyticsByDateDto;
 import com.example.admin_cc_questionback.entities.dtos.CandidateDto;
 import com.example.admin_cc_questionback.entities.candidate.Candidate;
+import com.example.admin_cc_questionback.entities.dtos.GetStageAnalyticsDto;
 import com.example.admin_cc_questionback.entities.dtos.InvitationDto;
 import com.example.admin_cc_questionback.service.candidate.impl.CandidateServiceImpl;
 import org.apache.commons.codec.DecoderException;
@@ -52,6 +54,19 @@ public class CandidateController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/allCandidatesOnTest/{candidateType_id}")
+    public ResponseEntity<?> allCandidatesOnTest(@PathVariable(value = "candidateType_id") Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        List<CandidateDto> response = candidateService.allOnTest(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
+    @PostMapping("/allStageAnalytics")
+    public ResponseEntity<?> allStageAnalytics(@RequestBody StageAnalyticsByDateDto analyticsPeriodByIdDto) {
+        List<GetStageAnalyticsDto> response = candidateService.allStageAnalytics(analyticsPeriodByIdDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAnyRole('APP_Recruiting_Admin', 'APP_Recruiting_Obuchenie')")
     @PutMapping("/comment/{id}")
     public ResponseEntity<?> comment(@PathVariable(value = "id") Long id, @RequestParam String comment) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
@@ -70,7 +85,6 @@ public class CandidateController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
-
     @GetMapping("/inviteAndReject")
     public ResponseEntity<?> inviteAndReject(){
         List<String> response = candidateService.inviteOrReject();
@@ -85,6 +99,4 @@ public class CandidateController {
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
-
-
 }

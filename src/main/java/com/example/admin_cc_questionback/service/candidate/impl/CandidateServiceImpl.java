@@ -1,9 +1,7 @@
 package com.example.admin_cc_questionback.service.candidate.impl;
 
-import com.example.admin_cc_questionback.entities.dtos.CandidateDto;
-import com.example.admin_cc_questionback.entities.dtos.GetCandidateDto;
+import com.example.admin_cc_questionback.entities.dtos.*;
 import com.example.admin_cc_questionback.entities.candidate.Candidate;
-import com.example.admin_cc_questionback.entities.dtos.InvitationDto;
 import com.example.admin_cc_questionback.entities.interview.Essay;
 import com.example.admin_cc_questionback.entities.interview.VideoResult;
 import com.example.admin_cc_questionback.repository.candidate.CandidateRepo;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import java.security.InvalidKeyException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -78,6 +77,8 @@ public class CandidateServiceImpl implements CandidateService {
         return null;
     }
 
+
+
     @Override
     public List<CandidateDto> allOnInterview(Long candidateType_id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         List<GetCandidateDto> result = candidateRepo.allOnInterview(candidateType_id);
@@ -85,6 +86,20 @@ public class CandidateServiceImpl implements CandidateService {
             return decodeCandidates(result);
         }
         return null;
+    }
+
+    @Override
+    public List<CandidateDto> allOnTest(Long candidateType_id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        List<GetCandidateDto> result = candidateRepo.allOnTest(candidateType_id);
+        if(result != null) {
+            return decodeCandidates(result);
+        }
+        return null;
+    }
+
+    @Override
+    public List<GetStageAnalyticsDto> allStageAnalytics(StageAnalyticsByDateDto stageAnalyticsByDateDto) {
+        return candidateRepo.allStageAnalyticsByIdAndDate(stageAnalyticsByDateDto.getCandidateTypeId(), stageAnalyticsByDateDto.getStart(), stageAnalyticsByDateDto.getEnd());
     }
 
     @Override

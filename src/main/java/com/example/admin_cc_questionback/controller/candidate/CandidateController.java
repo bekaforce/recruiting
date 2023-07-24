@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -98,5 +103,16 @@ public class CandidateController {
         return response != null
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping(value = "/download_excel/{candidateTypeId}")
+    public void downloadExcel(HttpServletResponse response, @PathVariable(value = "candidateTypeId") Long candidateTypeId) throws DecoderException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeyException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Candidates_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        candidateService.excelExporter(response, candidateTypeId);
     }
 }

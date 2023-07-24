@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -209,5 +211,15 @@ public class CandidateServiceImpl implements CandidateService {
             return candidateRepo.save(candidate);
         }
         return null;
+    }
+
+    @Override
+    public void excelExporter(HttpServletResponse response, Long candidateTypeId) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException {
+        List<Candidate> candidates = candidateRepo.findAllByCandidateTypeId(candidateTypeId);
+        for (Candidate candidate : candidates) {
+            decodePersonalInfo(candidate);
+        }
+        ExcelExporter excelExporter = new ExcelExporter(candidates);
+        excelExporter.export(response);
     }
 }

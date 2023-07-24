@@ -134,16 +134,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         String[] AUTH_WHITELIST = {
                 "/admin/auth/**",
                 // -- Swagger UI v2
-                //"/v2/api-docs",
-                //"/swagger-resources",
-                //"/swagger-resources/**",
+                "/v2/api-docs",
+//                "/swagger-resources",
+//                "/swagger-resources/**",
                 //"/configuration/ui",
                 //"/configuration/security",
-                //"/swagger-ui.html",
+//                "/swagger-ui.html",
                 //"/webjars/**",
                 // -- Swagger UI v3 (OpenAPI)
-                //"/v3/api-docs/**",
-                //"/swagger-ui/**",
+                "/v3/api-docs/**",
+//                "/swagger-ui/**",
                 // other public endpoints of your API may be appended to this array
                 "/profile",
                 "/admin/api/candidate/get/{id}",
@@ -170,7 +170,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTH_WHITELIST).permitAll()// Swagger resource endpoint
                 /* Все остальные запросы требуют авторизации посредством аннотации @PreAuthorize("hasAnyRole('ROLE_имя_группы_AD')") */
                 .anyRequest().authenticated(); //enable auth
-        //.anyRequest().permitAll(); //disable auth
+//        .anyRequest().permitAll(); //disable auth
     }
 
     private JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter(String path, String secret) {

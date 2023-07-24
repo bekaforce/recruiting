@@ -8,6 +8,8 @@ import org.apache.commons.codec.DecoderException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,4 +32,5 @@ public interface CandidateService {
     Candidate decodePersonalInfo(Candidate candidate) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     List<CandidateDto> decodeCandidates(List<GetCandidateDto> list) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
     Candidate isArchive(boolean isArchive, Long id) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException;
+    void excelExporter(HttpServletResponse response, Long candidateTypeId) throws DecoderException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, IOException;
 }

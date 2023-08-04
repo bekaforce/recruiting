@@ -56,6 +56,7 @@ public class CandidateServiceImpl implements CandidateService {
             candidate.setGender(null);
             candidate.setStage("testing");
             candidate.setArchive(false);
+            candidate.setInvitationLocation(null);
             candidate = encodePersonalInfo(candidate);
             return candidateRepo.save(candidate);
         }

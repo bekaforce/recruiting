@@ -105,6 +105,7 @@ public class CandidateController {
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
+    @PreAuthorize("hasAnyRole('APP_Recruiting_Admin')")
     @PostMapping(value = "/download_excel/{candidateTypeId}")
     public void downloadExcel(HttpServletResponse response, @PathVariable(value = "candidateTypeId") Long candidateTypeId) throws DecoderException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeyException {
         response.setContentType("application/octet-stream");

@@ -134,7 +134,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         String[] AUTH_WHITELIST = {
                 "/admin/auth/**",
                 // -- Swagger UI v2
-                "/v2/api-docs",
+//                "/v2/api-docs",
 //                "/swagger-resources",
 //                "/swagger-resources/**",
                 //"/configuration/ui",
@@ -142,13 +142,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                "/swagger-ui.html",
                 //"/webjars/**",
                 // -- Swagger UI v3 (OpenAPI)
-                "/v3/api-docs/**",
-//                "/swagger-ui/**",
+//              "/v3/api-docs/**",
+//              "/swagger-ui/**",
                 // other public endpoints of your API may be appended to this array
-                "/profile",
-                "/admin/api/candidate/get/{id}",
+//                "/profile",
+//              "/admin/api/candidate/get/{id}",
                 //"/admin/api/hooligan/**",
-                "/admin/api/video/download/**"
+                "/admin/api/video/download/**",
+                "/admin/api/video/stream/**"
         };
 
         httpSecurity

@@ -18,11 +18,17 @@ spring:
     database: POSTGRESQL
   config:
     import: optional:prod.yml
+
   #main:
   #  allow-circular-references: true
 
 server-config:
   upload-path: '/var/lib/docker/volumes/psg-volume/_data'
+  stream-path: 'file:/var/lib/docker/volumes/psg-volume/_data'
+
+
+#server-config:
+#  upload-path: 'classpath:videos'
 
 encoderKey: "20002302031022BZ"
 

@@ -4,8 +4,11 @@ import com.example.admin_cc_questionback.entities.interview.VideoResult;
 import com.example.admin_cc_questionback.repository.interview.VideoResultRepo;
 import com.example.admin_cc_questionback.service.interview.VideoResultService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 
 import java.io.File;
@@ -20,11 +23,17 @@ import java.util.List;
 @Service
 public class VideoResultServiceImpl implements VideoResultService {
     private final VideoResultRepo videoResultRepo;
+    private final ResourceLoader resourceLoader;
+
     @Value("${server-config.upload-path}")
     private String UPLOADED_FOLDER;
 
-    public VideoResultServiceImpl(VideoResultRepo videoResultRepo) {
+    @Value("${server-config.stream-path}")
+    private String STREAMING_FOLDER;
+
+    public VideoResultServiceImpl(VideoResultRepo videoResultRepo, ResourceLoader resourceLoader) {
         this.videoResultRepo = videoResultRepo;
+        this.resourceLoader = resourceLoader;
     }
 
     @Override
@@ -124,5 +133,21 @@ public class VideoResultServiceImpl implements VideoResultService {
             return Arrays.asList(array);
         }
             return new ArrayList<>();
+    }
+
+    @Override
+    public Mono<Resource> getVideo(String title) {
+        return Mono.fromSupplier(()->resourceLoader.
+                getResource(String.format(STREAMING_FOLDER + "/%s",title)));
+    }
+
+    @Override
+    public Mono<Resource> streamVideo(Long id) {
+        VideoResult videoResult = videoResultById(id);
+        if (videoResult != null) {
+            return getVideo(videoResult.getVideoName());
+        } else {
+            return Mono.empty();
+        }
     }
 }

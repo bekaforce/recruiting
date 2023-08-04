@@ -2,10 +2,13 @@ package com.example.admin_cc_questionback.controller.interview;
 
 import com.example.admin_cc_questionback.controller.Url;
 import com.example.admin_cc_questionback.service.interview.impl.VideoResultServiceImpl;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -76,5 +79,11 @@ public class VideoResultController {
         return response != null && !response.isEmpty()
                 ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+    }
+
+
+    @GetMapping(value = "/stream/{id}", produces = "video/mp4")
+    public  Mono<Resource> streamById(@PathVariable(value = "id") Long id) {
+        return videoResultService.streamVideo(id);
     }
 }
